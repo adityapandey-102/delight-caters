@@ -1,0 +1,620 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Delight Caterers — design tokens
+
+   Every colour is sampled from the brand itself:
+   - Green  #014923  the solid background of the round logo (Instagram avatar)
+   - Gold   #E7C761 / #BF983B / #8A5701  highlight, body and shadow of the
+            gold cutlery-and-crown mark
+   - Wall   #E7D0AF / #D5BE9D / #CCB594  the sunlit plaster wall behind the
+            "Happy Navratri" post (lit, half-shade, shade)
+
+   The page is spent 50 / 30 / 20: the wall carries the page, the green carries
+   headings and whole sections (hero band, nutrition, approach, footer), and
+   the gold is reserved for emphasis — eyebrows, buttons, hairlines, icons,
+   the second line of every display heading.
+   ========================================================================== */
+
+@theme {
+  /* Wall (50%) */
+  --color-wall: #f6efe3; /* page — the wall, lightened so long copy stays calm */
+  --color-wall-lit: #fbf7f0; /* raised surfaces: the patch where the sun lands */
+  --color-wall-warm: #efe3cf; /* the photographed wall (#e7d0af), lifted a step — alternating bands */
+  --color-wall-shade: #dfccad; /* the wall in half-shade */
+  --color-line: #dcc8a6; /* rules and card borders */
+  --color-line-soft: #e8d9bf;
+
+  /* Green (30%) */
+  --color-green: #014923; /* logo background */
+  --color-green-deep: #013a1c;
+  --color-green-ink: #012b15; /* darkest — display type on the wall */
+  --color-green-soft: #185628;
+  --color-green-mist: #5d7d62;
+
+  /* Gold (20%) */
+  --color-gold: #bf983b; /* the mark's body */
+  --color-gold-light: #e7c761; /* the mark's highlight — on green only */
+  --color-gold-pale: #f1e2b0;
+  --color-gold-deep: #8a5a12; /* text-bearing gold on the wall (AA at body size) */
+  --color-gold-ink: #6b4507;
+
+  /* Text on the wall */
+  --color-ink: #2c2a20; /* body headings, sans */
+  --color-body: #4f4636;
+  --color-muted: #6e6350;
+  --color-faint: #95866b;
+
+  /* Text on green */
+  --color-cream: #f7efe2;
+  --color-cream-muted: #cfd9c9;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-jost), "Jost", system-ui, sans-serif;
+  --font-script: var(--font-pinyon), "Pinyon Script", cursive;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --header-h: 72px;
+
+  /* The plaster: a fine grain plus a broad, uneven mottle, both tinted the
+     wall's own shadow brown. Tiled SVG noise — rendered once, no image file. */
+  --plaster-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.31 0 0 0 0 0.16 0 0 0 0.7 -0.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  /* Broad, uneven mottle: a pre-rendered seamless tile (public/textures/plaster.webp) —
+     SVG turbulence at this scale shows seams between tiles. */
+  --plaster-mottle: url("/textures/plaster.webp");
+  --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  background: var(--color-wall);
+}
+
+body {
+  background-color: var(--color-wall);
+  background-image: var(--plaster-grain), var(--plaster-mottle);
+  background-size: 220px 220px, 768px 768px;
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-green);
+  color: var(--color-gold-light);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-wall);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-wall-shade);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green);
+}
+
+/* Everything below is in the components layer so Tailwind utilities on the
+   same element (hidden, fixed, w-full, sm:inline-flex …) always win. */
+@layer components {
+  /* ------------------------------------------------------------ surfaces */
+
+  /* The wall as its own band (the exact photographed tone), with the plaster. */
+  .wall-warm {
+    background-color: var(--color-wall-warm);
+    background-image: var(--plaster-grain), var(--plaster-mottle);
+    background-size: 220px 220px, 768px 768px;
+  }
+  .wall-lit {
+    background-color: var(--color-wall-lit);
+    background-image: var(--plaster-grain);
+    background-size: 220px 220px;
+  }
+
+  /* Afternoon sun through a window: a warm pool of light high on one side and
+     the wall falling into shade on the other. Normal blending on purpose — a
+     blend mode here renders in patches behind GSAP's composited layers.
+     Absolutely positioned decoration; parent must be `relative`. */
+  .wall-sun {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(55% 50% at 80% 12%, rgba(255, 248, 234, 0.55), transparent 72%),
+      linear-gradient(118deg, transparent 38%, rgba(255, 248, 234, 0.18) 50%, transparent 62%),
+      radial-gradient(45% 50% at 8% 92%, rgba(150, 112, 62, 0.1), transparent 70%);
+    /* Fade out at the top and bottom so the light never stops in a line at a section edge. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8rem, #000 calc(100% - 8rem), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 8rem, #000 calc(100% - 8rem), transparent);
+  }
+
+  /* Green velvet: the logo's green with a lift in one corner and grain, so big
+     green areas never look flat. */
+  .green-velvet {
+    position: relative;
+    background-color: var(--color-green);
+    background-image:
+      radial-gradient(55% 60% at 12% 0%, rgba(24, 86, 40, 0.75), transparent 70%),
+      radial-gradient(45% 50% at 95% 100%, rgba(191, 152, 59, 0.14), transparent 70%),
+      radial-gradient(80% 80% at 50% 50%, transparent 40%, rgba(1, 30, 14, 0.55) 100%);
+    color: var(--color-cream);
+  }
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--grain-light);
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+  }
+
+  /* ---------------------------------------------------------- type helpers */
+
+  /* The signature two-line heading: green roman over gold italic. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    line-height: 0.98;
+    color: var(--color-green);
+  }
+  .display-italic {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-gold-deep);
+    letter-spacing: -0.012em;
+  }
+  .display.on-dark {
+    color: var(--color-cream);
+  }
+  .on-dark .display-italic,
+  .display.on-dark .display-italic {
+    color: var(--color-gold-light);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+  }
+  /* A small gold lozenge — the diamond pips either side of "Taste of Tradition". */
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--color-gold);
+    flex: none;
+  }
+  .eyebrow.on-dark {
+    color: var(--color-gold-light);
+  }
+  .eyebrow.on-dark::before {
+    background: var(--color-gold-light);
+  }
+
+  /* Gold leaf text, graded through the mark's own highlight and shadow. Display
+     sizes only — at body size use text-gold-deep. */
+  .gold-text {
+    background: linear-gradient(100deg, #8a5701 0%, #e7c761 34%, #bf983b 58%, #f1dc8f 78%, #9d6607 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gold-hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold) 18%, var(--color-gold-light) 50%, var(--color-gold) 82%, transparent);
+  }
+
+  /* The rule under "Taste of Tradition": a hairline with a lozenge at each end. */
+  .gold-rule {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold) 12%, var(--color-gold) 88%, transparent);
+  }
+  .gold-rule::before,
+  .gold-rule::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    transform: rotate(45deg);
+    background: var(--color-gold);
+  }
+  .gold-rule::before {
+    left: 10%;
+  }
+  .gold-rule::after {
+    right: 10%;
+  }
+
+  /* ------------------------------------------------------------- buttons */
+
+  .btn-gold {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    padding: 0.95rem 1.75rem;
+    background: linear-gradient(120deg, #a87f26, #e7c761 52%, #bf983b);
+    color: var(--color-green-ink);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    box-shadow: 0 14px 30px -14px rgba(138, 90, 18, 0.65);
+    transition:
+      transform 0.3s var(--ease-out-expo),
+      box-shadow 0.3s ease,
+      filter 0.3s ease;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 36px -14px rgba(138, 90, 18, 0.8);
+  }
+
+  .btn-green {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    padding: 0.95rem 1.75rem;
+    background: var(--color-green);
+    color: var(--color-gold-pale);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    box-shadow: 0 14px 30px -16px rgba(1, 43, 21, 0.7);
+    transition:
+      background-color 0.4s ease,
+      transform 0.3s var(--ease-out-expo);
+  }
+  .btn-green:hover {
+    background: var(--color-green-deep);
+    transform: translateY(-1px);
+  }
+
+  /* Outline on the wall */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    padding: 0.95rem 1.6rem;
+    border: 1px solid rgba(1, 73, 35, 0.28);
+    background: rgba(247, 239, 226, 0.7);
+    backdrop-filter: blur(6px);
+    color: var(--color-green);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition:
+      border-color 0.4s ease,
+      background-color 0.4s ease;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(1, 73, 35, 0.6);
+    background: var(--color-wall-lit);
+  }
+
+  /* Outline on green */
+  .btn-ghost-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    padding: 0.95rem 1.6rem;
+    border: 1px solid rgba(231, 199, 97, 0.45);
+    color: var(--color-gold-light);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+  .btn-ghost-dark:hover {
+    border-color: var(--color-gold-light);
+    background: rgba(231, 199, 97, 0.1);
+  }
+
+  /* A light sweep across a button every few seconds. */
+  .shine::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes shine {
+    0%,
+    55% {
+      left: -60%;
+    }
+    100% {
+      left: 130%;
+    }
+  }
+
+  /* "Plan your event" while browsing: a green pill with a gold ring running
+     round it (a spinning conic gradient behind a 2px inset). */
+  .gold-chase {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    overflow: hidden;
+    border-radius: 999px;
+    padding: 2px;
+    box-shadow:
+      0 18px 40px -14px rgba(1, 30, 14, 0.6),
+      0 0 0 1px rgba(231, 199, 97, 0.25);
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+  .gold-chase:hover {
+    transform: translateY(-2px);
+  }
+  .gold-chase::before {
+    content: "";
+    position: absolute;
+    inset: -160%;
+    z-index: -2;
+    background: conic-gradient(from 0deg, transparent 0 62%, #8a5701 70%, #f1dc8f 80%, #bf983b 88%, transparent 96%);
+    animation: spin 2.8s linear infinite;
+  }
+  .gold-chase::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0b5a30, var(--color-green) 55%, var(--color-green-deep));
+  }
+  .gold-chase > span {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    padding: 0.85rem 1.4rem;
+    white-space: nowrap;
+    color: var(--color-cream);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  /* ------------------------------------------------------------- primitives */
+
+  .rv {
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* A thin gold frame set just inside a photograph. */
+  .gold-frame {
+    position: relative;
+  }
+  .gold-frame::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(231, 199, 97, 0.65);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .zoom img {
+    transition: transform 1.1s var(--ease-out-expo);
+  }
+  .zoom:hover img {
+    transform: scale(1.045);
+  }
+
+  /* Word-by-word scroll reveal: words start blurred and pale, sharpen on scrub */
+  .word {
+    display: inline-block;
+    filter: blur(7px);
+    opacity: 0.28;
+    color: var(--color-faint);
+    transition: none;
+    will-change: filter, opacity, color;
+  }
+
+  /* Soft fades where a band meets the wall */
+  .haze {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 160px;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .haze-top {
+    top: 0;
+    background: linear-gradient(to bottom, var(--color-wall), transparent);
+  }
+  .haze-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, var(--color-wall), transparent);
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+  .marquee-track {
+    animation: marquee var(--dur, 46s) linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .ulink {
+    position: relative;
+  }
+  .ulink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.55s var(--ease-out-expo);
+  }
+  .ulink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Horizontal scrollers (cuisines, reels) — no visible bar, snap per card. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* The enquiry popup: a native <dialog> opened with showModal() from any
+     a[href="#enquiry"]. */
+  .enquiry-dialog {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+  }
+  .enquiry-dialog:modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    height: fit-content;
+    width: min(980px, calc(100% - 1.5rem));
+    max-width: none;
+    max-height: calc(100dvh - 1.5rem);
+    overflow: auto;
+    border-radius: 24px;
+    animation: enquiry-pop 0.5s var(--ease-out-expo) both;
+  }
+  .enquiry-dialog::backdrop {
+    background: rgba(1, 20, 10, 0.72);
+    backdrop-filter: blur(6px);
+  }
+  html:has(.enquiry-dialog:modal) {
+    overflow: hidden;
+  }
+  @keyframes enquiry-pop {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.985);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .word {
+    filter: none !important;
+    opacity: 1 !important;
+    color: inherit !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ImpactDiagram hub: the centre text eases up each time the highlighted service changes. */
+@keyframes hub-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+/* Hero scroll cue: a gold bead running down a hairline. */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+/* ImpactDiagram: the focused service's timer bar. */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
