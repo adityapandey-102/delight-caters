@@ -16,6 +16,9 @@ export default function Parallax({ children, amount = 6 }: { children: ReactNode
     const el = ref.current;
     if (!el || prefersReducedMotion()) return;
 
+    // Tablets and up only: on phones the photo simply sits still (smoother scrolling).
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,

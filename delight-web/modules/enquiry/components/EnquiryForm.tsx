@@ -75,6 +75,7 @@ export function EnquiryForm({
   heading,
   intro,
   onSent,
+  compact = false,
 }: {
   tone?: Tone;
   /** Put on whichever heading is showing (the form's, or "Thank you!") — e.g. for a dialog's aria-labelledby. */
@@ -86,6 +87,8 @@ export function EnquiryForm({
   intro?: ReactNode;
   /** Called once WhatsApp has been opened (the dialog uses it to start fresh next time). */
   onSent?: () => void;
+  /** Tighter spacing and a smaller heading, so the whole form fits the popup without scrolling. */
+  compact?: boolean;
 }) {
   const t = TONES[tone];
   const autoId = useId();
@@ -175,7 +178,7 @@ export function EnquiryForm({
 
   /** `empty` greys the text of a select or date that still shows its placeholder. */
   const fieldClass = (field: EnquiryField, empty = false) =>
-    `block w-full min-h-12 rounded-xl border px-4 py-3 text-base outline-none transition-[border-color,background-color,box-shadow] duration-300 focus:ring-4 ${t.field} ${
+    `block w-full ${compact ? "min-h-11 py-2.5" : "min-h-12 py-3"} rounded-xl border px-4 text-base outline-none transition-[border-color,background-color,box-shadow] duration-300 focus:ring-4 ${t.field} ${
       empty ? t.textEmpty : t.text
     } ${errors[field] ? t.invalid : t.border}`;
   const labelClass = `mb-2 block text-[11.5px] font-medium uppercase tracking-[0.16em] ${t.label}`;
@@ -190,17 +193,17 @@ export function EnquiryForm({
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate aria-labelledby={heading ? headingId : undefined} className="@container">
       {heading && (
-        <div className="mb-7">
-          <h2 id={headingId} className={`display text-[clamp(2rem,6vw,2.75rem)] ${t.title}`}>
+        <div className={compact ? "mb-4" : "mb-7"}>
+          <h2 id={headingId} className={`display ${compact ? "text-[clamp(1.7rem,5vw,2.2rem)]" : "text-[clamp(2rem,6vw,2.75rem)]"} ${t.title}`}>
             <span className="block">{heading[0]}</span>
             {heading[1] && <span className="display-italic block">{heading[1]}</span>}
           </h2>
-          {intro && <p className={`mt-3 text-[14.5px] leading-[1.7] ${t.sub}`}>{intro}</p>}
+          {intro && <p className={`${compact ? "mt-2 text-[13.5px] leading-[1.6] max-sm:hidden" : "mt-3 text-[14.5px] leading-[1.7]"} ${t.sub}`}>{intro}</p>}
         </div>
       )}
 
-      <div className="grid gap-x-4 gap-y-5 @md:grid-cols-2">
-        <div>
+      <div className={`grid ${compact ? "grid-cols-2 gap-x-3 gap-y-3" : "gap-x-4 gap-y-5 @md:grid-cols-2"}`}>
+        <div className={compact ? "@max-md:col-span-2" : undefined}>
           <label htmlFor={id("name")} className={labelClass}>
             Your Name
           </label>
@@ -220,7 +223,7 @@ export function EnquiryForm({
           {errorText("name")}
         </div>
 
-        <div>
+        <div className={compact ? "@max-md:col-span-2" : undefined}>
           <label htmlFor={id("phone")} className={labelClass}>
             Phone Number
           </label>
@@ -241,7 +244,7 @@ export function EnquiryForm({
           {errorText("phone")}
         </div>
 
-        <div>
+        <div className={compact ? "@max-md:col-span-2" : undefined}>
           <label htmlFor={id("eventType")} className={labelClass}>
             Event Type
           </label>
@@ -322,7 +325,7 @@ export function EnquiryForm({
           aria-labelledby={id("foodType-label")}
           aria-invalid={!!errors.foodType}
           aria-describedby={describe("foodType")}
-          className="min-w-0"
+          className={`min-w-0 ${compact ? "@max-md:col-span-2" : ""}`}
         >
           <legend id={id("foodType-label")} className={labelClass}>
             Veg / Non-Veg
@@ -350,27 +353,27 @@ export function EnquiryForm({
           {errorText("foodType")}
         </fieldset>
 
-        <div className="@md:col-span-2">
+        <div className={compact ? "col-span-2" : "@md:col-span-2"}>
           <label htmlFor={id("message")} className={labelClass}>
             Additional Details (optional)
           </label>
           <textarea
             id={id("message")}
             name="message"
-            rows={3}
+            rows={compact ? 2 : 3}
             maxLength={1000}
             placeholder="Any specific cuisine, budget, or requirements..."
             value={values.message}
             onChange={(e) => set("message", e.target.value)}
             aria-invalid={!!errors.message}
             aria-describedby={describe("message")}
-            className={`${fieldClass("message")} min-h-24 resize-y`}
+            className={`${fieldClass("message")} ${compact ? "min-h-16" : "min-h-24"} resize-y`}
           />
           {errorText("message")}
         </div>
       </div>
 
-      <button type="submit" className={`${t.button} mt-7 min-h-13 w-full text-[14.5px]`}>
+      <button type="submit" className={`${t.button} ${compact ? "mt-5 min-h-12" : "mt-7 min-h-13"} w-full text-[14.5px]`}>
         <Icon name="whatsapp" size={19} />
         Send Enquiry on WhatsApp
       </button>

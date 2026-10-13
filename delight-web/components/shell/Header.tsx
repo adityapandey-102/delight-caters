@@ -48,21 +48,23 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          solid && !open ? "bg-wall/85 shadow-[0_10px_30px_-24px_rgba(1,43,21,0.5)] backdrop-blur-xl" : "bg-transparent"
-        }`}
+        className="pointer-events-none fixed inset-x-0 top-0 z-50 bg-transparent [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
       >
         <div className="mx-auto flex h-[var(--header-h)] w-full max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-8 lg:px-10">
-          <Link href="/" className="group relative z-10 flex items-center" aria-label={`${company.name} — home`}>
+          {/* The gold mark on its own — no plate behind it, only shadow: a soft dark
+              halo over the photographs, a crisp printed edge on the cream. */}
+          <Link href="/" aria-label={`${company.name} — home`} className="group relative z-10 flex items-center">
             <Image
               src="/brand/logo-gold.png"
               alt={company.name}
               width={1200}
               height={634}
               loading="eager"
-              sizes="100px"
-              className={`h-10 w-auto object-contain transition-[opacity,filter] duration-500 group-hover:opacity-85 sm:h-11 ${
-                solid || open ? "drop-shadow-[0_2px_6px_rgba(107,69,7,0.25)]" : "drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]"
+              sizes="130px"
+              className={`h-12 w-auto object-contain transition-[opacity,filter] duration-500 group-hover:opacity-90 sm:h-14 ${
+                solid || open
+                  ? "[filter:drop-shadow(0_1px_0_rgba(255,255,255,0.7))_drop-shadow(0_1px_1.5px_rgba(80,45,0,0.55))_drop-shadow(0_6px_14px_rgba(1,30,14,0.22))]"
+                  : "[filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.85))_drop-shadow(0_2px_6px_rgba(0,0,0,0.6))_drop-shadow(0_6px_22px_rgba(0,0,0,0.45))]"
               }`}
             />
           </Link>
@@ -71,7 +73,9 @@ export default function Header() {
           <nav
             aria-label="Main"
             className={`absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 rounded-full border p-1 backdrop-blur-xl transition-colors duration-500 lg:flex ${
-              solid ? "border-line bg-wall-lit/75" : "border-white/15 bg-green-ink/35"
+              solid
+                ? "border-white/70 bg-wall-lit/80 shadow-[0_10px_30px_-10px_rgba(1,43,21,0.35),0_2px_6px_-2px_rgba(1,43,21,0.15)]"
+                : "border-white/15 bg-green-ink/35 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]"
             }`}
           >
             {nav.map((item) => {
@@ -98,23 +102,23 @@ export default function Header() {
           </nav>
 
           <div className="relative z-10 flex items-center gap-2.5">
-            <a href="#enquiry" className="btn-gold shine hidden !px-5 !py-2.5 !text-[12.5px] sm:inline-flex">
+            <a href="#enquiry" className="btn-gold shine hidden !px-5 !py-2.5 !text-[12.5px] !shadow-[0_10px_26px_-8px_rgba(70,40,0,0.55),0_2px_6px_-2px_rgba(1,30,14,0.3)] sm:inline-flex">
               Plan Your Event
             </a>
 
-            {/* Mobile menu: a labelled pill; its two lines fold into a cross when open. */}
+            {/* Mobile menu: a round glass button; its two lines fold into a cross when open. */}
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              className={`flex h-10 items-center gap-2.5 rounded-full pl-3.5 pr-4 text-[11px] font-semibold uppercase tracking-[0.18em] ring-1 backdrop-blur-xl transition-colors duration-500 lg:hidden ${
+              className={`flex h-11 w-11 items-center justify-center rounded-full ring-1 transition-colors md:backdrop-blur-xl duration-500 lg:hidden ${
                 open
                   ? "bg-gold-light text-green-ink ring-gold-light"
                   : solid
-                    ? "bg-green text-gold-pale ring-green"
-                    : "bg-green-ink/40 text-cream ring-white/20"
+                    ? "bg-green text-gold-pale shadow-[0_10px_26px_-10px_rgba(1,43,21,0.6)] ring-green"
+                    : "bg-green-ink/70 text-cream shadow-[0_10px_26px_-12px_rgba(0,0,0,0.5)] ring-white/20 md:bg-green-ink/40"
               }`}
             >
               <span aria-hidden className="relative block h-2.5 w-[18px]">
@@ -129,7 +133,6 @@ export default function Header() {
                   }`}
                 />
               </span>
-              <span className="w-[38px] text-left">{open ? "Close" : "Menu"}</span>
             </button>
           </div>
         </div>

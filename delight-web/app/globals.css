@@ -471,6 +471,12 @@ html.lenis body {
     transition: none;
     will-change: filter, opacity, color;
   }
+  @media (max-width: 767px) {
+    .word {
+      filter: none;
+      will-change: opacity, color;
+    }
+  }
 
   /* Soft fades where a band meets the wall */
   .haze {
@@ -548,10 +554,15 @@ html.lenis body {
     height: fit-content;
     width: min(980px, calc(100% - 1.5rem));
     max-width: none;
-    max-height: calc(100dvh - 1.5rem);
+    max-height: calc(100dvh - 1rem);
     overflow: auto;
     border-radius: 24px;
     animation: enquiry-pop 0.5s var(--ease-out-expo) both;
+    /* Sized to fit; on very short screens it can still scroll, without a visible bar. */
+    scrollbar-width: none;
+  }
+  .enquiry-dialog::-webkit-scrollbar {
+    display: none;
   }
   .enquiry-dialog::backdrop {
     background: rgba(1, 20, 10, 0.72);
@@ -616,5 +627,160 @@ html.lenis body {
   }
   to {
     transform: scaleX(1);
+  }
+}
+
+/* ---------------------------------------------------------- site loader */
+/* Unlayered on purpose: these must beat the .green-velvet component class. */
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  /* Fallback if scripts never run: lift by itself. */
+  animation: loader-fallback 0.6s ease 5s forwards;
+}
+.site-loader.is-lifting {
+  pointer-events: none;
+}
+.site-loader__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  overflow: hidden;
+  transition:
+    transform 1.05s cubic-bezier(0.76, 0, 0.24, 1) 0.12s,
+    box-shadow 0.3s ease;
+}
+.site-loader__panel--top {
+  top: 0;
+}
+.site-loader__panel--bottom {
+  bottom: 0;
+}
+/* The gold seam appears only as the curtain parts. */
+.site-loader.is-lifting .site-loader__panel--top {
+  transform: translateY(-101%);
+  box-shadow: inset 0 -1px 0 rgba(231, 199, 97, 0.7);
+}
+.site-loader.is-lifting .site-loader__panel--bottom {
+  transform: translateY(101%);
+  box-shadow: inset 0 1px 0 rgba(231, 199, 97, 0.7);
+}
+.site-loader__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s var(--ease-out-expo),
+    filter 0.45s ease;
+}
+.site-loader.is-lifting .site-loader__inner {
+  opacity: 0;
+  transform: scale(0.96);
+  filter: blur(4px);
+}
+.site-loader__mark {
+  position: relative;
+  width: min(250px, 58vw);
+  animation: loader-mark 1.1s var(--ease-out-expo) both;
+}
+.site-loader__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.5));
+}
+/* A band of light passing over the gold, clipped to the mark's own shape. */
+.site-loader__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 250, 225, 0.95) 50%, transparent 62%);
+  background-size: 260% 100%;
+  -webkit-mask: url("/brand/logo-gold.png") center / contain no-repeat;
+  mask: url("/brand/logo-gold.png") center / contain no-repeat;
+  mix-blend-mode: soft-light;
+  animation: loader-shine 2.2s ease-in-out 0.5s infinite;
+}
+.site-loader__rule {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: min(230px, 56vw);
+  animation: loader-fade 0.8s ease 0.35s both;
+}
+.site-loader__pip {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  transform: rotate(45deg);
+  background: var(--color-gold-light);
+}
+.site-loader__track {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(231, 199, 97, 0.22);
+}
+.site-loader__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: linear-gradient(90deg, #8a5701, #f1dc8f 55%, #e7c761);
+  box-shadow: 0 0 10px rgba(231, 199, 97, 0.8);
+  transition: transform 0.2s linear;
+}
+.site-loader__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  animation: loader-fade 0.8s ease 0.5s both;
+}
+.site-loader__tagline {
+  font-size: 26px;
+  line-height: 1;
+  color: var(--color-gold-light);
+}
+.site-loader__pct {
+  min-width: 3.2ch;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: rgba(247, 239, 226, 0.7);
+}
+@keyframes loader-mark {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+    filter: blur(8px);
+  }
+}
+@keyframes loader-shine {
+  0% {
+    background-position: 130% 0;
+  }
+  60%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+@keyframes loader-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes loader-fallback {
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }

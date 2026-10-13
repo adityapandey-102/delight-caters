@@ -26,6 +26,17 @@ Requires Node 20+.
 | `/service` | The four occasions · Cuisines · A Complete Event Experience (venues) |
 | `/contact-us` | Enquiry form (sends to WhatsApp) · contact details · map |
 
+Behaviour worth knowing:
+
+- A branded loader (gold mark with a shine, progress line, parting green
+  curtain) shows on every fresh page load; moving between pages doesn't replay it.
+- The enquiry popup opens by itself on every fresh page load once the visitor
+  has scrolled three screens (never on `/contact-us`, which has the form inline).
+- The reels play one after another while on screen, up to 15 s each; hover
+  (desktop) or swipe/tap (phones) picks one. Sound is on by default and starts
+  from the visitor's first tap, click or key press (browser autoplay rules).
+- Phones use native scrolling; smooth scrolling and parallax are desktop-only.
+
 The URLs match the old site, so existing links and search results keep working.
 "Plan Your Event" / "Enquire Now" anywhere on the site opens the enquiry popup
 (any link to `#enquiry`). The form builds the same WhatsApp message the old site
@@ -67,11 +78,11 @@ Type: Cormorant Garamond (display), Jost (text), Pinyon Script (the
 
 ## Before launch — placeholders to replace
 
-1. **Watch & Savour reels** (`reels` in `lib/content/site.ts`): drop each reel's
-   MP4 into `public/reels/`, set `video`, a poster frame and the Instagram
-   permalink in `href`. Cards autoplay muted while on screen.
-2. **Google reviews** (`googleReviews` in `lib/content/site.ts`): replace the
+1. **Google reviews** (`googleReviews` in `lib/content/site.ts`): replace the
    placeholder cards with genuine reviews from the Google Business Profile,
    fill `rating` and `count`, and set `isPlaceholder: false`.
+2. **Reel links**: the four reels (`public/instagram-videos/`, listed in
+   `reels` in `lib/content/site.ts`) open the Instagram profile; set each
+   `href` to the reel's own permalink when known.
 3. **Domain**: `company.domain` is used for metadata, the sitemap and
    structured data.

@@ -21,12 +21,12 @@ export default function Nutrition() {
   const [, years = "", experience = dietitian.experience] = dietitian.experience.match(/^(\S+)\s+(.*)$/) ?? [];
 
   return (
-    <section className="green-velvet overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+    <section className="green-velvet overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:flex lg:min-h-[100svh] lg:items-center lg:px-12 lg:pb-14 lg:pt-[calc(var(--header-h)+1.5rem)]">
       <div aria-hidden className="grain" />
 
       <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-16 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-12 lg:gap-20">
         <Reveal className="relative mx-auto w-full max-w-[500px] md:mx-0">
-          <div className="gold-frame relative aspect-[3/4] overflow-hidden rounded-[6px] bg-green-ink shadow-[0_60px_100px_-50px_rgba(0,0,0,0.7)]">
+          <div className="gold-frame relative aspect-[3/4] overflow-hidden rounded-[6px] lg:aspect-auto lg:h-[min(76svh,620px)] bg-green-ink shadow-[0_60px_100px_-50px_rgba(0,0,0,0.7)]">
             <Parallax>
               <Image
                 src={nutrition.image}
@@ -59,13 +59,13 @@ export default function Nutrition() {
 
         <Reveal>
           <Eyebrow onDark>{EYEBROW}</Eyebrow>
-          <h2 className="display on-dark mt-6 text-[clamp(2.4rem,5.2vw,4.3rem)]">
+          <h2 className="display on-dark mt-6 text-[clamp(2.4rem,5.2vw,4.3rem)] lg:mt-4 lg:text-[clamp(2.4rem,3.8vw,3.6rem)]">
             <span className="block">{line1}</span>
             <span className="display-italic block">{line2}</span>
           </h2>
-          <div aria-hidden className="gold-hairline mt-9 w-28" />
+          <div aria-hidden className="gold-hairline mt-9 w-28 lg:mt-6" />
 
-          <div className="mt-9 max-w-xl space-y-5 text-[15.5px] leading-[1.85] text-cream-muted">
+          <div className="mt-9 max-w-xl space-y-5 text-[15.5px] leading-[1.85] text-cream-muted lg:mt-6 lg:space-y-4 lg:leading-[1.75]">
             <p className="text-[17px] leading-[1.75] text-cream">{paragraphs[0]}</p>
             <p>
               {lead.before}
@@ -75,7 +75,7 @@ export default function Nutrition() {
             <p>{paragraphs[1]}</p>
           </div>
 
-          <a href="#enquiry" className="btn-gold shine group mt-10">
+          <a href="#enquiry" className="btn-gold shine group mt-10 lg:mt-7">
             {nutrition.cta} <Arrow />
           </a>
         </Reveal>

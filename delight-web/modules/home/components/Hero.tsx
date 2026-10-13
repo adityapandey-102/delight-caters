@@ -77,11 +77,11 @@ export default function Hero() {
 
         <div className="relative flex flex-1 flex-col justify-center px-5 pb-14 pt-[calc(var(--header-h)+6vh)] sm:px-8 md:pb-16">
           <div ref={copy} className="mx-auto w-full max-w-[1280px] text-center">
-            <p data-h-fade="eyebrow" className="eyebrow on-dark justify-center opacity-0 [text-shadow:0_1px_10px_rgba(0,0,0,0.55)]">
+            <p data-h-fade="eyebrow" className="eyebrow on-dark justify-center opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_14px_rgba(0,0,0,0.6)]">
               {hero.eyebrow}
             </p>
 
-            <h1 className="display on-dark mx-auto mt-7 max-w-[19ch] text-[clamp(2.7rem,7.6vw,6rem)] leading-[0.96] [text-shadow:0_2px_24px_rgba(0,0,0,0.45),0_1px_3px_rgba(0,0,0,0.3)]">
+            <h1 className="display on-dark mx-auto mt-7 max-w-[19ch] text-[clamp(2.7rem,7.6vw,6rem)] leading-[0.96] [text-shadow:0_1px_2px_rgba(0,0,0,0.35),0_3px_10px_rgba(0,0,0,0.3),0_8px_40px_rgba(0,0,0,0.45)]">
               {hero.lines.map((line, i) => (
                 <span key={line} data-h-line className="block overflow-hidden pb-[0.06em]">
                   <span className={`block will-change-transform ${i === 1 ? "display-italic" : ""}`} style={{ opacity: 0 }}>
@@ -91,22 +91,22 @@ export default function Hero() {
               ))}
             </h1>
 
-            <div data-h-fade="rule" className="mx-auto mt-8 flex max-w-xs items-center gap-4 opacity-0" aria-hidden>
+            <div data-h-fade="rule" className="mx-auto mt-8 flex max-w-xs items-center gap-4 opacity-0 [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.6))_drop-shadow(0_2px_8px_rgba(0,0,0,0.5))]" aria-hidden>
               <span className="gold-rule flex-1" />
-              <span className="font-script text-[22px] leading-none text-gold-light [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{company.tagline}</span>
+              <span className="font-script text-[22px] leading-none text-gold-light [text-shadow:0_1px_1px_rgba(0,0,0,0.75),0_2px_12px_rgba(0,0,0,0.65)]">{company.tagline}</span>
               <span className="gold-rule flex-1" />
             </div>
 
-            <p data-h-fade="sub" className="mx-auto mt-7 max-w-[62ch] text-[15.5px] leading-[1.8] text-cream opacity-0 [text-shadow:0_1px_12px_rgba(0,0,0,0.6)] sm:text-[16px]">
+            <p data-h-fade="sub" className="mx-auto mt-7 max-w-[62ch] text-[15.5px] leading-[1.8] text-cream opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_16px_rgba(0,0,0,0.55)] sm:text-[16px]">
               {hero.body}
             </p>
 
             <div data-h-fade="cta" className="mt-10 flex flex-col items-stretch justify-center gap-3 opacity-0 min-[420px]:flex-row min-[420px]:items-center">
-              <a href="#enquiry" className="group btn-gold shine shadow-[0_16px_36px_-12px_rgba(0,0,0,0.55)]">
+              <a href="#enquiry" className="group btn-gold shine !shadow-[0_2px_4px_rgba(0,0,0,0.25),0_18px_40px_-12px_rgba(0,0,0,0.7)] ring-1 ring-black/10">
                 {hero.primaryCta}
                 <Arrow />
               </a>
-              <Link href="/contact-us" className="group btn-ghost-dark bg-green-ink/60 text-cream shadow-[0_16px_36px_-14px_rgba(0,0,0,0.55)] hover:bg-green-ink/80">
+              <Link href="/contact-us" className="group btn-ghost-dark bg-green-ink/60 text-cream shadow-[0_2px_4px_rgba(0,0,0,0.25),0_18px_40px_-14px_rgba(0,0,0,0.65)] backdrop-blur-md [text-shadow:0_1px_2px_rgba(0,0,0,0.5)] hover:bg-green-ink/80">
                 {hero.secondaryCta}
                 <Arrow />
               </Link>

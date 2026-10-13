@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { cuisines, cuisinesIntro, type Cuisine } from "@/lib/content/site";
-import { SectionHead } from "@/components/ui/SectionHead";
+import { Eyebrow, SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/motion";
 import { Arrow } from "@/components/ui/Arrow";
 import SnapRow from "./SnapRow";
@@ -55,16 +55,26 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
   };
 
   return (
-    <section id={id} className="relative isolate overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+    <section id={id} className="relative isolate overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:px-12 lg:pb-8 lg:pt-[calc(var(--header-h)+1rem)]">
       {/* The warm band fades in and out through a mask, so the page's own plaster shows at the edges — no seam. */}
       <div aria-hidden className="wall-warm absolute inset-0 -z-10 mask-[linear-gradient(to_bottom,transparent,#000_9rem,#000_calc(100%-9rem),transparent)]" />
       <div className="relative mx-auto w-full max-w-[1280px]">
-        <Reveal>
+        {/* Phones and tablets: the full section head. Desktop moves it into the left column, so the plate can stay large and the section still fits one screen. */}
+        <Reveal className="lg:hidden">
           <SectionHead eyebrow={EYEBROW} line1={line1} line2={line2} body={cuisinesIntro.body} as={headingAs} />
         </Reveal>
 
         {/* Desktop: the index and the plate */}
-        <Reveal className="mt-16 hidden gap-14 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] xl:mt-20 xl:gap-20">
+        <Reveal className="mt-16 hidden gap-12 lg:mt-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center xl:gap-16">
+          <div className="flex flex-col">
+          <div className="mb-7">
+            <Eyebrow>{EYEBROW}</Eyebrow>
+            {/* the section's h2 on desktop (the stacked head above is hidden here) */}
+            <h2 className="display mt-4 text-[clamp(2.5rem,3.9vw,3.6rem)]">
+              {line1} <span className="display-italic">{line2}</span>
+            </h2>
+            <p className="mt-4 text-[15px] leading-[1.7] text-body">{cuisinesIntro.body}</p>
+          </div>
           <div
             role="tablist"
             aria-orientation="vertical"
@@ -91,7 +101,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   onClick={() => setActive(i)}
                   onMouseEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
-                  className="group relative flex min-h-[64px] w-full flex-1 items-center gap-5 border-b border-line py-3 text-left"
+                  className="group relative flex min-h-[min(50px,5.6svh)] w-full flex-1 items-center gap-5 border-b border-line py-1.5 text-left"
                 >
                   <span
                     aria-hidden
@@ -102,7 +112,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                     {pad(i + 1)}
                   </span>
                   <span
-                    className={`font-display text-[clamp(1.45rem,2.1vw,1.95rem)] font-semibold leading-[1.1] transition-colors duration-500 ${
+                    className={`font-display text-[clamp(1.35rem,1.95vw,1.8rem)] font-semibold leading-[1.1] transition-colors duration-500 ${
                       on ? "text-green" : "text-muted group-hover:text-green"
                     }`}
                   >
@@ -126,6 +136,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
               );
             })}
           </div>
+          </div>
 
           <div className="grid">
             {cuisines.map((c, i) => {
@@ -140,7 +151,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   className={`[grid-area:1/1] ${on ? "z-10" : "pointer-events-none"}`}
                 >
                   <div
-                    className={`gold-frame relative aspect-[16/10] overflow-hidden rounded-[6px] bg-green-ink shadow-[0_50px_90px_-45px_rgba(1,43,21,0.6)] transition-opacity duration-[900ms] ease-out-expo ${
+                    className={`gold-frame relative aspect-[16/10] max-h-[58svh] w-full overflow-hidden rounded-[6px] bg-green-ink shadow-[0_50px_90px_-45px_rgba(1,43,21,0.6)] transition-opacity duration-[900ms] ease-out-expo ${
                       on ? "opacity-100" : "opacity-0 delay-300"
                     }`}
                   >
@@ -148,19 +159,22 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   </div>
 
                   <div
-                    className={`mt-9 grid grid-cols-[auto_minmax(0,1fr)] gap-x-7 transition-[opacity,translate] ease-out-expo ${
+                    className={`mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 transition-[opacity,translate] ease-out-expo ${
                       on ? "translate-y-0 opacity-100 delay-150 duration-700" : "translate-y-2 opacity-0 duration-200"
                     }`}
                   >
-                    <span aria-hidden className="gold-text pt-0.5 font-display text-[3rem] font-semibold leading-none lining-nums">
+                    <span aria-hidden className="gold-text pt-0.5 font-display text-[2.5rem] font-semibold leading-none lining-nums">
                       {pad(i + 1)}
                     </span>
                     <div>
-                      <h3 className="font-display text-[2rem] font-semibold leading-[1.1] text-green">{c.title}</h3>
-                      <p className="mt-4 max-w-[60ch] text-[15.5px] leading-[1.8] text-body">{c.body}</p>
-                      <a href="#enquiry" className="btn-green group mt-7">
-                        {cuisinesIntro.cta} <Arrow />
-                      </a>
+                      {/* Name and "Enquire Now" share a row, so the whole section fits one screen. */}
+                      <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
+                        <h3 className="font-display text-[1.75rem] font-semibold leading-[1.1] text-green">{c.title}</h3>
+                        <a href="#enquiry" className="btn-green group shrink-0 !px-5 !py-2.5">
+                          {cuisinesIntro.cta} <Arrow />
+                        </a>
+                      </div>
+                      <p className="mt-2.5 max-w-[62ch] text-[15px] leading-[1.7] text-body">{c.body}</p>
                     </div>
                   </div>
                 </div>

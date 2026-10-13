@@ -13,9 +13,11 @@ const TOUCH_QUIET_MS = 7000;
 /**
  * The reels play one at a time, in order, while the row is on screen — like a
  * carousel's autoplay. Hovering a card (mouse) plays that reel instead and the
- * walk carries on from it afterwards. On touch screens a tap on a resting card
- * plays it; a tap on the playing card opens it on Instagram. Muted by default
- * (browsers only autoplay silently); the playing card has a sound toggle.
+ * walk carries on from it afterwards. On touch screens the card swiped to the
+ * middle (or tapped) plays; a tap on the playing card opens it on Instagram.
+ * Sound is on by default — browsers allow it from the visitor's first tap,
+ * click or key press, so until then the reel plays silently — and the playing
+ * card has a sound toggle. Sources load only when the row nears the screen.
  * Visitors who prefer reduced motion get still posters.
  */
 export default function ReelRow({ reels }: { reels: Reel[] }) {
@@ -25,17 +27,23 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
   const pointerType = useRef<string>("mouse");
   /** The reel whose turn already ended — the cap and "ended" can both fire. */
   const done = useRef(-1);
+  const settle = useRef<number | undefined>(undefined);
 
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
-  const [muted, setMuted] = useState(true);
+  /** Sound is wanted by default; browsers only allow it once the visitor has interacted with the page. */
+  const [soundOn, setSoundOn] = useState(true);
+  const [activated, setActivated] = useState(false);
+  /** Videos only get their source once the row is near the screen (lazy loading). */
+  const [near, setNear] = useState(false);
   /** How far the playing reel has got, tagged with which reel it belongs to. */
   const [progress, setProgress] = useState({ i: -1, p: 0 });
 
   const playing = hovered ?? active;
   const live = inView && !reduced;
+  const muted = !(soundOn && activated);
 
   const next = useCallback(() => setActive((i) => (i + 1) % reels.length), [reels.length]);
 
@@ -44,10 +52,25 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const id = window.setTimeout(() => setReduced(reduce), 0);
     const io = el ? new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 }) : null;
-    if (el && io) io.observe(el);
+    const nearIo = el
+      ? new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "800px 0px" })
+      : null;
+    if (el && io && nearIo) {
+      io.observe(el);
+      nearIo.observe(el);
+    }
+    // The first tap, click or key press anywhere lets the reels play with sound.
+    const unlock = () => setActivated(true);
+    const already = (navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation?.hasBeenActive;
+    const id2 = already ? window.setTimeout(unlock, 0) : undefined;
+    const events = ["pointerdown", "keydown", "touchend"] as const;
+    events.forEach((ev) => document.addEventListener(ev, unlock, { once: true, passive: true }));
     return () => {
       window.clearTimeout(id);
+      window.clearTimeout(id2);
       io?.disconnect();
+      nearIo?.disconnect();
+      events.forEach((ev) => document.removeEventListener(ev, unlock));
     };
   }, []);
 
@@ -58,16 +81,15 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
       if (i === playing && live) {
         v.muted = muted;
         v.play().catch(() => {
-          // Autoplay with sound refused: fall back to muted.
+          // Sound refused (no interaction yet): play muted until the visitor interacts.
           v.muted = true;
-          setMuted(true);
           v.play().catch(() => {});
         });
       } else {
         v.pause();
       }
     });
-  }, [playing, live, muted]);
+  }, [playing, live, muted, near]);
 
   /* A reel taking its turn in the walk starts from the top. */
   useEffect(() => {
@@ -113,8 +135,22 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
         pointerType.current = e.pointerType;
         if (e.pointerType !== "mouse") lastTouch.current = Date.now();
       }}
-      onScroll={() => {
-        if (pointerType.current !== "mouse") lastTouch.current = Date.now();
+      onScroll={(e) => {
+        if (pointerType.current === "mouse") return;
+        lastTouch.current = Date.now();
+        const el = e.currentTarget;
+        window.clearTimeout(settle.current);
+        settle.current = window.setTimeout(() => {
+          const mid = el.scrollLeft + el.clientWidth / 2;
+          let best = 0;
+          let gap = Infinity;
+          Array.from(el.children).forEach((c, i) => {
+            const card = c as HTMLElement;
+            const d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - mid);
+            if (d < gap) [best, gap] = [i, d];
+          });
+          setActive(best);
+        }, 160);
       }}
       className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 pb-6 pt-2 sm:-mx-8 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:px-0"
     >
@@ -142,7 +178,7 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
                   ref={(el) => {
                     videos.current[i] = el;
                   }}
-                  src={reel.video}
+                  src={near ? reel.video : undefined}
                   poster={reel.poster}
                   muted
                   playsInline
@@ -171,7 +207,7 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
               {/* resting cards show a play mark */}
               <span
                 aria-hidden
-                className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 pl-0.5 text-white ring-1 ring-gold-light/90 backdrop-blur-sm transition-[opacity,scale] duration-500 ease-out-expo ${
+                className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 lg:hidden pl-0.5 text-white ring-1 ring-gold-light/90 backdrop-blur-sm transition-[opacity,scale] duration-500 ease-out-expo ${
                   on ? "scale-75 opacity-0" : "opacity-100"
                 }`}
               >
@@ -203,7 +239,10 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
               {reel.video && (
                 <button
                   type="button"
-                  onClick={() => setMuted((m) => !m)}
+                  onClick={() => {
+                    setActivated(true);
+                    setSoundOn((on) => (muted ? true : !on));
+                  }}
                   aria-label={muted ? "Turn sound on" : "Turn sound off"}
                   aria-pressed={!muted}
                   className={`absolute right-3 top-8 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-sm transition-opacity duration-500 hover:bg-black/55 ${

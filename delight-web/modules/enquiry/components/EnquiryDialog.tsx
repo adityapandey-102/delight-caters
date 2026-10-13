@@ -24,8 +24,17 @@ const HEADING = splitTitle(contactPage.title);
  * a[href="#enquiry"] on any page. showModal keeps focus inside and makes the
  * page inert; Esc, the close button and a click on the backdrop close it.
  * Lenis is paused while it's open (data-lenis-prevent lets the panel itself
- * scroll). Mounted once, in the site layout.
+ * scroll). It also opens by itself on every fresh page load, once the visitor
+ * has scrolled three screens (not on the contact page, which has the form
+ * inline); after it has been shown, it waits for the next reload.
+ * Mounted once, in the site layout.
  */
+
+/** Screens scrolled before the popup offers itself. */
+const AUTO_AFTER_SCREENS = 3;
+/** Module state lives for one page load: a reload resets it, client navigation doesn't. */
+let shownThisLoad = false;
+
 export function EnquiryDialog() {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -34,6 +43,7 @@ export function EnquiryDialog() {
   // half-filled one survives an accidental close.
   const [formKey, setFormKey] = useState(0);
   const sent = useRef(false);
+  const path = useRef(pathname);
 
   useEffect(() => {
     const dlg = ref.current;
@@ -44,6 +54,7 @@ export function EnquiryDialog() {
     const open = () => {
       if (dlg.open || typeof dlg.showModal !== "function") return;
       dlg.showModal();
+      shownThisLoad = true;
       if (!locked) {
         lockScroll();
         locked = true;
@@ -79,12 +90,20 @@ export function EnquiryDialog() {
       downOnBackdrop = false;
     };
 
+    // Third screen: offer the form once per visit.
+    const onScroll = () => {
+      if (shownThisLoad || path.current.startsWith("/contact-us")) return;
+      if (window.scrollY > window.innerHeight * AUTO_AFTER_SCREENS) open();
+    };
+
     document.addEventListener("click", onDocumentClick);
+    window.addEventListener("scroll", onScroll, { passive: true });
     dlg.addEventListener("pointerdown", onPointerDown);
     dlg.addEventListener("click", onDialogClick);
     dlg.addEventListener("close", onClose);
     return () => {
       document.removeEventListener("click", onDocumentClick);
+      window.removeEventListener("scroll", onScroll);
       dlg.removeEventListener("pointerdown", onPointerDown);
       dlg.removeEventListener("click", onDialogClick);
       dlg.removeEventListener("close", onClose);
@@ -95,6 +114,7 @@ export function EnquiryDialog() {
 
   // A new page (e.g. the back button) shouldn't arrive with the popup still up.
   useEffect(() => {
+    path.current = pathname;
     if (ref.current?.open) ref.current.close();
   }, [pathname]);
 
@@ -104,16 +124,14 @@ export function EnquiryDialog() {
         <div aria-hidden className="grain rounded-[24px]" />
         <div aria-hidden className="gold-hairline absolute inset-x-0 top-0 z-10 h-[2px]" />
 
-        {/* The photograph, with the mark and the tagline (md and up). A portrait
-            photo, pinned to the visible height of the popup while the form
-            scrolls, so it is never stretched over a tall, narrow column.
-            (overflow-clip, not hidden, so the sticky still works.) */}
-        <div aria-hidden className="relative hidden min-h-[560px] overflow-clip rounded-l-[24px] md:block">
-          <div className="sticky top-0 h-[calc(100dvh-1.5rem)] max-h-full">
+        {/* The photograph, with the mark and the tagline (md and up). It fills
+            exactly the form's height, so the popup is only as tall as the form. */}
+        <div aria-hidden className="relative hidden overflow-hidden rounded-l-[24px] md:block">
+          <div className="absolute inset-0">
             <Image src={aboutStory.image} alt="" fill sizes="(min-width: 768px) 620px, 1px" className="object-cover object-[center_40%]" />
             <div className="absolute inset-0 bg-linear-to-t from-green-ink via-green-ink/40 to-green-ink/5" />
             <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
-              <Image src="/brand/logo-gold.png" alt="" width={1200} height={634} sizes="180px" className="h-20 w-auto object-contain lg:h-24" />
+              <Image src="/brand/logo-gold.png" alt="" width={1200} height={634} sizes="160px" className="h-16 w-auto object-contain lg:h-20" />
               <div className="gold-hairline mt-6 w-28 opacity-80" />
               <p className="mt-5 font-script text-[34px] leading-none text-gold-light">{company.tagline}</p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-cream/70">
@@ -125,7 +143,7 @@ export function EnquiryDialog() {
         </div>
 
         {/* The form */}
-        <div className="relative px-5 pb-6 pt-6 sm:px-8 sm:pb-8 sm:pt-8 md:px-10 md:pt-10">
+        <div className="relative px-5 pb-5 pt-5 sm:px-8 sm:pb-6 sm:pt-7 md:px-9 md:pt-8">
           {/* Stays in reach while the panel scrolls on a phone */}
           <div className="pointer-events-none sticky top-3 z-20 -mb-11 flex justify-end">
             <button
@@ -138,7 +156,7 @@ export function EnquiryDialog() {
             </button>
           </div>
 
-          <Eyebrow onDark className="mb-5">
+          <Eyebrow onDark className="mb-3">
             Plan Your Event
           </Eyebrow>
           <EnquiryForm
@@ -147,13 +165,14 @@ export function EnquiryDialog() {
             titleId={titleId}
             idPrefix="dialog-enquiry"
             heading={HEADING}
+            compact
             intro={contactPage.body}
             onSent={() => {
               sent.current = true;
             }}
           />
 
-          <div className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-gold-light/15 pt-5 text-[13.5px]">
+          <div className="mt-4 hidden flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-gold-light/15 pt-3 text-[13.5px] sm:flex">
             <a
               href={contact.phoneHref}
               className="inline-flex min-h-11 items-center gap-2 text-cream/70 transition-colors hover:text-gold-light"

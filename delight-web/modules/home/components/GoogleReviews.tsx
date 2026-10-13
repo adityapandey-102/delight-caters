@@ -71,99 +71,81 @@ const initials = (name: string) =>
     .join("");
 
 /**
- * Google reviews on a green velvet band: the heading beside a summary panel
- * (the G mark, stars, the rating and count once they're filled in, and a link
- * to the profile), then the review cards — three columns on desktop, a
- * scroll-snap row on phones. While the content is a placeholder the panel
+ * Google reviews, kept compact on a green velvet band: the heading and a
+ * small summary (G mark, stars, the rating and count once filled in, the
+ * profile link) on the left; the review cards glide past on the right and
+ * pause under the pointer. While the content is a placeholder the summary
  * says so; nothing here invents a rating or a word of review.
  */
 export default function GoogleReviews() {
   const { rating, count, isPlaceholder, profileUrl, reviews } = googleReviews;
+  const run = [...reviews, ...reviews];
 
   return (
-    <section className="green-velvet overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+    <section className="green-velvet overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-12">
       <div aria-hidden className="grain" />
 
-      <div className="relative mx-auto w-full max-w-[1280px]">
-        <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,430px)] lg:gap-16">
-          <Reveal>
-            <Eyebrow onDark>{UI.eyebrow}</Eyebrow>
-            <h2 className="display on-dark mt-6 text-[clamp(2.4rem,5.6vw,4.4rem)]">
-              <span className="block">{UI.title.roman}</span>
-              <span className="display-italic block">{UI.title.italic}</span>
-            </h2>
-          </Reveal>
+      <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-10 lg:grid-cols-[minmax(0,330px)_minmax(0,1fr)] lg:gap-12">
+        <Reveal>
+          <Eyebrow onDark>{UI.eyebrow}</Eyebrow>
+          <h2 className="display on-dark mt-4 text-[clamp(2rem,4vw,3rem)]">
+            <span className="block">{UI.title.roman}</span>
+            <span className="display-italic block">{UI.title.italic}</span>
+          </h2>
 
-          <Reveal delay={0.08} className="max-w-lg lg:max-w-none">
-            <div className="relative overflow-hidden rounded-2xl border border-gold-light/25 bg-green-ink/45 p-7 backdrop-blur-sm sm:p-8">
-              <div aria-hidden className="gold-hairline absolute inset-x-0 top-0" />
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.5)]">
-                  <GoogleG className="h-6 w-6" />
-                </span>
-                <div>
-                  <p className="text-[15px] font-medium text-cream">{UI.panel}</p>
-                  {count !== null && <p className="mt-0.5 text-[13px] text-cream-muted">{UI.count(count)}</p>}
-                </div>
-              </div>
-
-              <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 flex items-center gap-3.5">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_20px_-8px_rgba(0,0,0,0.5)]">
+              <GoogleG className="h-5 w-5" />
+            </span>
+            <div>
+              <div className="flex items-center gap-2.5">
                 {rating !== null && (
-                  <span className="gold-text font-display text-[3.4rem] font-semibold leading-none lining-nums">{rating.toFixed(1)}</span>
+                  <span className="gold-text font-display text-[1.9rem] font-semibold leading-none lining-nums">{rating.toFixed(1)}</span>
                 )}
-                <Stars rating={rating ?? undefined} size={20} gold="var(--color-gold-light)" />
+                <Stars rating={rating ?? undefined} size={16} gold="var(--color-gold-light)" />
               </div>
-
-              {isPlaceholder && (
-                <p className="mt-6 flex items-start gap-2.5 rounded-xl border border-dashed border-gold-light/40 px-4 py-2.5 text-[12.5px] leading-snug text-gold-pale">
-                  <span aria-hidden className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-light" />
-                  {UI.preview}
-                </p>
-              )}
-
-              <div>
-                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark group mt-7">
-                  {UI.seeAll}
-                  <span className="sr-only">{NEW_TAB}</span>
-                  <Arrow />
-                </a>
-              </div>
+              <p className="mt-1 text-[12.5px] text-cream-muted">{count !== null ? UI.count(count) : UI.panel}</p>
             </div>
-          </Reveal>
-        </div>
+          </div>
+
+          {isPlaceholder && <p className="mt-4 text-[12px] italic leading-snug text-gold-pale/80">{UI.preview}</p>}
+
+          <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark group mt-6 !px-5 !py-2.5 !text-[12.5px]">
+            {UI.seeAll}
+            <span className="sr-only">{NEW_TAB}</span>
+            <Arrow />
+          </a>
+        </Reveal>
 
         {reviews.length > 0 && (
-          <div data-lenis-prevent-horizontal className="mt-14 md:mt-16">
-            <Reveal
-              as="ul"
-              stagger
-              className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 pb-4 sm:-mx-8 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
-            >
-              {reviews.map((r, i) => (
-                <li key={`${i}-${r.name}`} className="w-[84vw] max-w-[380px] shrink-0 snap-start sm:w-[58vw] md:w-[44vw] lg:w-auto lg:max-w-none">
-                  <figure className="flex h-full flex-col rounded-2xl bg-wall-lit p-7 text-ink shadow-[0_34px_60px_-36px_rgba(0,0,0,0.7)] sm:p-8">
+          <Reveal className="relative -mx-5 overflow-hidden sm:-mx-8 lg:mx-0 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+            {/* Two copies glide by half their length, so the loop is seamless; the copy is hidden from screen readers. */}
+            <ul className="marquee-track flex w-max gap-4 py-3 [--dur:60s] sm:gap-5" aria-label={UI.eyebrow}>
+              {run.map((r, i) => (
+                <li key={i} aria-hidden={i >= reviews.length} className="w-[272px] shrink-0 sm:w-[300px]">
+                  <figure className="flex h-full flex-col rounded-2xl bg-wall-lit p-5 text-ink shadow-[0_24px_44px_-30px_rgba(0,0,0,0.7)]">
                     <div className="flex items-center justify-between gap-4">
-                      <Stars size={15} />
-                      <GoogleG className="h-5 w-5" />
+                      <Stars size={13} />
+                      <GoogleG className="h-4 w-4" />
                     </div>
-                    <blockquote className="mt-6 flex-1 font-display text-[1.2rem] font-medium leading-[1.55] text-ink">{r.text}</blockquote>
-                    <figcaption className="mt-7 flex items-center gap-3.5 border-t border-line pt-6">
+                    <blockquote className="mt-3.5 line-clamp-4 flex-1 text-[14px] leading-[1.6] text-body">{r.text}</blockquote>
+                    <figcaption className="mt-4 flex items-center gap-3 border-t border-line pt-3.5">
                       <span
                         aria-hidden
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green font-display text-[1.05rem] font-semibold tracking-wide text-gold-light"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green font-display text-[0.95rem] font-semibold text-gold-light"
                       >
                         {initials(r.name)}
                       </span>
                       <span className="min-w-0">
-                        <span className="block truncate text-[14.5px] font-semibold text-ink">{r.name}</span>
-                        <span className="block text-[12.5px] text-muted">{r.meta}</span>
+                        <span className="block truncate text-[13.5px] font-semibold text-ink">{r.name}</span>
+                        <span className="block text-[11.5px] text-muted">{r.meta}</span>
                       </span>
                     </figcaption>
                   </figure>
                 </li>
               ))}
-            </Reveal>
-          </div>
+            </ul>
+          </Reveal>
         )}
       </div>
     </section>

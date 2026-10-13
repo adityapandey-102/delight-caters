@@ -162,9 +162,13 @@ export function WordReveal({ lines, className = "" }: { lines: StatementWord[][]
       return;
     }
 
+    // Phones: no blur (an animated filter on every word is costly on mobile GPUs) — words fade and darken only.
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    if (mobile) words.forEach((w) => (w.style.filter = "none"));
+
     const ctx = gsap.context(() => {
       gsap.to(words, {
-        filter: "blur(0px)",
+        ...(mobile ? {} : { filter: "blur(0px)" }),
         opacity: 1,
         color: (i: number) => words[i].dataset.target ?? "var(--color-ink)",
         ease: "none",

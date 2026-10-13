@@ -40,7 +40,9 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     initGsap();
-    if (prefersReducedMotion()) return;
+    // Phones and tablets keep their own native scrolling: smoother, and no
+    // per-frame JavaScript. Lenis is for mouse wheels and trackpads.
+    if (prefersReducedMotion() || window.matchMedia("(pointer: coarse)").matches) return;
 
     const lenis = new Lenis({
       duration: 1.15,

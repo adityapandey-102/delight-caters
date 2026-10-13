@@ -41,7 +41,7 @@ const STYLE: Record<Service["key"], Pick<Quadrant, "short" | "icon" | "fill" | "
     icon: "briefcase",
     fill: "linear-gradient(135deg, #0b5a30 0%, #014923 58%, #013a1c 100%)",
     ink: "#e7c761",
-    tint: "rgba(1,58,28,0.62)",
+    tint: "rgba(1,58,28,0.22)",
     corner: "tl",
   },
   event: {
@@ -49,7 +49,7 @@ const STYLE: Record<Service["key"], Pick<Quadrant, "short" | "icon" | "fill" | "
     icon: "glass",
     fill: "linear-gradient(135deg, #e7c761 0%, #bf983b 55%, #8a5a12 100%)",
     ink: "#012b15",
-    tint: "rgba(138,90,18,0.55)",
+    tint: "rgba(138,90,18,0.2)",
     corner: "tr",
   },
   wedding: {
@@ -57,7 +57,7 @@ const STYLE: Record<Service["key"], Pick<Quadrant, "short" | "icon" | "fill" | "
     icon: "rings",
     fill: "linear-gradient(135deg, #185628 0%, #014923 55%, #012b15 100%)",
     ink: "#e7c761",
-    tint: "rgba(1,43,21,0.6)",
+    tint: "rgba(1,43,21,0.22)",
     corner: "br",
   },
   casual: {
@@ -65,7 +65,7 @@ const STYLE: Record<Service["key"], Pick<Quadrant, "short" | "icon" | "fill" | "
     icon: "party",
     fill: "linear-gradient(135deg, #d9b354 0%, #bf983b 50%, #a87f26 100%)",
     ink: "#012b15",
-    tint: "rgba(168,127,38,0.55)",
+    tint: "rgba(168,127,38,0.2)",
     corner: "bl",
   },
 };
@@ -189,12 +189,14 @@ export default function ImpactDiagram() {
       tl.fromTo("[data-hub]", { opacity: 0, scale: 0.45, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 1, ease: "back.out(2)" }, 0.4);
       tl.fromTo("[data-block]", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.08 }, 0.5);
 
-      // Slow counter-rotation of the diamond as the section passes.
-      gsap.fromTo(
-        "[data-diamond]",
-        { rotate: -4 },
-        { rotate: 4, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1.1 } },
-      );
+      // Slow counter-rotation of the diamond as the section passes (tablets and up).
+      gsap.matchMedia().add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          "[data-diamond]",
+          { rotate: -4 },
+          { rotate: 4, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1.1 } },
+        );
+      });
       gsap.to("[data-hub-ring]", { scale: 1.12, opacity: 0.2, duration: 2.6, ease: "sine.inOut", repeat: -1, yoyo: true });
     }, el);
 
@@ -271,7 +273,7 @@ export default function ImpactDiagram() {
                               fontSize: "clamp(8px,2.2vw,10.5px)",
                               letterSpacing: "0.18em",
                               transform: `translate(-50%,-50%) rotate(-45deg) scale(${on ? 1.08 : 1})`,
-                              textShadow: on ? "0 1px 10px rgba(0,0,0,0.45)" : "none",
+                              textShadow: on ? "0 1px 2px rgba(0,0,0,0.85), 0 2px 12px rgba(0,0,0,0.6)" : "none",
                             }}
                           >
                             <span className="block font-display text-[1.9em] leading-none tracking-normal lining-nums opacity-80">{q.n}</span>
@@ -338,19 +340,19 @@ export default function ImpactDiagram() {
                   key={q.key}
                   id={`svc-card-${q.key}`}
                   className={`col-start-1 row-start-1 transition-[opacity,transform,visibility] duration-700 ease-out-expo ${CORNER[q.corner]} ${
-                    on ? "xl:opacity-100" : "max-xl:pointer-events-none max-xl:invisible max-xl:translate-y-3 max-xl:opacity-0 xl:opacity-45"
+                    on ? "xl:opacity-100" : "max-xl:pointer-events-none max-xl:invisible max-xl:translate-y-3 max-xl:opacity-0 xl:scale-[0.97]"
                   } ${on ? (leftSide ? "xl:-translate-x-1.5" : "xl:translate-x-1.5") : ""}`}
                 >
                   <article
                     data-block
                     onPointerEnter={mouseOnly(() => setHover(q.key))}
                     onClick={() => select(q.key)}
-                    className={`relative isolate mx-auto flex max-w-xl flex-col overflow-hidden rounded-[22px] border p-4 text-cream transition-[border-color,box-shadow,filter] duration-700 ease-out-expo sm:p-6 xl:max-w-[410px] xl:cursor-pointer xl:p-5 ${
+                    className={`relative isolate mx-auto flex max-w-xl flex-col overflow-hidden rounded-[22px] border p-4 text-cream [text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_2px_14px_rgba(0,0,0,0.55)] transition-[border-color,box-shadow,filter] duration-700 ease-out-expo sm:p-6 xl:max-w-[410px] xl:cursor-pointer xl:p-5 ${
                       leftSide ? "xl:ml-auto xl:items-end xl:text-right" : "xl:mr-auto xl:items-start xl:text-left"
                     } ${
                       on
                         ? "border-gold-light/70 shadow-[0_30px_60px_-30px_rgba(1,43,21,0.7)]"
-                        : "border-gold-light/20 xl:saturate-[0.6]"
+                        : "border-white/20 xl:[filter:saturate(0.5)_brightness(0.82)] xl:hover:[filter:none]"
                     }`}
                   >
                     {/* The service photograph behind the card, under a dark-green tint so the cream type reads. */}
@@ -365,7 +367,7 @@ export default function ImpactDiagram() {
                       <div
                         className="absolute inset-0"
                         style={{
-                          background: `linear-gradient(${leftSide ? "255deg" : "105deg"}, rgba(1,30,14,0.9) 0%, rgba(1,30,14,0.78) 55%, rgba(1,30,14,0.55) 100%)`,
+                          background: `linear-gradient(${leftSide ? "255deg" : "105deg"}, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 55%, rgba(0,0,0,0.06) 100%), linear-gradient(to top, rgba(0,0,0,0.28), transparent 45%)`,
                         }}
                       />
                     </div>
@@ -373,21 +375,21 @@ export default function ImpactDiagram() {
                       <span
                         aria-hidden
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-500 ${
-                          on ? "bg-gold-light text-green-ink" : "bg-green-ink/60 text-gold-light ring-1 ring-gold-light/40"
+                          on ? "bg-gold-light text-green-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
                         }`}
                       >
                         <Icon name={q.icon} size={18} />
                       </span>
-                      <h3 className="whitespace-nowrap font-display text-[1.45rem] font-semibold leading-none tracking-tight text-cream [text-shadow:0_1px_10px_rgba(0,0,0,0.35)] sm:text-[1.75rem]">{q.title}</h3>
+                      <h3 className="whitespace-nowrap font-display text-[1.45rem] font-semibold leading-none tracking-tight text-cream [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_3px_18px_rgba(0,0,0,0.6)] sm:text-[1.75rem]">{q.title}</h3>
                     </div>
                     <div className={`mt-3 flex items-center gap-3 ${leftSide ? "xl:flex-row-reverse" : ""}`}>
                       <span aria-hidden className={`block h-px bg-gold-light transition-[width] duration-700 ease-out-expo ${on ? "w-20" : "w-10"}`} />
                       <span className="text-[10px] font-medium tracking-[0.2em] text-gold-light/80 lining-nums">{q.n}/04</span>
                     </div>
-                    <p className="mt-2.5 text-[14px] leading-[1.6] text-cream/85 sm:text-[14.5px] max-md:[@media(max-height:680px)]:hidden">{q.body}</p>
+                    <p className="mt-2.5 text-[14px] font-medium leading-[1.6] text-cream sm:text-[14.5px] max-md:[@media(max-height:680px)]:hidden">{q.body}</p>
                     <ul className={`mt-2.5 grid grid-cols-2 gap-x-4 gap-y-1 ${leftSide ? "xl:justify-items-end" : ""}`}>
                       {q.items.map((item) => (
-                        <li key={item} className={`flex items-center gap-2 text-[13.5px] text-cream ${leftSide ? "xl:flex-row-reverse" : ""}`}>
+                        <li key={item} className={`flex items-center gap-2 text-[13.5px] font-medium text-cream ${leftSide ? "xl:flex-row-reverse" : ""}`}>
                           <span aria-hidden className="h-1.5 w-1.5 shrink-0 rotate-45 bg-gold-light" />
                           {item}
                         </li>
