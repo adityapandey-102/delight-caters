@@ -3,8 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { group, nav } from "@/lib/content/group";
+import { offersForPath } from "@/lib/content/offers";
+import { PromoRibbon } from "@/modules/showcase/components/PromoRibbon";
 import { lockScroll, unlockScroll } from "./SmoothScroll";
 
 type NavItem = (typeof nav)[number];
@@ -20,21 +22,28 @@ const DARK_SURFACES = "[data-nav-dark], .bg-black, .bg-onyx-ink, .onyx-velvet";
  * Apple-style global nav: a slim glass bar (dark over the opening film, light
  * once the page moves), the logo as home, evenly spaced links, and a
  * full-width flyout for each division — big links to its brands, then quick
- * actions — that blurs the page beneath. Phones get a light full-screen sheet.
+ * actions — that blurs the page beneath. Under the bar runs the marketing
+ * ribbon (offers for the section in view first); it shows at the top of every
+ * page and folds away once you scroll. Phones get a light full-screen sheet.
  */
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   /** True while the bar sits over a dark section (black films, photo heroes) — the bar turns dark glass there, as Apple's does. */
   const [overDark, setOverDark] = useState(true);
+  const [atTop, setAtTop] = useState(true);
   const [menu, setMenu] = useState<string | null>(null);
   const closeTimer = useRef<number | undefined>(undefined);
+  const headerRef = useRef<HTMLElement>(null);
+  const promoItems = useMemo(() => offersForPath(pathname), [pathname]);
 
   useEffect(() => {
     let frame = 0;
     const probe = () => {
       frame = 0;
-      const y = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 52) + 4;
+      setAtTop(window.scrollY < 120);
+      // Look just below the whole header (bar + ribbon) at what the page shows there.
+      const y = (headerRef.current?.getBoundingClientRect().bottom ?? 52) + 4;
       const el = document.elementFromPoint(24, y);
       if (!el || el.closest("dialog")) return; // an open popup: keep the tone of the page behind it
       setOverDark(!!el.closest(DARK_SURFACES));
@@ -43,14 +52,14 @@ export default function Header() {
       if (!frame) frame = requestAnimationFrame(probe);
     };
     probe();
-    const settle = window.setTimeout(probe, 400);
+    const settle = [300, 1200].map((ms) => window.setTimeout(probe, ms)); // after fonts and images settle
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     document.addEventListener("close", onScroll, true); // a dialog closing reveals the page again
     return () => {
       document.removeEventListener("close", onScroll, true);
       cancelAnimationFrame(frame);
-      window.clearTimeout(settle);
+      settle.forEach((t) => window.clearTimeout(t));
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
@@ -105,7 +114,7 @@ export default function Header() {
         }`}
       />
 
-      <header className="fixed inset-x-0 top-0 z-50" onPointerLeave={closeMenuSoon}>
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-50" onPointerLeave={closeMenuSoon}>
         <div
           className={`relative transition-colors duration-500 ${
             light
@@ -177,6 +186,17 @@ export default function Header() {
                   <span className={`absolute left-0 h-[1.5px] w-full rounded-full bg-current transition-all duration-400 ease-out-expo ${open ? "top-[4.5px] -rotate-45" : "top-[9px]"}`} />
                 </span>
               </button>
+            </div>
+          </div>
+
+          {/* The marketing ribbon: shown at the top of the page, folded away on scroll */}
+          <div
+            className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.28,0.11,0.32,1)] ${
+              atTop && !menu && !open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <PromoRibbon items={promoItems} tone={light ? "light" : "dark"} />
             </div>
           </div>
 

@@ -1,7 +1,5 @@
 import type { TileData } from "@/modules/showcase/components/Tile";
-import type { Highlight } from "@/modules/showcase/components/Highlights";
 import type { StoryStep } from "@/modules/showcase/components/StickyStory";
-import { groupCampaigns } from "./campaigns";
 
 /**
  * The home page (apple-design branch). Photographs under /media/dummy are
@@ -113,21 +111,6 @@ export const gridTiles: TileData[] = [
     image: { src: D("banquet"), alt: "A banquet hall under chandeliers" },
   },
 ];
-
-const campaignImage: Record<string, { src: string; alt: string }> = {
-  "navratri-olive": { src: D("celebration"), alt: "Guests celebrating under festive lights" },
-  "corporate-long-stay": { src: D("room-modern"), alt: "A modern hotel room for long stays" },
-  "wedding-tastings": { src: D("event-table"), alt: "A long table set for a wedding tasting" },
-  "kulfi-of-the-month": { src: D("cones"), alt: "A spread of colourful ice cream cones" },
-};
-
-export const highlights: Highlight[] = groupCampaigns.map((c) => ({
-  image: campaignImage[c.id] ?? c.image,
-  kicker: `${c.kind} · ${c.brand} · ${c.dates}`,
-  title: c.title,
-  body: c.summary,
-  cta: c.cta,
-}));
 
 export const storySteps: StoryStep[] = [
   {

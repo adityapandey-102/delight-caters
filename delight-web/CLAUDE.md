@@ -6,8 +6,8 @@ Group site for Zyra Group ("An Unforgettable Experience"): Delight Hospitality
 (Sterling Inn, Sterling Plaza, Olive) and Delight Eatry (Bombay Kulfi, Aero
 Bites, Delight Caterers). The former single-brand Delight Caterers site is
 frozen on branch `old-design-of-delight-caters`. Workflow: `../docs/WORKFLOW.md`;
-handoff/progress: `../docs/STATUS.md`. Phase 2 (leads, customer login,
-subscriptions) is not started.
+handoff/progress: `../docs/STATUS.md`. Phase 2 (marketing admin for
+offers, leads, customer login, subscriptions) is not started — backlog in STATUS.md.
 
 ## Structure (mirrors needleye-web)
 
@@ -38,8 +38,9 @@ numbered chapters: story + visit card, offer, spaces, `Gallery` (lightbox),
 `Location` (Google map), Google reviews (`lib/content/reviews.ts`, SAMPLE), FAQ,
 reels. Buttons are glass pills (`.btn-gold|onyx|ghost|ghost-dark`, round
 `.glass-icon[-dark]`); add `.shine` only to attention buttons (forms, "Plan
-your event", the page's main CTA). Marketing: `modules/campaigns` (data in
-`lib/content/campaigns.ts`) on Hospitality and Eatry, hero slides on Home. The caterers' diamond (`ImpactDiagram`) and index
+your event", the page's main CTA). Marketing (apple-design branch): ONE list, `lib/content/offers.ts`, feeds the
+ribbon under the nav on every page (`PromoRibbon`), the home highlights, and
+`OffersSection` on Hospitality, Eatry, every outlet page and Delight Caterers. The caterers' diamond (`ImpactDiagram`) and index
 (`Cuisines`) take content props. Missing data = realistic DUMMY content, flagged
 only in code comments. Tokens/classes: `app/globals.css` (`@layer components`).
 Project skills: `../.claude/skills` (provenance in `SOURCES.md`).

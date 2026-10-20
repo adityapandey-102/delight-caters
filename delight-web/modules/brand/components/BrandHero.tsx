@@ -154,7 +154,7 @@ export function BrandHero({
         </div>
 
         <div
-          className={`relative flex flex-1 flex-col justify-center px-5 pb-14 pt-[calc(var(--header-h)+5vh)] sm:px-8 md:pb-20 lg:px-12 ${children || hasSlides ? "md:pb-52 lg:pb-40" : ""}`}
+          className={`relative flex flex-1 flex-col justify-center px-5 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+5vh)] sm:px-8 md:pb-20 lg:px-12 ${children || hasSlides ? "md:pb-52 lg:pb-40" : ""}`}
         >
           <div
             ref={copy}

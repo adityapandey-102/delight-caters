@@ -11,6 +11,8 @@ import GoogleReviews from "@/modules/home/components/GoogleReviews";
 import { Gallery } from "@/modules/gallery/components/Gallery";
 import { Location } from "@/modules/brand/components/Location";
 import { reviewsBySlug } from "@/lib/content/reviews";
+import { offersFor } from "@/lib/content/offers";
+import { OffersSection } from "@/modules/showcase/components/OffersSection";
 import { contact, cuisines, services } from "@/lib/content/site";
 
 const photos = [
@@ -43,6 +45,7 @@ export default function DelightCaterersPage() {
       <ImpactDiagram />
       <Cuisines id="cuisines" />
       <Nutrition />
+      <OffersSection eyebrow="What's on" title="Offers at Delight Caterers." items={offersFor({ slug: "delight-caterers" })} />
       <section className="relative overflow-hidden px-5 py-16 sm:px-8 md:py-24 lg:px-12">
         <div className="mx-auto w-full max-w-[1280px]">
           <Gallery photos={photos} title="A taste of our tables." eyebrow={company.name} />

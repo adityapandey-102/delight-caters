@@ -13,6 +13,8 @@ import { BrandHero } from "./BrandHero";
 import { ReelsSection } from "./ReelsSection";
 import { Location } from "./Location";
 import { LocalNav } from "./LocalNav";
+import { offersFor } from "@/lib/content/offers";
+import { OffersSection } from "@/modules/showcase/components/OffersSection";
 
 const DIVISION = {
   hospitality: { name: "Delight Hospitality", href: "/hospitality" },
@@ -42,6 +44,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
   const isHotel = venue.division === "hospitality";
   const logo = venue.logoOnDark ?? venue.logo;
   const reviews = reviewsBySlug[venue.slug];
+  const venueOffers = offersFor({ slug: venue.slug });
   const photos = [venue.hero, ...venue.spaces.map((s) => s.image), ...venue.gallery].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
 
   return (
@@ -69,8 +72,9 @@ export function VenuePage({ venue }: { venue: Venue }) {
         cta={{ label: isHotel ? "Book" : venue.cta.label, href: venue.cta.href, external: venue.cta.external }}
         links={[
           { label: "Overview", href: "#overview" },
-          { label: "On offer", href: "#offer" },
+          { label: isHotel ? "Amenities" : "Highlights", href: "#offer" },
           ...(venue.spaces.length ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
+          ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
           ...(photos.length > 1 ? [{ label: "Gallery", href: "#gallery" }] : []),
           { label: "Location", href: "#location" },
           ...(reviews ? [{ label: "Reviews", href: "#reviews" }] : []),
@@ -157,6 +161,9 @@ export function VenuePage({ venue }: { venue: Venue }) {
           </aside>
         </div>
       </section>
+
+      {/* What's on: this outlet's offers, events and collaborations */}
+      <OffersSection eyebrow="What's on" title={`Offers at ${venue.name}.`} items={venueOffers} />
 
       {/* 04 — gallery */}
       {photos.length > 1 && (

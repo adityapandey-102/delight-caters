@@ -1,7 +1,6 @@
 import SmoothScroll from "@/components/shell/SmoothScroll";
 import Header from "@/components/shell/Header";
 import Footer from "@/components/shell/Footer";
-import SiteLoader from "@/components/shell/SiteLoader";
 import { EnquiryDialog } from "@/modules/enquiry/components/EnquiryDialog";
 import { FloatingActions } from "@/modules/enquiry/components/FloatingActions";
 
@@ -13,7 +12,6 @@ import { FloatingActions } from "@/modules/enquiry/components/FloatingActions";
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <SmoothScroll>
-      <SiteLoader />
       <Header />
       <main id="main" className="flex-1">
         {children}

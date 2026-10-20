@@ -2,7 +2,8 @@ import Link from "next/link";
 import { groupFacts } from "@/lib/content/group";
 import { hospitality } from "@/lib/content/hospitality";
 import { eatry } from "@/lib/content/eatry";
-import { featureTiles, gridTiles, highlights, homeHero, storySteps } from "@/lib/content/home";
+import { featureTiles, gridTiles, homeHero, storySteps } from "@/lib/content/home";
+import { asHighlights, offers } from "@/lib/content/offers";
 import { HeroFilm } from "@/modules/showcase/components/HeroFilm";
 import { Tile, TileGrid } from "@/modules/showcase/components/Tile";
 import { Highlights } from "@/modules/showcase/components/Highlights";
@@ -32,7 +33,7 @@ export default function HomePage() {
         <TileGrid tiles={gridTiles} />
       </div>
 
-      <Highlights title="Get the highlights." items={highlights} />
+      <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />
       <StickyStory title="One family." accent="Four ways in." steps={storySteps} />
       <BigNumbers title="Zyra, by the numbers." items={groupFacts} />
       <ReelsSection eyebrow="Watch" title={["Inside the", "group."]} reels={reels} />

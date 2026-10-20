@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { eatry } from "@/lib/content/eatry";
-import { eatryCampaigns } from "@/lib/content/campaigns";
+import { offersFor } from "@/lib/content/offers";
 import { eatryListings } from "@/lib/content/showcase";
 import { BrandHero } from "@/modules/brand/components/BrandHero";
 import { ListingCards } from "@/modules/brand/components/ListingCards";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
-import { Campaigns } from "@/modules/campaigns/components/Campaigns";
+import { OffersSection } from "@/modules/showcase/components/OffersSection";
 import CtaBand from "@/modules/home/components/CtaBand";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { LineReveal } from "@/components/ui/motion";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: eatry.intro[0],
 };
 
-/** Delight Eatry: the division, its three food businesses, what's on, and the reels. */
+/** Delight Eatry: the division, its three food businesses, its offers and events, and the reels. */
 export default function EatryPage() {
   return (
     <>
@@ -38,7 +38,7 @@ export default function EatryPage() {
           </div>
         </div>
       </section>
-      <Campaigns eyebrow="Around the table" title={["Events &", "tie-ups"]} items={eatryCampaigns} />
+      <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
       <ReelsSection eyebrow="Bombay Kulfi" title={["Watch &", "crave"]} reels={eatry.reels} />
       <CtaBand />
     </>

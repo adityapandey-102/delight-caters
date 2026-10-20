@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { hospitality } from "@/lib/content/hospitality";
-import { hospitalityCampaigns } from "@/lib/content/campaigns";
+import { offersFor } from "@/lib/content/offers";
 import { hotelIndex } from "@/lib/content/showcase";
 import { BrandHero } from "@/modules/brand/components/BrandHero";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
-import { Campaigns } from "@/modules/campaigns/components/Campaigns";
+import { OffersSection } from "@/modules/showcase/components/OffersSection";
 import Cuisines from "@/modules/home/components/Cuisines";
 import CtaBand from "@/modules/home/components/CtaBand";
 import { Icon } from "@/components/ui/Icon";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: hospitality.intro[1],
 };
 
-/** Delight Hospitality: the division, its hotels (an index beside a large photograph), what's on, and its reels. */
+/** Delight Hospitality: the division, its hotels (an index beside a large photograph), its offers and events, and its reels. */
 export default function HospitalityPage() {
   return (
     <>
@@ -40,7 +40,7 @@ export default function HospitalityPage() {
       <div id="hotels" className="scroll-mt-20">
         <Cuisines content={hotelIndex} />
       </div>
-      <Campaigns eyebrow="At our hotels" title={["Events &", "tie-ups"]} items={hospitalityCampaigns} />
+      <OffersSection title="Offers & events at our hotels." items={offersFor({ division: "hospitality" })} />
       <ReelsSection eyebrow={hospitality.name} title={["Stay", "a little longer"]} reels={hospitality.reels} />
       <CtaBand />
     </>

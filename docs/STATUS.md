@@ -70,7 +70,28 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
       `modules/showcase` (HeroFilm scroll-open hero, Tile / TileGrid, Highlights carousel, StickyStory, BigNumbers);
       outlet pages get a sticky LocalNav. Home photos are DUMMY Unsplash stock (`public/media/dummy`, list in
       `lib/content/home.ts`)
-- [ ] Next: client review; replace DUMMY content (campaigns, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
+  - Client round on the branch: home hero on white; no loading screen; marketing ribbon in the nav on every
+    page (offers of the section in view first, folds away on scroll); an offers section on every category and
+    outlet page — all from one list, `lib/content/offers.ts` (DUMMY, no prices)
+- [ ] Next: client review; replace DUMMY content (offers, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
+
+## Phase 2 backlog (recorded, not yet planned)
+
+Phase 2 is planned in detail only after phase 1 ships (client's instruction). Items so far:
+
+1. **Marketing admin — offers, campaigns and the top ribbon** (requested 2026-10-20). Staff update offers,
+   events and collaborations from an admin panel instead of code:
+   - one record per offer — the fields of `Offer` in `lib/content/offers.ts` (kind, outlet, title, ribbon
+     line, summary, dates, image, button label + link, featured) become the database schema;
+   - choose where each one shows: the ribbon under the nav (every page), home highlights, its division's
+     "Offers & events" section, its outlet's "Offers at …" section;
+   - start / end dates so offers appear and expire on their own; drafts, ordering / pinning, image upload;
+   - publishing refreshes the public pages straight away (on-demand revalidation), no redeploy.
+   Ready for it: every marketing surface already reads that one list through `offersFor()` /
+   `offersForPath()` — swapping the file for a database query is the only change the public site needs.
+2. Leads → customers: consultation enquiries become customer accounts with a login.
+3. Meal subscriptions: days remaining, pause a single meal or a date range; 500 meals/day kitchen capacity.
+4. Dashboards for admin, manager and consultant roles (same admin panel as 1).
 
 ## Open questions for the client
 
