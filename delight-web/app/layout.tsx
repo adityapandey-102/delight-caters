@@ -1,22 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { company, contact, social } from "@/lib/content/site";
 import { group } from "@/lib/content/group";
 import { hotels } from "@/lib/content/hospitality";
 
-/* Apple-style type: Inter Tight for display (SF Pro Display stand-in), Inter for text. */
-const interTight = Inter_Tight({
+/*
+ * Apple-style type: Inter Tight for display (SF Pro Display stand-in), Inter
+ * for text. Self-hosted variable fonts (app/fonts, SIL Open Font License,
+ * from Fontsource 5.3.0) rather than next/font/google: the build needs no
+ * network, and can't break on the font URLs Google serves to some regions
+ * (the Vercel build failed on those).
+ */
+const interTight = localFont({
   variable: "--font-inter-tight",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  src: "./fonts/inter-tight-latin-wght.woff2",
+  weight: "100 900",
   display: "swap",
 });
 
-const inter = Inter({
+const inter = localFont({
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  src: "./fonts/inter-latin-wght.woff2",
+  weight: "100 900",
   display: "swap",
 });
 
