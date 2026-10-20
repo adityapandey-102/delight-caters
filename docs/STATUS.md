@@ -78,9 +78,15 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
     About = EditorialHero (statement + story + photo collage, replaces StorySection); Contact = ContactHero (3 ways
     to reach us). Marketing first: every page goes hero → offers (Apple's strategy), then the rest
   - Desktop fit: every section fits one screen at 1920/1440/1366/1280 widths (lg+ only). Reels band moved up
-    (after the offers) and always shows 4 tiles (photo + Instagram follow fillers). New page `/offers`
-    ("Offers" in the nav, footer and ribbon): lead offer, all offers by tab, reels, posts from
-    `resources/` (`lib/content/social.ts`, `public/media/social`, priced posts left out), follow strip
+    (after the offers) and always shows 4 tiles (photo + Instagram follow fillers). An `/offers` page was
+    built, then removed at the client's request.
+  - Enquiry form = name, phone, outlet (6 chips), optional details; wording per outlet from
+    `lib/content/outlets.ts` — "Book a consultation" only for Delight Caterers, "Book a stay" for the hotels,
+    "Reserve a table" for Aero Bites; the popup preselects the outlet of the page. TODO: per-outlet WhatsApp numbers.
+  - DUMMY sign-in page `/login` (#customer default, #team, #user = customer; noindex) behind the nav person icon.
+  - Outlet heroes have no logos, except Bombay Kulfi (own SpotlightHero with the "Bengaluru's first & only
+    master franchise" badge) and Delight Caterers. Category heroes use photo cards (no banner). Home: no
+    badge, no numbers band, light closing card. About aligned to the shared grid.
 - [ ] Next: client review; replace DUMMY content (offers, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
 
 ## Phase 2 backlog (recorded, not yet planned)

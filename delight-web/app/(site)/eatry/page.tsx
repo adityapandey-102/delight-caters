@@ -25,7 +25,6 @@ export default function EatryPage() {
         accent={`${eatry.title[1]}.`}
         body={eatry.intro[0]}
         outlets={eatryListings.map((e) => ({ href: e.href, name: e.name, note: e.kind, image: e.image }))}
-        image={{ src: "/media/dummy/buffet.webp", alt: "A catered buffet laid out for guests" }}
       />
       <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
       <ReelsSection eyebrow="Bombay Kulfi" title={["Watch &", "crave"]} reels={eatry.reels} />

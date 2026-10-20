@@ -1,28 +1,15 @@
 import { describe, expect, it } from "vitest";
-import {
-  emptyEnquiry,
-  enquirySchema,
-  isIsoDate,
-  localIsoDate,
-  normaliseIndianMobile,
-  validateEnquiry,
-  type EnquiryValues,
-} from "./enquirySchema";
+import { emptyEnquiry, enquirySchema, normaliseIndianMobile, validateEnquiry, type EnquiryValues } from "./enquirySchema";
 
 const valid: EnquiryValues = {
   name: "  Ananya Rao ",
   phone: "+91 98765 43210",
-  eventType: "Wedding",
-  eventDate: "2026-12-05",
-  guests: "250",
-  foodType: "Veg",
-  message: "  Live dosa counter  ",
+  outlet: "delight-caterers",
+  message: "  Wedding in December, about 250 guests  ",
 };
 
-const TODAY = "2026-10-13";
-
 function errorsFor(values: Partial<EnquiryValues>) {
-  const result = validateEnquiry({ ...valid, ...values }, { today: TODAY });
+  const result = validateEnquiry({ ...valid, ...values });
   return result.success ? {} : result.errors;
 }
 
@@ -51,22 +38,6 @@ describe("normaliseIndianMobile", () => {
   );
 });
 
-describe("isIsoDate / localIsoDate", () => {
-  it("accepts real calendar dates only", () => {
-    expect(isIsoDate("2026-12-05")).toBe(true);
-    expect(isIsoDate("2028-02-29")).toBe(true);
-    expect(isIsoDate("2026-02-29")).toBe(false);
-    expect(isIsoDate("2026-13-01")).toBe(false);
-    expect(isIsoDate("05/12/2026")).toBe(false);
-    expect(isIsoDate("")).toBe(false);
-  });
-
-  it("formats a local date as yyyy-mm-dd", () => {
-    expect(localIsoDate(new Date(2026, 0, 7))).toBe("2026-01-07");
-    expect(localIsoDate(new Date(2026, 11, 31))).toBe("2026-12-31");
-  });
-});
-
 describe("enquirySchema", () => {
   it("parses and normalises a complete enquiry", () => {
     const result = enquirySchema.safeParse(valid);
@@ -75,11 +46,8 @@ describe("enquirySchema", () => {
     expect(result.data).toEqual({
       name: "Ananya Rao",
       phone: "9876543210",
-      eventType: "Wedding",
-      eventDate: "2026-12-05",
-      guests: 250,
-      foodType: "Veg",
-      message: "Live dosa counter",
+      outlet: "delight-caterers",
+      message: "Wedding in December, about 250 guests",
     });
   });
 
@@ -93,21 +61,17 @@ describe("enquirySchema", () => {
 
 describe("validateEnquiry", () => {
   it("returns the parsed enquiry when everything is in order", () => {
-    const result = validateEnquiry(valid, { today: TODAY });
-    expect(result.success).toBe(true);
+    expect(validateEnquiry(valid).success).toBe(true);
   });
 
   it("reports every empty required field with a friendly message", () => {
-    const result = validateEnquiry(emptyEnquiry, { today: TODAY });
+    const result = validateEnquiry(emptyEnquiry);
     expect(result.success).toBe(false);
     if (result.success) return;
     expect(result.errors).toEqual({
       name: "Please enter your name",
       phone: "Please enter your 10-digit mobile number",
-      eventType: "Please select an event type",
-      eventDate: "Please choose the date of your event",
-      guests: "Please enter the number of guests",
-      foodType: "Please choose Veg, Non-Veg or Both",
+      outlet: "Please choose who you'd like to reach",
     });
   });
 
@@ -122,26 +86,9 @@ describe("validateEnquiry", () => {
     expect(errorsFor({ phone: "5876543210" }).phone).toBe("Please enter your 10-digit mobile number");
   });
 
-  it("only accepts the listed event and food types", () => {
-    expect(errorsFor({ eventType: "Concert" }).eventType).toBe("Please select an event type");
-    expect(errorsFor({ eventType: "Corporate Event" }).eventType).toBeUndefined();
-    expect(errorsFor({ foodType: "Vegan" }).foodType).toBe("Please choose Veg, Non-Veg or Both");
-    expect(errorsFor({ foodType: "Non-Veg" }).foodType).toBeUndefined();
-  });
-
-  it("needs a real date that isn't in the past", () => {
-    expect(errorsFor({ eventDate: "2026-02-30" }).eventDate).toBe("Please choose the date of your event");
-    expect(errorsFor({ eventDate: "2026-10-12" }).eventDate).toBe("Please choose a date from today onwards");
-    expect(errorsFor({ eventDate: TODAY }).eventDate).toBeUndefined();
-  });
-
-  it("needs a whole number of guests between 1 and 1,00,000", () => {
-    expect(errorsFor({ guests: "abc" }).guests).toBe("Please enter the number of guests");
-    expect(errorsFor({ guests: "0" }).guests).toBe("Please enter at least 1 guest");
-    expect(errorsFor({ guests: "12.5" }).guests).toBe("Please enter a whole number of guests");
-    expect(errorsFor({ guests: "100001" }).guests).toBe("Please enter up to 1,00,000 guests");
-    expect(errorsFor({ guests: "1,000" }).guests).toBeUndefined();
-    expect(errorsFor({ guests: "100000" }).guests).toBeUndefined();
+  it("only accepts the group's outlets", () => {
+    expect(errorsFor({ outlet: "taj" }).outlet).toBe("Please choose who you'd like to reach");
+    expect(errorsFor({ outlet: "sterling-plaza" }).outlet).toBeUndefined();
   });
 
   it("caps the additional details at 1000 characters", () => {

@@ -61,7 +61,7 @@ export default function DelightCaterersPage() {
       </section>
       <GoogleReviews data={reviewsBySlug["delight-caterers"]} title={["In their", "own words."]} eyebrow="Delight Caterers · Google reviews" />
       <Location name={company.name} address={contact.address.full} mapsUrl={contact.mapsUrl} phone={{ display: contact.phoneDisplay, href: contact.phoneHref }} />
-      <CtaBand />
+      <CtaBand label="Book a consultation" />
     </>
   );
 }

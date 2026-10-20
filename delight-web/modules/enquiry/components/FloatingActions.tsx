@@ -1,7 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { contact, hero, whatsappHref } from "@/lib/content/site";
+import { usePathname } from "next/navigation";
+import { contact, whatsappHref } from "@/lib/content/site";
+import { enquiryLabel } from "@/lib/content/outlets";
 import { Icon } from "@/components/ui/Icon";
 
 /* Shown once the visitor has scrolled past ~60% of the first screen. */
@@ -17,7 +19,7 @@ const pastFold = () => window.scrollY > window.innerHeight * 0.6;
 const serverPastFold = () => false;
 
 /**
- * While browsing, WhatsApp (and on phones "Plan Your Event") stay in reach.
+ * While browsing, WhatsApp (and on phones the page's enquiry button) stay in reach.
  * 640px and up, where the header already shows "Plan Your Event": just a round
  * WhatsApp button, bottom right, with a label on hover. Phones: one floating
  * pill bar (Plan Your Event, call, WhatsApp) above the home indicator. "Plan
@@ -25,6 +27,7 @@ const serverPastFold = () => false;
  * under the mobile menu (z-40) and the header (z-50).
  */
 export function FloatingActions() {
+  const pathname = usePathname();
   const shown = useSyncExternalStore(subscribe, pastFold, serverPastFold);
   const motion = `transition-[opacity,translate] duration-500 ease-out-expo ${
     shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
@@ -59,7 +62,7 @@ export function FloatingActions() {
         <div className="flex items-center gap-1.5 rounded-full bg-onyx/80 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_20px_44px_-16px_rgba(14,16,12,0.75)] backdrop-blur-xl backdrop-saturate-150 ring-1 ring-gold-light/30">
           <a href="#enquiry" className="btn-gold shine min-h-11 flex-1 px-4 py-0 text-[13.5px]">
             <Icon name="sparkle" size={15} />
-            {hero.primaryCta}
+            {enquiryLabel(pathname)}
           </a>
           <a
             href={contact.phoneHref}

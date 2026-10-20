@@ -10,6 +10,7 @@ import FaqAccordion from "@/modules/home/components/FaqAccordion";
 import GoogleReviews from "@/modules/home/components/GoogleReviews";
 import { Gallery } from "@/modules/gallery/components/Gallery";
 import { BrandHero } from "./BrandHero";
+import { SpotlightHero } from "./SpotlightHero";
 import { ReelsSection } from "./ReelsSection";
 import { Location } from "./Location";
 import { LocalNav } from "./LocalNav";
@@ -49,28 +50,41 @@ export function VenuePage({ venue }: { venue: Venue }) {
   const instagram = instagramAccount(venue.contact.instagram);
   const reels = venue.reels ?? [];
   const hasWatch = reels.length > 0 || Boolean(instagram);
+  const secondary = venue.contact.phone
+      ? { label: `Call ${venue.contact.phone.display}`, href: venue.contact.phone.href }
+      : venue.contact.mapsUrl && venue.cta.href !== venue.contact.mapsUrl
+        ? { label: "Get directions", href: venue.contact.mapsUrl, external: true }
+        : { label: venue.slug === "aero-bites" ? "Reserve a table" : "Send an enquiry", href: "#enquiry" };
   const photos = [venue.hero, ...venue.spaces.map((s) => s.image), ...venue.gallery].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
 
   return (
     <>
-      <BrandHero
-        eyebrow={`${division.name} · ${venue.kind}`}
-        lines={[venue.name, venue.tagline]}
-        tagline={location}
-        body={venue.intro[0]}
-        image={venue.hero}
-        inset={venue.heroInset}
-        facts={venue.facts}
-        logo={logo ? { ...logo, alt: venue.name } : null}
-        primary={venue.cta}
-        secondary={
-          venue.contact.phone
-            ? { label: `Call ${venue.contact.phone.display}`, href: venue.contact.phone.href }
-            : venue.contact.mapsUrl && venue.cta.href !== venue.contact.mapsUrl
-              ? { label: "Get directions", href: venue.contact.mapsUrl, external: true }
-              : { label: "Plan Your Event", href: "#enquiry" }
-        }
-      />
+      {venue.heroInset ? (
+        <SpotlightHero
+          eyebrow={`${division.name} · ${venue.kind}`}
+          name={venue.name}
+          tagline={venue.tagline}
+          body={venue.heroBody ?? venue.intro[0]}
+          badge={venue.heroBadge}
+          logo={logo ? { ...logo, alt: venue.name } : null}
+          image={venue.hero}
+          location={location}
+          facts={venue.facts}
+          primary={venue.cta}
+          secondary={secondary}
+        />
+      ) : (
+        <BrandHero
+          eyebrow={`${division.name} · ${venue.kind}`}
+          lines={[venue.name, venue.tagline]}
+          tagline={location}
+          body={venue.heroBody ?? venue.intro[0]}
+          image={venue.hero}
+          facts={venue.facts}
+          primary={venue.cta}
+          secondary={secondary}
+        />
+      )}
 
       <LocalNav
         name={venue.name}

@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { groupFacts } from "@/lib/content/group";
 import { hospitality } from "@/lib/content/hospitality";
 import { eatry } from "@/lib/content/eatry";
 import { featureTiles, gridTiles, homeHero, storySteps } from "@/lib/content/home";
@@ -8,7 +8,6 @@ import { HeroFilm } from "@/modules/showcase/components/HeroFilm";
 import { Tile, TileGrid } from "@/modules/showcase/components/Tile";
 import { Highlights } from "@/modules/showcase/components/Highlights";
 import { StickyStory } from "@/modules/showcase/components/StickyStory";
-import { BigNumbers } from "@/modules/showcase/components/BigNumbers";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
 import { Reveal } from "@/components/ui/motion";
 
@@ -37,22 +36,28 @@ export default function HomePage() {
       </div>
 
       <StickyStory title="One family." accent="Four ways in." steps={storySteps} />
-      <BigNumbers title="Zyra, by the numbers." items={groupFacts} />
 
-      <section className="bg-black px-6 py-28 text-center text-cream md:py-40">
-        <Reveal>
-          <p className="eyebrow on-dark justify-center">Weddings · Conferences · Stays</p>
-          <h2 className="display on-dark mx-auto mt-4 max-w-[16ch] text-[clamp(2.8rem,7vw,5.6rem)]">
-            Let&rsquo;s plan something <span className="display-italic">unforgettable.</span>
+      {/* The close: a warm, light card between the black story and the footer */}
+      <section className="bg-wall-lit px-3 pb-16 pt-3 md:pb-24 lg:py-[5vh]">
+        <Reveal className="relative isolate mx-auto w-full max-w-[1280px] overflow-hidden rounded-[32px] px-6 py-20 text-center ring-1 ring-gold/25 md:py-28 lg:py-[8vh]">
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10"
+            style={{ background: "radial-gradient(60% 70% at 50% 0%, rgba(216,180,111,0.35), transparent 70%), radial-gradient(50% 60% at 100% 100%, rgba(194,154,85,0.16), transparent 70%), linear-gradient(180deg, #fbf7ef, #f4ecdc)" }}
+          />
+          <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="44px" className="mx-auto h-11 w-auto" />
+          <p className="eyebrow mt-6 justify-center">Stays · Tables · Celebrations</p>
+          <h2 className="display mx-auto mt-3 max-w-[16ch] text-[clamp(2.6rem,6.4vw,5.2rem)]">
+            Let&rsquo;s make it <span className="display-italic">unforgettable.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-[40ch] text-[clamp(1.05rem,1.6vw,1.3rem)] text-cream-muted">
-            Tell us the date and the guest count. We&rsquo;ll bring the rooms, the food and the people.
+          <p className="mx-auto mt-5 max-w-[40ch] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-[1.55] text-body">
+            Tell us who you&rsquo;d like to reach — a hotel, a table or a celebration — and we&rsquo;ll take it from there.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <a href="#enquiry" className="btn-gold shine">
-              Plan your event
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+            <a href="#enquiry" className="btn-onyx shine">
+              Enquire now
             </a>
-            <Link href="/contact" className="btn-ghost-dark">
+            <Link href="/contact" className="link-more">
               Contact us
             </Link>
           </div>

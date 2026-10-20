@@ -14,10 +14,7 @@ type Cta = { label: string; href: string; external?: boolean };
  * the screen, and the brand sits low and to the left (logo, name, its line,
  * where it is, two actions), with the key facts on a glass card to the right.
  * The plate eases in from a zoom and pushes in as you scroll.
- *
- * `inset` is for photographs too small or too tall to fill the screen: a soft,
- * darkened wash of the photo fills the stage and the photo itself stands on
- * the right as a framed print (the facts then sit under the actions).
+ * (Portrait photographs use SpotlightHero instead.)
  */
 export function BrandHero({
   eyebrow,
@@ -28,7 +25,6 @@ export function BrandHero({
   logo,
   primary,
   secondary,
-  inset = false,
   facts = [],
 }: {
   eyebrow: string;
@@ -40,7 +36,6 @@ export function BrandHero({
   logo?: { src: string; width: number; height: number; alt: string } | null;
   primary?: Cta;
   secondary?: Cta;
-  inset?: boolean;
   facts?: { label: string; value: string }[];
 }) {
   const track = useRef<HTMLDivElement>(null);
@@ -110,11 +105,7 @@ export function BrandHero({
       <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-onyx-ink md:min-h-[min(100vh,920px)]">
         <div className="absolute inset-0 -z-10">
           <div ref={plate} className="relative h-full w-full will-change-transform">
-            {inset ? (
-              <Image src={image.src} alt="" fill preload sizes="40vw" className="scale-125 object-cover opacity-50 blur-2xl" />
-            ) : (
-              <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover" />
-            )}
+            <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover" />
           </div>
           {/* Light at the top for the nav, depth at the foot for the words */}
           <div aria-hidden className="absolute inset-0 bg-linear-to-b from-black/45 via-black/5 to-transparent" />
@@ -122,7 +113,7 @@ export function BrandHero({
         </div>
 
         <div ref={copy} className="relative px-5 pb-10 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] sm:px-8 md:pb-14 lg:px-12 lg:pb-[6vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]">
-          <div className={`mx-auto grid w-full max-w-[1280px] items-end gap-10 ${inset ? "lg:grid-cols-[minmax(0,1fr)_380px]" : shownFacts.length ? "lg:grid-cols-[minmax(0,1fr)_320px]" : ""}`}>
+          <div className={`mx-auto grid w-full max-w-[1280px] items-end gap-10 ${shownFacts.length ? "lg:grid-cols-[minmax(0,1fr)_320px]" : ""}`}>
             <div className="max-w-[44rem]">
               {logo && (
                 <Image
@@ -162,20 +153,13 @@ export function BrandHero({
                   {secondary && button(secondary, "group btn-ghost-dark")}
                 </div>
               )}
-              {inset && shownFacts.length > 0 && factList("mt-9 grid max-w-[36rem] grid-cols-2 gap-x-8 gap-y-4 border-t border-white/15 pt-6 sm:grid-cols-4 lg:[@media(max-height:800px)]:hidden")}
             </div>
 
-            {inset ? (
-              <div data-h-card className="relative hidden aspect-[4/5] w-full overflow-hidden rounded-[26px] shadow-[0_50px_90px_-40px_rgba(0,0,0,0.9)] ring-1 ring-white/15 lg:block">
-                <Image src={image.src} alt={image.alt} fill preload sizes="380px" className="object-cover" />
+            {shownFacts.length > 0 && (
+              <div data-h-card className="hidden rounded-[24px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-2xl backdrop-saturate-150 lg:block">
+                <p className="text-[12px] font-semibold text-gold-light">At a glance</p>
+                {factList("mt-4 grid gap-4")}
               </div>
-            ) : (
-              shownFacts.length > 0 && (
-                <div data-h-card className="hidden rounded-[24px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-2xl backdrop-saturate-150 lg:block">
-                  <p className="text-[12px] font-semibold text-gold-light">At a glance</p>
-                  {factList("mt-4 grid gap-4")}
-                </div>
-              )
             )}
           </div>
         </div>

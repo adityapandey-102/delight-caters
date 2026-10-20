@@ -35,6 +35,8 @@ export const bombayKulfi: Venue = {
   logo: { src: "/brand/bombay-kulfi.png", width: 226, height: 129 },
   hero: { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "Kulfi at Bombay Kulfi" },
   heroInset: true,
+  heroBadge: "Bengaluru's first & only master franchise",
+  heroBody: "Varieties of kulfi made with A2 milk, beside the city's favourite cravings — refreshing drinks, crispy bites and comfort food, on Commercial Street.",
   intro: [
     "The group runs the Bombay Kulfi master franchise in Bengaluru. On Commercial Street, varieties of kulfi made with A2 milk sit beside the city's favourite cravings — refreshing drinks, crispy bites and comfort food.",
     "Some heroes save the city… others save your cravings: from a guava-chilli kulfi slice to mint mojito boba, momos and pav bhaji, there is always something cool, creamy or crispy waiting.",
@@ -43,7 +45,7 @@ export const bombayKulfi: Venue = {
     { label: "Outlet", value: "Commercial Street, Bengaluru" },
     { label: "Signature", value: "Kulfi made with A2 milk" },
     { label: "Also serving", value: "Mojitos & boba, momos, pav bhaji, vada pav" },
-    { label: "Franchise", value: "Master franchise, Bengaluru" },
+    { label: "Franchise", value: "Bengaluru's first & only master franchise" },
   ],
   highlights: [
     { icon: "icecream", label: "Kulfi & ice creams" },

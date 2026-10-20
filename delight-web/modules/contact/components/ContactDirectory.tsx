@@ -126,9 +126,9 @@ export function ContactDirectory() {
         <Reveal className="mx-auto grid w-full max-w-[1280px] gap-8 rounded-[22px] border border-line bg-wall-warm p-6 sm:p-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center lg:gap-14 lg:p-[4vh]">
           <div>
             <Eyebrow>Enquiries</Eyebrow>
-            <h2 className="display mt-4 text-[clamp(2.2rem,3.6vw,3rem)]">Plan an event or a stay</h2>
+            <h2 className="display mt-4 text-[clamp(2.2rem,3.6vw,3rem)]">Send us an enquiry</h2>
             <p className="mt-4 hidden max-w-[34ch] text-[16px] leading-[1.6] text-muted lg:block">
-              Tell us the date, the guest count and what you have in mind and we will get back to you on WhatsApp.
+              Choose the hotel, restaurant or kitchen you’d like to reach, add a few details, and we’ll pick it up on WhatsApp.
             </p>
           </div>
           <div className="rounded-[16px] bg-wall-lit p-5 sm:p-6">

@@ -86,9 +86,6 @@ export function PromoRibbon({ items, tone = "dark" }: { items: Offer[]; tone?: "
           })}
         </div>
 
-        <Link href="/offers" className={`hidden shrink-0 rounded-full px-3 py-1 text-[12px] font-medium transition-colors lg:block ${light ? "text-ink hover:bg-black/5" : "text-white hover:bg-white/10"}`}>
-          All offers
-        </Link>
         <button type="button" onClick={() => step(1)} aria-label="Next announcement" className={arrow}>
           <Chevron dir="right" />
         </button>

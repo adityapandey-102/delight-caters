@@ -69,7 +69,7 @@ export const hero = {
   /** "More than catering we create Experience", set over two lines. */
   lines: ["More than catering,", "we create Experience"],
   body: "Recipes passed down through generations. Spices ground in-house. Flavours that stay with your guests long after the celebration is over. We take care of every part of your catering, so you can truly be present at your own event.",
-  primaryCta: "Plan Your Event",
+  primaryCta: "Book a consultation",
   secondaryCta: "Get in Touch",
   image: "/images/hero-buffet.webp",
   imageAlt: "Delight Caters setup",
@@ -334,7 +334,7 @@ export const eventExperience = {
 
 export const contactPage = {
   eyebrow: "Get In Touch",
-  title: "Let's plan your perfect event",
+  title: "Let's make it unforgettable",
   body: "Fill in a few quick details below and we'll send your enquiry straight to WhatsApp — get a personalised quote in minutes.",
   detailsTitle: "Contact Details",
   detailsBody: "Prefer to reach out directly? Here's how you can find us.",

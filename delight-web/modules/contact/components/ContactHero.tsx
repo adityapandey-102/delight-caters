@@ -10,8 +10,8 @@ type Way = { icon: IconName; title: string; line: string; href: string; external
  */
 export function ContactHero({ kicker, title, accent, body, ways }: { kicker: string; title: string; accent: string; body: string; ways: Way[] }) {
   return (
-    <section className="bg-wall-lit pb-14 md:pb-20 lg:pb-[5vh]">
-      <div className="mx-auto w-full max-w-[1080px] px-6 pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] text-center md:pt-[calc(var(--header-h)+var(--ribbon-h)+5rem)] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+5vh)]">
+    <section className="bg-wall-lit pb-14 md:pb-20 lg:pb-[4vh]">
+      <div className="mx-auto w-full max-w-[1080px] px-6 pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] text-center md:pt-[calc(var(--header-h)+var(--ribbon-h)+5rem)] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4vh)]">
         <Reveal>
           <p className="eyebrow justify-center">{kicker}</p>
           <h1 className="display mx-auto mt-4 max-w-[16ch] text-[clamp(2.7rem,6vw,4.8rem)] font-medium tracking-[-0.04em] lg:text-[min(4.8rem,9vh)]">
@@ -20,7 +20,7 @@ export function ContactHero({ kicker, title, accent, body, ways }: { kicker: str
           <p className="mx-auto mt-5 max-w-[36rem] text-balance text-[17px] leading-[1.55] text-muted md:text-[19px]">{body}</p>
         </Reveal>
 
-        <Reveal stagger as="ul" className="mt-12 grid gap-3 text-left sm:grid-cols-3 lg:mt-[4vh]">
+        <Reveal stagger as="ul" className="mt-12 grid gap-3 text-left sm:grid-cols-3 lg:mt-[3.5vh]">
           {ways.map((w) => (
             <li key={w.title}>
               <a

@@ -24,7 +24,6 @@ export default function HospitalityPage() {
         accent={`${hospitality.title[1]}.`}
         body={hospitality.intro[0]}
         outlets={hotelListings.map((h) => ({ href: h.href, name: h.name, note: `${h.kind} · ${h.location.includes("KIA") ? "Airport Road" : h.location}`, image: h.image }))}
-        image={{ src: "/media/sterling-plaza/lobby-lounge.webp", alt: "The lobby lounge at Sterling Plaza" }}
       />
       <OffersSection title="Offers & events at our hotels." items={offersFor({ division: "hospitality" })} />
       <ReelsSection eyebrow={hospitality.name} title={["Stay", "a little longer"]} reels={hospitality.reels} />
@@ -41,7 +40,7 @@ export default function HospitalityPage() {
       <div id="hotels" className="scroll-mt-20">
         <Cuisines content={hotelIndex} />
       </div>
-      <CtaBand />
+      <CtaBand label="Book a stay" />
     </>
   );
 }

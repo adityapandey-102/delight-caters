@@ -41,11 +41,6 @@ export default function Footer() {
             <h3 className="font-semibold text-ink">Zyra Group</h3>
             <ul className="mt-2.5 space-y-2">
               <li>
-                <Link href="/offers" className="hover:text-ink hover:underline">
-                  Offers & events
-                </Link>
-              </li>
-              <li>
                 <Link href="/about" className="hover:text-ink hover:underline">
                   About us
                 </Link>
@@ -57,7 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#enquiry" className="hover:text-ink hover:underline">
-                  Plan your event
+                  Send an enquiry
                 </a>
               </li>
             </ul>

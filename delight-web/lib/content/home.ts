@@ -10,7 +10,6 @@ import type { StoryStep } from "@/modules/showcase/components/StickyStory";
 const D = (name: string) => `/media/dummy/${name}.webp`;
 
 export const homeHero = {
-  kicker: "Zyra Group",
   title: "An",
   accent: "unforgettable",
   rest: "experience.",
@@ -20,7 +19,7 @@ export const homeHero = {
     { value: "3", label: "food brands" },
     { value: "4.8★", label: "guest rating, Sterling Inn" },
   ],
-  primary: { label: "Plan your event", href: "#enquiry" },
+  primary: { label: "Enquire now", href: "#enquiry" },
   secondary: { label: "Find a stay", href: "/hospitality" },
   image: { src: D("hotel-night"), alt: "A hotel lit up at dusk" },
   caption: "Delight Hospitality · Delight Eatry · Bengaluru",
@@ -46,7 +45,7 @@ export const featureTiles: TileData[] = [
     accent: "people remember.",
     body: "Weddings, corporate days and house parties — eight cuisines, cooked fresh and served with care.",
     links: [
-      { label: "Plan a celebration", href: "#enquiry", primary: true },
+      { label: "Book a consultation", href: "#enquiry", primary: true },
       { label: "Learn more", href: "/eatry/delight-caterers" },
     ],
     image: { src: D("buffet"), alt: "A catered buffet laid out for guests" },
@@ -110,7 +109,7 @@ export const gridTiles: TileData[] = [
     title: "Banquets & events",
     body: "Halls, menus and a team who has done this a thousand times.",
     links: [
-      { label: "Plan your event", href: "#enquiry", primary: true },
+      { label: "Enquire now", href: "#enquiry", primary: true },
       { label: "See Olive's hall", href: "/hospitality/olive" },
     ],
     image: { src: D("banquet"), alt: "A banquet hall under chandeliers" },
@@ -144,6 +143,6 @@ export const storySteps: StoryStep[] = [
     title: "The big day, handled.",
     body: "Delight Caterers plans and serves weddings, corporate events and house parties — eight cuisines, one dependable team.",
     image: { src: D("thali"), alt: "A thali of Indian dishes" },
-    link: { label: "Plan a celebration", href: "/eatry/delight-caterers" },
+    link: { label: "Book a consultation", href: "/eatry/delight-caterers" },
   },
 ];

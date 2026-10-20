@@ -1,29 +1,22 @@
 import { contact } from "@/lib/content/site";
+import { outletBySlug } from "@/lib/content/outlets";
 import type { Enquiry } from "./enquirySchema";
 
-/** "2026-12-05" → "05/12/2026", as the old site wrote it. Anything else passes through. */
-export function formatEventDate(iso: string): string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-  return match ? `${match[3]}/${match[2]}/${match[1]}` : iso;
-}
-
-/** The WhatsApp message, word for word as the old site's form composed it. */
+/** The WhatsApp message: which outlet, what the visitor wants, and how to reach them. */
 export function buildEnquiryMessage(e: Enquiry): string {
+  const outlet = outletBySlug(e.outlet);
   return (
     "Hi Team,\n" +
-    "It is my details -\n\n" +
+    `I'd like to ${outlet ? outlet.action.toLowerCase() : "get in touch"} at ${outlet?.name ?? e.outlet}.\n\n` +
     "Name: " + e.name + "\n" +
     "Phone: " + e.phone + "\n" +
-    "Event type: " + e.eventType + "\n" +
-    "Date of event: " + formatEventDate(e.eventDate) + "\n" +
-    "Number of guests: " + e.guests + "\n" +
-    "Veg / Non-Veg / Both: " + e.foodType + "\n" +
     (e.message ? "Additional details: " + e.message + "\n" : "") +
-    "\nPlease check and contact us."
+    "\nPlease get in touch."
   );
 }
 
-/** A wa.me link that opens a chat with the team, the message typed in. */
+/** A wa.me link to the outlet's number (or the group's), the message typed in. */
 export function whatsappEnquiryUrl(e: Enquiry): string {
-  return `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(buildEnquiryMessage(e))}`;
+  const number = outletBySlug(e.outlet)?.whatsapp ?? contact.whatsappNumber;
+  return `https://wa.me/${number}?text=${encodeURIComponent(buildEnquiryMessage(e))}`;
 }

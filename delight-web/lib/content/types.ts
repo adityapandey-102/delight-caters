@@ -18,6 +18,10 @@ export type Venue = {
   hero: Photo;
   /** Show the hero photo as a framed print (for portrait or small photos). */
   heroInset?: boolean;
+  /** A short claim shown as a badge on the hero (e.g. the master franchise). */
+  heroBadge?: string;
+  /** The hero's line, when it should differ from the first intro paragraph. */
+  heroBody?: string;
   intro: string[];
   /** Quick facts beside the intro. */
   facts: { label: string; value: string }[];

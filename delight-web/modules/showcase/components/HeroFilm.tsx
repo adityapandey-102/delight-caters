@@ -14,7 +14,6 @@ type Action = { label: string; href: string };
  * to full bleed as you scroll into it.
  */
 export function HeroFilm({
-  kicker,
   title,
   accent,
   rest,
@@ -25,7 +24,6 @@ export function HeroFilm({
   caption,
   facts = [],
 }: {
-  kicker: string;
   /** Headline as three parts: lead, the gold accent word(s), and the rest. */
   title: string;
   accent: string;
@@ -72,17 +70,7 @@ export function HeroFilm({
     <div ref={root} className="relative overflow-hidden bg-wall-lit text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
       <section className="mx-auto max-w-[920px] px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[7vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+6vh)]">
-        {/* The house badge: the Zyra mark in a small ink disc, then the name */}
-        <p data-copy className="inline-flex items-center gap-2.5 rounded-full border border-black/[0.07] bg-white py-1 pl-1 pr-4 text-[13px] text-body shadow-[0_6px_20px_-12px_rgba(18,20,16,0.35)]">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-onyx">
-            <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="16px" className="h-4 w-auto" />
-          </span>
-          <span className="font-medium text-ink">{kicker}</span>
-          <span aria-hidden className="h-3 w-px bg-black/15" />
-          <span>Bengaluru</span>
-        </p>
-
-        <h1 data-copy className="display mt-8 text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium lg:mt-[4vh] lg:text-[min(5.4rem,10.5vh)] leading-[1.02] tracking-[-0.04em]">
+        <h1 data-copy className="display text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium lg:text-[min(5.4rem,10.5vh)] leading-[1.02] tracking-[-0.04em]">
           {title} <span className="display-italic gold-shimmer">{accent}</span>
           <br /> {rest}
         </h1>

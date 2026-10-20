@@ -7,7 +7,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { group, nav } from "@/lib/content/group";
 import { offersForPath } from "@/lib/content/offers";
 import { PromoRibbon } from "@/modules/showcase/components/PromoRibbon";
+import { enquiryLabel } from "@/lib/content/outlets";
 import { lockScroll, unlockScroll } from "./SmoothScroll";
+import { PersonIcon, SignInLink } from "./SignIn";
 
 type NavItem = (typeof nav)[number];
 type Parent = Extract<NavItem, { children: readonly unknown[] }>;
@@ -33,6 +35,7 @@ export default function Header() {
   const [overDark, setOverDark] = useState(true);
   const [atTop, setAtTop] = useState(true);
   const [menu, setMenu] = useState<string | null>(null);
+  const cta = enquiryLabel(pathname);
   const closeTimer = useRef<number | undefined>(undefined);
   const headerRef = useRef<HTMLElement>(null);
   const promoItems = useMemo(() => offersForPath(pathname), [pathname]);
@@ -146,9 +149,8 @@ export default function Header() {
                   if (!hasChildren(item))
                     return (
                       <li key={item.href} onPointerEnter={closeMenuSoon}>
-                        <Link href={item.href} aria-current={current ? "page" : undefined} className={`${base} ${item.href === "/offers" ? "inline-flex items-center gap-1.5" : ""}`}>
+                        <Link href={item.href} aria-current={current ? "page" : undefined} className={base}>
                           {item.label}
-                          {item.href === "/offers" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />}
                         </Link>
                       </li>
                     );
@@ -171,8 +173,9 @@ export default function Header() {
             </nav>
 
             <div className="flex items-center gap-2" onPointerEnter={closeMenuSoon}>
+              <SignInLink light={light} current={pathname === "/login"} />
               <a href="#enquiry" className="btn-gold shine hidden !px-3.5 !py-1.5 !text-[12.5px] sm:inline-flex">
-                Plan your event
+                {cta}
               </a>
               <button
                 type="button"
@@ -238,7 +241,7 @@ export default function Header() {
                   <FlyoutColumn title="Plan" delay={120}>
                     <li>
                       <a href="#enquiry" onClick={() => setMenu(null)} className="block py-1.5 text-[12.5px] font-medium text-body hover:text-gold-deep">
-                        Plan your event
+                        {active.label === "Hospitality" ? "Book a stay" : "Send an enquiry"}
                       </a>
                     </li>
                     <li>
@@ -302,8 +305,12 @@ export default function Header() {
           </nav>
 
           <div className="mt-auto pt-8">
+            {/* DUMMY sign-in (phase 2 preview) */}
+            <Link href="/login#customer" onClick={() => setOpen(false)} className="btn-ghost mb-3 w-full">
+              <PersonIcon size={16} /> Sign in
+            </Link>
             <a href="#enquiry" onClick={() => setOpen(false)} className="btn-onyx shine w-full">
-              Plan your event
+              {cta}
             </a>
             <p className="mt-5 text-center text-[13px] text-muted">{group.tagline}</p>
           </div>

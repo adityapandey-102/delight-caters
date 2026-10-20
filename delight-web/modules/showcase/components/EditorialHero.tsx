@@ -52,9 +52,9 @@ export function EditorialHero({
   }, []);
 
   return (
-    <section ref={root} className="overflow-hidden bg-wall-lit pb-16 md:pb-24 lg:pb-0">
-      <div className="lg:mx-auto lg:grid lg:h-screen lg:min-h-[640px] lg:max-w-[1320px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-12 lg:px-6 lg:pb-[4vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+2vh)]">
-      <div className="mx-auto w-full max-w-[1180px] px-6 pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] md:pt-[calc(var(--header-h)+var(--ribbon-h)+5.5rem)] lg:max-w-none lg:px-0 lg:pt-0">
+    <section ref={root} className="overflow-hidden bg-wall-lit px-5 pb-16 sm:px-8 md:pb-24 lg:px-12 lg:pb-0">
+      <div className="lg:mx-auto lg:grid lg:h-screen lg:min-h-[640px] lg:max-w-[1280px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-12 lg:pb-[4vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+2vh)]">
+      <div className="mx-auto w-full max-w-[1280px] pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] md:pt-[calc(var(--header-h)+var(--ribbon-h)+5.5rem)] lg:max-w-none lg:pt-0">
         <p data-e className="eyebrow">
           {kicker}
         </p>
@@ -78,7 +78,7 @@ export function EditorialHero({
         </div>
       </div>
 
-      <div className="mx-auto mt-16 grid w-full max-w-[1320px] grid-cols-12 items-start gap-3 px-3 md:mt-20 lg:mt-0 lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-8vh)] lg:min-h-[480px] lg:grid-cols-2 lg:grid-rows-[1.15fr_1fr] lg:items-stretch lg:px-0">
+      <div className="mx-auto mt-16 grid w-full max-w-[1280px] grid-cols-12 items-start gap-3 md:mt-20 lg:mt-0 lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-8vh)] lg:min-h-[480px] lg:grid-cols-2 lg:grid-rows-[1.15fr_1fr] lg:items-stretch">
         <div data-e-drift="20" className="relative col-span-12 aspect-[16/10] overflow-hidden rounded-[26px] md:col-span-7 lg:col-span-2 lg:aspect-auto">
           <Image src={photos[0].src} alt={photos[0].alt} fill preload sizes="(min-width: 768px) 58vw, 100vw" className="object-cover" />
         </div>

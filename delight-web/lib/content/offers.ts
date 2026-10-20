@@ -72,7 +72,7 @@ export const offers: Offer[] = [
     summary: "Boardroom-ready halls, seamless AV and tailored catering, minutes from the airport.",
     dates: "Sep–Dec 2026",
     image: { src: "/media/sterling-plaza/conference.webp", alt: "The conference hall at Sterling Plaza" },
-    cta: { label: "Plan your event", href: "#enquiry" },
+    cta: { label: "Enquire now", href: "#enquiry" },
   },
   {
     id: "olive-navratri",

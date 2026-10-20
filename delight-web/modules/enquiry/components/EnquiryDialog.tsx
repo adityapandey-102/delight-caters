@@ -3,25 +3,18 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { contact, contactPage, whatsappHref } from "@/lib/content/site";
+import { contact, whatsappHref } from "@/lib/content/site";
+import { outletForPath } from "@/lib/content/outlets";
 import { group } from "@/lib/content/group";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { Icon } from "@/components/ui/Icon";
 import { lockScroll, unlockScroll } from "@/components/shell/SmoothScroll";
 import { EnquiryForm } from "./EnquiryForm";
 
-/** "Let's plan your perfect event" → ["Let's plan your", "perfect event"]: roman over gold italic. */
-function splitTitle(title: string): [string, string] {
-  const words = title.split(" ");
-  const half = Math.ceil(words.length / 2);
-  return [words.slice(0, half).join(" "), words.slice(half).join(" ")];
-}
-
-const HEADING = splitTitle(contactPage.title);
 
 /**
  * The enquiry popup: a native <dialog> (styles: .enquiry-dialog in
- * globals.css) opened by every "Plan Your Event" link — any
+ * globals.css) opened by every enquiry link ("Book a consultation", "Book a stay", …) — any
  * a[href="#enquiry"] on any page. showModal keeps focus inside and makes the
  * page inert; Esc, the close button and a click on the backdrop close it.
  * Lenis is paused while it's open (data-lenis-prevent lets the panel itself
@@ -45,6 +38,8 @@ export function EnquiryDialog() {
   const [formKey, setFormKey] = useState(0);
   const sent = useRef(false);
   const path = useRef(pathname);
+  /** On an outlet's page, the form starts with that outlet chosen. */
+  const outlet = outletForPath(pathname);
 
   useEffect(() => {
     const dlg = ref.current;
@@ -151,17 +146,16 @@ export function EnquiryDialog() {
             </button>
           </div>
 
-          <Eyebrow className="mb-3">
-            Plan Your Event
-          </Eyebrow>
+          <Eyebrow className="mb-3">Get in touch</Eyebrow>
           <EnquiryForm
-            key={formKey}
+            key={`${formKey}-${outlet?.slug ?? "any"}`}
             tone="light"
             titleId={titleId}
             idPrefix="dialog-enquiry"
-            heading={HEADING}
+            adaptive
+            defaultOutlet={outlet?.slug}
             compact
-            intro={contactPage.body}
+            intro="Tell us who you’d like to reach and a little about what you need — we’ll pick it up on WhatsApp."
             onSent={() => {
               sent.current = true;
             }}

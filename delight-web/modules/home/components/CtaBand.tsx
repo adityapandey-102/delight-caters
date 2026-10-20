@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { company, contact, contactPage, hero, whatsappHref } from "@/lib/content/site";
+import { company, contact, contactPage, whatsappHref } from "@/lib/content/site";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/motion";
 import { Arrow } from "@/components/ui/Arrow";
@@ -13,9 +13,9 @@ const WHATSAPP = "WhatsApp";
 /**
  * The closing call to action, used on every page above the green footer: a
  * warm wall band holding a photo-backed green card — "Let's plan your
- * perfect event", with Plan Your Event, a call button and WhatsApp.
+ * perfect event", with the page's enquiry button, a call button and WhatsApp.
  */
-export default function CtaBand() {
+export default function CtaBand({ label = "Enquire now" }: { label?: string }) {
   const [line1, line2] = splitTitle(contactPage.title, 3);
 
   return (
@@ -46,7 +46,7 @@ export default function CtaBand() {
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <a href="#enquiry" className="btn-gold shine group">
-                  {hero.primaryCta} <Arrow />
+                  {label} <Arrow />
                 </a>
                 <a href={contact.phoneHref} className="btn-ghost-dark">
                   <Icon name="phone" size={16} />
