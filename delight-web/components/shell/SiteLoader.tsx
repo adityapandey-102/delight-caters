@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { company } from "@/lib/content/site";
+import { group } from "@/lib/content/group";
 
 const MIN_MS = 1100;
 const MAX_MS = 3200;
@@ -63,19 +63,18 @@ export default function SiteLoader() {
   if (phase === "gone") return null;
 
   return (
-    <div ref={ref} className={`site-loader ${phase === "lifting" ? "is-lifting" : ""}`} role="status" aria-label={`${company.name} — loading`}>
-      <div aria-hidden className="site-loader__panel site-loader__panel--top green-velvet">
-        <div className="grain" />
+    <div ref={ref} className={`site-loader ${phase === "lifting" ? "is-lifting" : ""}`} role="status" aria-label={`${group.name} — loading`}>
+      <div aria-hidden className="site-loader__panel site-loader__panel--top onyx-velvet">
       </div>
-      <div aria-hidden className="site-loader__panel site-loader__panel--bottom green-velvet">
-        <div className="grain" />
+      <div aria-hidden className="site-loader__panel site-loader__panel--bottom onyx-velvet">
       </div>
 
       <div aria-hidden className="site-loader__inner">
         <div className="site-loader__mark">
-          <Image src="/brand/logo-gold.png" alt="" width={1200} height={634} sizes="260px" loading="eager" className="site-loader__logo" />
+          <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="120px" loading="eager" className="site-loader__logo" />
           <span className="site-loader__shine" />
         </div>
+        <Image src="/brand/zyra-word.png" alt="" width={698} height={187} sizes="220px" loading="eager" className="site-loader__word" />
 
         <div className="site-loader__rule">
           <span className="site-loader__pip" />
@@ -86,7 +85,7 @@ export default function SiteLoader() {
         </div>
 
         <div className="site-loader__meta">
-          <span className="font-script site-loader__tagline">{company.tagline}</span>
+          <span className="site-loader__tagline">{group.tagline}</span>
           <span className="site-loader__pct lining-nums">{String(pct).padStart(2, "0")}%</span>
         </div>
       </div>

@@ -34,7 +34,7 @@ export default function Approach({ className = "" }: { className?: string }) {
           <Reveal
             as="ol"
             stagger
-            className="grid overflow-hidden rounded-[18px] border border-gold/30 bg-wall-lit/70 shadow-[0_30px_60px_-44px_rgba(1,43,21,0.45)] backdrop-blur-sm md:grid-cols-3"
+            className="grid overflow-hidden rounded-[18px] border border-gold/30 bg-wall-lit/70 shadow-[0_30px_60px_-44px_rgba(18,20,16,0.45)] backdrop-blur-sm md:grid-cols-3"
           >
             {approach.items.map((item, i) => (
               <li
@@ -50,7 +50,7 @@ export default function Approach({ className = "" }: { className?: string }) {
                 <div className="flex items-center gap-3.5">
                   <span
                     aria-hidden
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold-deep transition-colors duration-500 group-hover:border-green group-hover:bg-green group-hover:text-gold-light group-data-[active=true]:border-green group-data-[active=true]:bg-green group-data-[active=true]:text-gold-light"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold-deep transition-colors duration-500 group-hover:border-onyx group-hover:bg-onyx group-hover:text-gold-light group-data-[active=true]:border-onyx group-data-[active=true]:bg-onyx group-data-[active=true]:text-gold-light"
                   >
                     <Icon name={ICONS[i % ICONS.length]} size={19} />
                   </span>
@@ -58,7 +58,7 @@ export default function Approach({ className = "" }: { className?: string }) {
                     {pad(i + 1)}
                   </span>
                 </div>
-                <h3 className="mt-5 font-display text-[1.45rem] font-semibold leading-[1.15] text-green">{item.title}</h3>
+                <h3 className="mt-5 font-display text-[1.45rem] font-semibold leading-[1.15] text-onyx">{item.title}</h3>
                 <p className="mt-2.5 text-[14.5px] leading-[1.7] text-body">{item.body}</p>
               </li>
             ))}

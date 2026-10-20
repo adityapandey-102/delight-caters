@@ -24,7 +24,7 @@ export default function CtaBand() {
       <div aria-hidden className="wall-sun -z-10 mask-[linear-gradient(to_bottom,transparent,#000_7rem,#000_calc(100%-7rem),transparent)]" />
 
       <Reveal className="relative mx-auto w-full max-w-[1280px]">
-        <div className="gold-frame isolate overflow-hidden rounded-[22px] bg-green-ink shadow-[0_60px_110px_-55px_rgba(1,43,21,0.8)] md:rounded-[28px]">
+        <div className="gold-frame isolate overflow-hidden rounded-[22px] bg-onyx-ink shadow-[0_60px_110px_-55px_rgba(18,20,16,0.8)] md:rounded-[28px]">
           <div aria-hidden className="absolute inset-0 -z-10">
             <Parallax amount={5}>
               <Image src={PHOTO} alt="" fill sizes="(min-width: 1280px) 1280px, 100vw" className="object-cover object-[72%_50%]" />
@@ -32,7 +32,7 @@ export default function CtaBand() {
           </div>
           <div
             aria-hidden
-            className="absolute inset-0 -z-10 bg-green-ink/80 md:bg-transparent md:bg-linear-to-r md:from-green-ink md:from-30% md:via-green-ink/75 md:via-55% md:to-green-ink/5"
+            className="absolute inset-0 -z-10 bg-onyx-ink/80 md:bg-transparent md:bg-linear-to-r md:from-onyx-ink md:from-30% md:via-onyx-ink/75 md:via-55% md:to-onyx-ink/5"
           />
           <div aria-hidden className="grain" />
 

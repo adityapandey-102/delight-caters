@@ -190,7 +190,7 @@ export function WordReveal({ lines, className = "" }: { lines: StatementWord[][]
               <span
                 className={`word ${w.tone === "italic" ? "font-display italic" : ""}`}
                 data-target={
-                  w.tone === "accent" ? "var(--color-green)" : w.tone === "italic" ? "var(--color-gold-deep)" : "var(--color-ink)"
+                  w.tone === "accent" ? "var(--color-onyx)" : w.tone === "italic" ? "var(--color-gold-deep)" : "var(--color-ink)"
                 }
               >
                 {w.text}

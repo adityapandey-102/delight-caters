@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw client media (brochures, reels, posts) — source material only, not shipped
+/resources/

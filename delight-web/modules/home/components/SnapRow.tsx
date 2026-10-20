@@ -71,10 +71,10 @@ export default function SnapRow({
 
       {controls && count > 1 && (
         <div className="-mt-2 flex items-center gap-6">
-          <span aria-hidden className="font-display text-[17px] font-semibold lining-nums tabular-nums text-green">
+          <span aria-hidden className="font-display text-[17px] font-semibold lining-nums tabular-nums text-onyx">
             {pad(index + 1)} <span className="text-faint">/ {pad(count)}</span>
           </span>
-          <span aria-hidden className="relative h-px flex-1 bg-green/15">
+          <span aria-hidden className="relative h-px flex-1 bg-onyx/15">
             <span
               className="absolute inset-y-0 left-0 bg-gold transition-[width] duration-500 ease-out-expo"
               style={{ width: `${((index + 1) / count) * 100}%` }}
@@ -86,7 +86,7 @@ export default function SnapRow({
               onClick={() => go(-1)}
               disabled={index === 0}
               aria-label="Previous"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-green/25 text-green transition-colors hover:border-green hover:bg-green hover:text-gold-light disabled:pointer-events-none disabled:opacity-35"
+              className="glass-icon flex h-11 w-11 items-center justify-center rounded-full disabled:pointer-events-none disabled:opacity-35"
             >
               <Arrow className="rotate-180" />
             </button>
@@ -95,7 +95,7 @@ export default function SnapRow({
               onClick={() => go(1)}
               disabled={index === count - 1}
               aria-label="Next"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-green/25 text-green transition-colors hover:border-green hover:bg-green hover:text-gold-light disabled:pointer-events-none disabled:opacity-35"
+              className="glass-icon flex h-11 w-11 items-center justify-center rounded-full disabled:pointer-events-none disabled:opacity-35"
             >
               <Arrow />
             </button>

@@ -25,9 +25,52 @@ export type IconName =
   | "briefcase"
   | "rings"
   | "party"
-  | "glass";
+  | "glass"
+  | "wifi"
+  | "car"
+  | "gym"
+  | "plane"
+  | "coffee"
+  | "bed"
+  | "shield"
+  | "key"
+  | "cutlery"
+  | "icecream"
+  | "building";
 
 const PATHS: Record<IconName, React.ReactNode> = {
+  wifi: <path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.3a9.5 9.5 0 0 1 13 0M8.6 15.5a5 5 0 0 1 6.8 0M12 19h.01" />,
+  car: (
+    <>
+      <path d="M4 16.5V12l2-5h12l2 5v4.5M4 16.5h16M4 16.5V19h3v-2.5M17 16.5V19h3v-2.5M4 12h16" />
+      <circle cx="7.5" cy="14.3" r=".6" fill="currentColor" />
+      <circle cx="16.5" cy="14.3" r=".6" fill="currentColor" />
+    </>
+  ),
+  gym: <path d="M3 12h18M6 8v8M3.5 10v4M18 8v8M20.5 10v4" />,
+  plane: <path d="M3 13.5l7.5-2 4-7.5h2l-1.5 7 5.5-1.5 1 1.5-6.5 3 1 6.5h-2l-3-5-6 1.5z" />,
+  coffee: (
+    <>
+      <path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 10.5h1.5a2.5 2.5 0 0 1 0 5H16" />
+      <path d="M8 3.5c0 1 1 1.3 1 2.5M12 3.5c0 1 1 1.3 1 2.5" />
+    </>
+  ),
+  bed: <path d="M3 18V6M3 14h18v4M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5M6.5 11.5a1.5 1.5 0 1 0 0-.01" />,
+  shield: <path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6zM9 12l2 2 4-4" />,
+  key: (
+    <>
+      <circle cx="8" cy="15" r="4" />
+      <path d="M11 12l8.5-8.5M16 7l2.5 2.5M14 9l2 2" />
+    </>
+  ),
+  cutlery: <path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2.2 1.2-3.3 3.7-3.3 6.8V13H17" />,
+  icecream: <path d="M8 10.5a4 4 0 1 1 8 0M7 10.5h10l-5 10.5z" />,
+  building: (
+    <>
+      <path d="M4 21V5l8-2v18M12 7l8 2v12M3 21h18" />
+      <path d="M7 8h2M7 12h2M7 16h2M15 12h2M15 16h2" />
+    </>
+  ),
   phone: <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />,
   mail: (
     <>

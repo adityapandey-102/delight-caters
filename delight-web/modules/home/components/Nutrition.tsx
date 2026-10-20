@@ -21,12 +21,12 @@ export default function Nutrition() {
   const [, years = "", experience = dietitian.experience] = dietitian.experience.match(/^(\S+)\s+(.*)$/) ?? [];
 
   return (
-    <section className="green-velvet overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:flex lg:min-h-[100svh] lg:items-center lg:px-12 lg:pb-14 lg:pt-[calc(var(--header-h)+1.5rem)]">
+    <section className="onyx-velvet overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:flex lg:min-h-[100svh] lg:items-center lg:px-12 lg:pb-14 lg:pt-[calc(var(--header-h)+1.5rem)]">
       <div aria-hidden className="grain" />
 
       <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-16 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-12 lg:gap-20">
         <Reveal className="relative mx-auto w-full max-w-[500px] md:mx-0">
-          <div className="gold-frame relative aspect-[3/4] overflow-hidden rounded-[6px] lg:aspect-auto lg:h-[min(76svh,620px)] bg-green-ink shadow-[0_60px_100px_-50px_rgba(0,0,0,0.7)]">
+          <div className="gold-frame relative aspect-[3/4] overflow-hidden rounded-[6px] lg:aspect-auto lg:h-[min(76svh,620px)] bg-onyx-ink shadow-[0_60px_100px_-50px_rgba(0,0,0,0.7)]">
             <Parallax>
               <Image
                 src={nutrition.image}
@@ -41,11 +41,11 @@ export default function Nutrition() {
           {/* The dietitian */}
           <div className="relative z-10 mx-4 -mt-16 rounded-[10px] border border-gold/45 bg-wall-lit p-6 text-ink shadow-[0_34px_70px_-30px_rgba(0,0,0,0.65)] sm:mx-10 md:mx-0 md:-mt-12 lg:absolute lg:-bottom-10 lg:-right-14 lg:mt-0 lg:w-[300px]">
             <div className="flex items-center gap-4">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green text-gold-light ring-1 ring-gold/60 ring-offset-2 ring-offset-wall-lit">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-onyx text-gold-light ring-1 ring-gold/60 ring-offset-2 ring-offset-wall-lit">
                 <Icon name="leaf" size={22} />
               </span>
               <div className="min-w-0">
-                <p className="font-display text-[1.5rem] font-semibold leading-tight text-green">{dietitian.name}</p>
+                <p className="font-display text-[1.5rem] font-semibold leading-tight text-onyx">{dietitian.name}</p>
                 <p className="mt-1 text-[10.5px] font-medium uppercase tracking-[0.24em] text-gold-deep">{dietitian.role}</p>
               </div>
             </div>

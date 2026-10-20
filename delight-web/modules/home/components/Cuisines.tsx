@@ -2,14 +2,35 @@
 
 import Image from "next/image";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
-import { cuisines, cuisinesIntro, type Cuisine } from "@/lib/content/site";
+import { cuisines as CUISINES, cuisinesIntro, type Cuisine } from "@/lib/content/site";
 import { Eyebrow, SectionHead } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/motion";
 import { Arrow } from "@/components/ui/Arrow";
 import SnapRow from "./SnapRow";
 import { pad, splitTitle } from "./text";
 
-const EYEBROW = "A Culinary Journey";
+/** One entry of the index; `href` sends its button somewhere other than the enquiry popup. */
+export type ShowcaseItem = Cuisine & { href?: string };
+
+/** What the section shows. Defaults to the Delight Caterers cuisines. */
+export type ShowcaseContent = {
+  eyebrow: string;
+  title: string;
+  /** Words of the title on the first line; the rest is the gold italic line. */
+  split?: number;
+  body: string;
+  cta: string;
+  items: ShowcaseItem[];
+};
+
+const CUISINE_CONTENT: ShowcaseContent = {
+  eyebrow: "A Culinary Journey",
+  title: cuisinesIntro.title,
+  split: 1,
+  body: cuisinesIntro.body,
+  cta: cuisinesIntro.cta,
+  items: CUISINES,
+};
 
 /**
  * Photos too small to fill the desktop frame (intrinsic px). They're shown at
@@ -28,8 +49,18 @@ const SMALL: Record<string, { w: number; h: number }> = {
  * move through it). Phones and tablets: a scroll-snap carousel of cards, each
  * with the full description and "Enquire Now".
  */
-export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headingAs?: "h1" | "h2" }) {
-  const [line1, line2] = splitTitle(cuisinesIntro.title, 1);
+export default function Cuisines({
+  id,
+  headingAs = "h2",
+  content = CUISINE_CONTENT,
+}: {
+  id?: string;
+  headingAs?: "h1" | "h2";
+  content?: ShowcaseContent;
+}) {
+  const cuisines = content.items;
+  const EYEBROW = content.eyebrow;
+  const [line1, line2] = splitTitle(content.title, content.split ?? 1);
   const [active, setActive] = useState(0);
   // Panel photos other than the first load once the visitor reaches for the list.
   const [warm, setWarm] = useState(false);
@@ -61,7 +92,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
       <div className="relative mx-auto w-full max-w-[1280px]">
         {/* Phones and tablets: the full section head. Desktop moves it into the left column, so the plate can stay large and the section still fits one screen. */}
         <Reveal className="lg:hidden">
-          <SectionHead eyebrow={EYEBROW} line1={line1} line2={line2} body={cuisinesIntro.body} as={headingAs} />
+          <SectionHead eyebrow={EYEBROW} line1={line1} line2={line2} body={content.body} as={headingAs} />
         </Reveal>
 
         {/* Desktop: the index and the plate */}
@@ -73,12 +104,12 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
             <h2 className="display mt-4 text-[clamp(2.5rem,3.9vw,3.6rem)]">
               {line1} <span className="display-italic">{line2}</span>
             </h2>
-            <p className="mt-4 text-[15px] leading-[1.7] text-body">{cuisinesIntro.body}</p>
+            <p className="mt-4 text-[15px] leading-[1.7] text-body">{content.body}</p>
           </div>
           <div
             role="tablist"
             aria-orientation="vertical"
-            aria-label={cuisinesIntro.title}
+            aria-label={content.title}
             onKeyDown={onKeyDown}
             onPointerEnter={() => setWarm(true)}
             onFocus={() => setWarm(true)}
@@ -113,7 +144,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   </span>
                   <span
                     className={`font-display text-[clamp(1.35rem,1.95vw,1.8rem)] font-semibold leading-[1.1] transition-colors duration-500 ${
-                      on ? "text-green" : "text-muted group-hover:text-green"
+                      on ? "text-onyx" : "text-muted group-hover:text-onyx"
                     }`}
                   >
                     {c.title}
@@ -151,7 +182,7 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   className={`[grid-area:1/1] ${on ? "z-10" : "pointer-events-none"}`}
                 >
                   <div
-                    className={`gold-frame relative aspect-[16/10] max-h-[58svh] w-full overflow-hidden rounded-[6px] bg-green-ink shadow-[0_50px_90px_-45px_rgba(1,43,21,0.6)] transition-opacity duration-[900ms] ease-out-expo ${
+                    className={`gold-frame relative aspect-[16/10] max-h-[58svh] w-full overflow-hidden rounded-[6px] bg-onyx-ink shadow-[0_50px_90px_-45px_rgba(18,20,16,0.6)] transition-opacity duration-[900ms] ease-out-expo ${
                       on ? "opacity-100" : "opacity-0 delay-300"
                     }`}
                   >
@@ -169,9 +200,9 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                     <div>
                       {/* Name and "Enquire Now" share a row, so the whole section fits one screen. */}
                       <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
-                        <h3 className="font-display text-[1.75rem] font-semibold leading-[1.1] text-green">{c.title}</h3>
-                        <a href="#enquiry" className="btn-green group shrink-0 !px-5 !py-2.5">
-                          {cuisinesIntro.cta} <Arrow />
+                        <h3 className="font-display text-[1.75rem] font-semibold leading-[1.1] text-onyx">{c.title}</h3>
+                        <a href={c.href ?? "#enquiry"} className="btn-onyx group shrink-0 !px-5 !py-2.5">
+                          {content.cta} <Arrow />
                         </a>
                       </div>
                       <p className="mt-2.5 max-w-[62ch] text-[15px] leading-[1.7] text-body">{c.body}</p>
@@ -185,13 +216,13 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
 
         {/* Phones and tablets: the carousel */}
         <Reveal className="mt-14 lg:hidden">
-          <SnapRow label={cuisinesIntro.title} controls>
+          <SnapRow label={content.title} controls>
             {cuisines.map((c, i) => (
               <article
                 key={c.title}
-                className="flex w-[84vw] max-w-[400px] shrink-0 snap-start flex-col overflow-hidden rounded-[8px] border border-line bg-wall-lit shadow-[0_18px_34px_-24px_rgba(1,43,21,0.45)] sm:w-[58vw] sm:max-w-none md:w-[44vw]"
+                className="flex w-[84vw] max-w-[400px] shrink-0 snap-start flex-col overflow-hidden rounded-[8px] border border-line bg-wall-lit shadow-[0_18px_34px_-24px_rgba(18,20,16,0.45)] sm:w-[58vw] sm:max-w-none md:w-[44vw]"
               >
-                <div className="gold-frame relative aspect-[4/3] overflow-hidden bg-green-ink">
+                <div className="gold-frame relative aspect-[4/3] overflow-hidden bg-onyx-ink">
                   <Image
                     src={c.image}
                     alt={c.imageAlt}
@@ -204,10 +235,10 @@ export default function Cuisines({ id, headingAs = "h2" }: { id?: string; headin
                   <span aria-hidden className="text-[11px] font-medium tracking-[0.2em] text-gold-deep">
                     {pad(i + 1)} / {pad(cuisines.length)}
                   </span>
-                  <h3 className="mt-2 font-display text-[1.7rem] font-semibold leading-[1.1] text-green">{c.title}</h3>
+                  <h3 className="mt-2 font-display text-[1.7rem] font-semibold leading-[1.1] text-onyx">{c.title}</h3>
                   <p className="mb-6 mt-3 text-[15px] leading-[1.75] text-body">{c.body}</p>
-                  <a href="#enquiry" className="btn-green group mt-auto self-start px-6">
-                    {cuisinesIntro.cta} <Arrow />
+                  <a href={c.href ?? "#enquiry"} className="btn-onyx group mt-auto self-start px-6">
+                    {content.cta} <Arrow />
                   </a>
                 </div>
               </article>
@@ -239,7 +270,7 @@ function Plate({ cuisine, on }: { cuisine: Cuisine; on: boolean }) {
   return (
     <>
       <Image src={cuisine.image} alt="" fill sizes="128px" className="scale-125 object-cover opacity-80 blur-2xl" />
-      <div aria-hidden className="absolute inset-0 bg-green-ink/35" />
+      <div aria-hidden className="absolute inset-0 bg-onyx-ink/35" />
       {/* Never taller than 76% of the frame, nor larger than the file itself. */}
       <div
         className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[3px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] ring-1 ring-gold-light/60 ${motion}`}

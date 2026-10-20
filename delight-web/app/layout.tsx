@@ -1,19 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost, Pinyon_Script } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Pinyon_Script } from "next/font/google";
 import "./globals.css";
 import { company, contact, social } from "@/lib/content/site";
+import { group } from "@/lib/content/group";
+import { hotels } from "@/lib/content/hospitality";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const jost = Jost({
-  variable: "--font-jost",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
@@ -26,60 +29,50 @@ const pinyon = Pinyon_Script({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(company.domain),
+  metadataBase: new URL(group.domain),
   title: {
-    default: `${company.name} — Catering in Bengaluru | ${company.tagline}`,
-    template: `%s — ${company.name}`,
+    default: `${group.name} — ${group.tagline} | Hotels, Kulfi, Dining & Catering in Bengaluru`,
+    template: `%s — ${group.name}`,
   },
   description:
-    "Delight Caterers is a Bengaluru-based catering company under Delight Hospitality, delivering exceptional food and hospitality experiences across corporate, institutional, wedding, and special events.",
+    "Zyra Group brings together Delight Hospitality — Sterling Inn, Sterling Plaza and Olive near Bengaluru Airport — and Delight Eatry: Bombay Kulfi, Aero Bites and Delight Caterers.",
   openGraph: {
-    title: `${company.name} — More than catering, we create Experience`,
-    description:
-      "Corporate, wedding, event and casual catering in Bengaluru — North Indian, South Indian, Asian, Coastal, Continental, Mediterranean and more.",
+    title: `${group.name} — ${group.tagline}`,
+    description: "Hotels near Bengaluru Airport, Bombay Kulfi, Aero Bites and Delight Caterers — one family of businesses.",
     type: "website",
     locale: "en_IN",
-    images: ["/images/hero-buffet.webp"],
+    images: ["/media/olive/lobby.webp"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#014923",
+  themeColor: "#1e211d",
 };
 
-/** The business, for search engines — the same facts the footer shows. */
-const BUSINESS_JSON_LD = {
+/** The group and its businesses, for search engines. */
+const GROUP_JSON_LD = {
   "@context": "https://schema.org",
-  "@type": "FoodEstablishment",
-  name: company.name,
-  slogan: company.tagline,
-  url: company.domain,
-  image: `${company.domain}/images/hero-buffet.webp`,
-  logo: `${company.domain}/brand/logo-gold.png`,
-  telephone: "+91-9187918179",
-  email: contact.email,
-  servesCuisine: ["North Indian", "South Indian", "Asian", "Seafood", "Continental", "Mediterranean", "Desserts"],
-  openingHours: "Mo-Su 09:00-22:00",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: `${contact.address.street}, ${contact.address.road}`,
-    addressLocality: contact.address.locality,
-    addressRegion: contact.address.region,
-    postalCode: contact.address.postalCode,
-    addressCountry: "IN",
-  },
-  parentOrganization: { "@type": "Organization", name: company.parent },
-  sameAs: [social.instagram.href, social.linkedin.href],
+  "@type": "Organization",
+  name: group.name,
+  slogan: group.tagline,
+  url: group.domain,
+  logo: `${group.domain}/brand/zyra-mark.png`,
+  subOrganization: [
+    ...hotels.map((h) => ({ "@type": "Hotel", name: h.name, address: h.contact.address, telephone: h.contact.phone?.display })),
+    { "@type": "IceCreamShop", name: "Bombay Kulfi", address: "Commercial Street, Bengaluru" },
+    { "@type": "Restaurant", name: "Aero Bites", address: "Bengaluru" },
+    { "@type": "FoodEstablishment", name: company.name, telephone: "+91-9187918179", email: contact.email, address: contact.address.full, sameAs: [social.instagram.href, social.linkedin.href] },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${cormorant.variable} ${jost.variable} ${pinyon.variable} h-full antialiased`}>
+    <html lang="en-IN" className={`${cormorant.variable} ${dmSans.variable} ${pinyon.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col text-body">
         <script
           type="application/ld+json"
           // Static facts from our own constants; "<" is escaped so the JSON can never close the script tag.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(BUSINESS_JSON_LD).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(GROUP_JSON_LD).replace(/</g, "\\u003c") }}
         />
         {children}
       </body>

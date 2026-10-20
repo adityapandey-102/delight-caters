@@ -1,33 +1,48 @@
 @AGENTS.md
 
-# Delight Caterers — website (delight-web)
+# Zyra Group — website (delight-web)
 
-Public marketing site for Delight Caterers (Bengaluru), replacing the old
-WordPress site at delightcaters.in. Phase 1 = this website. Phase 2 (lead
-management, customer login, meal-subscription management) will follow the
-needleye-pilot architecture: this Next.js app + a separate `delight-api`
-(Express + Drizzle + Supabase Postgres) beside it. **Do not start phase 2
-work until asked.**
+Group site for Zyra Group ("An Unforgettable Experience"): Delight Hospitality
+(Sterling Inn, Sterling Plaza, Olive) and Delight Eatry (Bombay Kulfi, Aero
+Bites, Delight Caterers). The former single-brand Delight Caterers site is
+frozen on branch `old-design-of-delight-caters`. Workflow: `../docs/WORKFLOW.md`;
+handoff/progress: `../docs/STATUS.md`. Phase 2 (leads, customer login,
+subscriptions) is not started.
 
 ## Structure (mirrors needleye-web)
 
-- `app/(site)/…` — public pages (Home, `/about-us`, `/service`, `/contact-us`
-  — same slugs as the old site). Phase 2 adds `(app)` / `(auth)` groups.
-- `modules/<feature>/{components,lib}` — feature code (`home`, `about`,
-  `services`, `enquiry`).
+- `app/(site)/…` — public pages: `/`, `/about`, `/hospitality[/sterling-inn|
+  sterling-plaza|olive]`, `/eatry[/bombay-kulfi|aero-bites|delight-caterers]`,
+  `/contact`. Old `/about-us`, `/service`, `/contact-us` redirect (next.config.ts).
+  Phase 2 adds `(app)` / `(auth)` groups.
+- `modules/<feature>/components` — `brand` (VenuePage template, heroes, cards),
+  `group` (home/about sections, team), `contact`, `enquiry` (form, popup),
+  `home` (Delight Caterers sections, reused on its page).
 - `components/ui` — shared primitives; `components/shell` — header, footer,
   smooth scroll.
-- `lib/content/site.ts` — **every word on the site**, verbatim from the old
-  site. Change copy there, never in components. Never invent copy, numbers
-  or reviews.
+- `lib/content/` — all copy: `group.ts` (Zyra, nav, team), `hospitality.ts`,
+  `eatry.ts` (one `Venue` record per brand → `modules/brand/VenuePage`), `site.ts`
+  (Delight Caterers, verbatim). Never invent copy or numbers; **no pricing**;
+  missing data = marked placeholder. Raw client media lives in `resources/`
+  (git-ignored); only optimised copies go to `public/media/`.
 
 ## Design system
 
-Colours sampled from the brand: logo green `#014923`, gold from the mark,
-and the plaster wall of the brand's Instagram post. Split 50 / 30 / 20 —
-wall / green / gold. Tokens and component classes live in `app/globals.css`
-(component classes are inside `@layer components` so Tailwind utilities on
-the same element always win — keep it that way).
+Paper plaster wall on every page (grain + mottle), ink (#1e211d) dark bands and
+footer, gold accent — after residences.loamhouse.com.au: large light Cormorant
+Garamond headlines with gold italic accents, DM Sans body. Every page opens with
+`BrandHero` (full-bleed photo, transparent brand logo, line-by-line headline,
+gold tagline rule, scroll push-in; `inset` for small/portrait photos; `slides`
+runs campaigns on the hero). Brand pages (`modules/brand/VenuePage`) are told in
+numbered chapters: story + visit card, offer, spaces, `Gallery` (lightbox),
+`Location` (Google map), Google reviews (`lib/content/reviews.ts`, SAMPLE), FAQ,
+reels. Buttons are glass pills (`.btn-gold|onyx|ghost|ghost-dark`, round
+`.glass-icon[-dark]`); add `.shine` only to attention buttons (forms, "Plan
+your event", the page's main CTA). Marketing: `modules/campaigns` (data in
+`lib/content/campaigns.ts`) on Hospitality and Eatry, hero slides on Home. The caterers' diamond (`ImpactDiagram`) and index
+(`Cuisines`) take content props. Missing data = realistic DUMMY content, flagged
+only in code comments. Tokens/classes: `app/globals.css` (`@layer components`).
+Project skills: `../.claude/skills` (provenance in `SOURCES.md`).
 
 ## Rules
 

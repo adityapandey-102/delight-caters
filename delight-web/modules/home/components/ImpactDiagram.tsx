@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
 import { services, servicesTitle, type Service } from "@/lib/content/site";
 import { Eyebrow } from "@/components/ui/SectionHead";
@@ -23,10 +23,24 @@ import { Arrow } from "@/components/ui/Arrow";
  * Wide screens (1280px+): all four cards in the corners, the focused one lit.
  */
 
-type Quadrant = Service & {
-  n: string;
+/** One lobe of the diamond and its card. */
+export type DiagramItem = {
+  key: string;
+  title: string;
+  /** Short label inside the lobe. */
   short: string;
+  body: string;
+  items: string[];
+  image: string;
+  imageAlt: string;
   icon: IconName;
+  /** Where the card's link goes (default: the enquiry popup). */
+  href?: string;
+  cta?: string;
+};
+
+type Quadrant = DiagramItem & {
+  n: string;
   /** Lobe fill and the ink that sits on it. */
   fill: string;
   ink: string;
@@ -35,51 +49,18 @@ type Quadrant = Service & {
   corner: "tl" | "tr" | "bl" | "br";
 };
 
-const STYLE: Record<Service["key"], Pick<Quadrant, "short" | "icon" | "fill" | "ink" | "tint" | "corner">> = {
-  corporate: {
-    short: "Corporate",
-    icon: "briefcase",
-    fill: "linear-gradient(135deg, #0b5a30 0%, #014923 58%, #013a1c 100%)",
-    ink: "#e7c761",
-    tint: "rgba(1,58,28,0.22)",
-    corner: "tl",
-  },
-  event: {
-    short: "Events",
-    icon: "glass",
-    fill: "linear-gradient(135deg, #e7c761 0%, #bf983b 55%, #8a5a12 100%)",
-    ink: "#012b15",
-    tint: "rgba(138,90,18,0.2)",
-    corner: "tr",
-  },
-  wedding: {
-    short: "Wedding",
-    icon: "rings",
-    fill: "linear-gradient(135deg, #185628 0%, #014923 55%, #012b15 100%)",
-    ink: "#e7c761",
-    tint: "rgba(1,43,21,0.22)",
-    corner: "br",
-  },
-  casual: {
-    short: "Casual",
-    icon: "party",
-    fill: "linear-gradient(135deg, #d9b354 0%, #bf983b 50%, #a87f26 100%)",
-    ink: "#012b15",
-    tint: "rgba(168,127,38,0.2)",
-    corner: "bl",
-  },
-};
+/** Lobe looks by position: charcoal and gold, alternating round the diamond. */
+const LOOK: Pick<Quadrant, "fill" | "ink" | "tint" | "corner">[] = [
+  { fill: "linear-gradient(135deg, #2a2d31 0%, #16181b 60%, #0b0c0e 100%)", ink: "#e3c77e", tint: "rgba(22,24,27,0.2)", corner: "tl" },
+  { fill: "linear-gradient(135deg, #e3c77e 0%, #c49a45 55%, #8c6a2c 100%)", ink: "#16181b", tint: "rgba(140,106,44,0.18)", corner: "tr" },
+  { fill: "linear-gradient(135deg, #2a2d31 0%, #16181b 55%, #0b0c0e 100%)", ink: "#e3c77e", tint: "rgba(22,24,27,0.2)", corner: "br" },
+  { fill: "linear-gradient(135deg, #e8cf8a 0%, #c49a45 50%, #a9813a 100%)", ink: "#16181b", tint: "rgba(169,129,58,0.18)", corner: "bl" },
+];
 
-const QUADRANTS: Quadrant[] = services.map((s, i) => ({
-  ...s,
-  ...STYLE[s.key],
-  n: `0${i + 1}`,
-}));
+const CATERING_ICONS: Record<Service["key"], IconName> = { corporate: "briefcase", event: "glass", wedding: "rings", casual: "party" };
+const CATERING_SHORT: Record<Service["key"], string> = { corporate: "Corporate", event: "Events", wedding: "Wedding", casual: "Casual" };
+const CATERING: DiagramItem[] = services.map((s) => ({ ...s, short: CATERING_SHORT[s.key], icon: CATERING_ICONS[s.key] }));
 
-const byKey = (k: Service["key"]) => QUADRANTS.find((q) => q.key === k)!;
-
-/** The diamond is the 2×2 grid turned 45°: grid tl → top lobe, tr → right, br → bottom, bl → left. */
-const GRID_ORDER: Quadrant[] = [byKey("corporate"), byKey("event"), byKey("casual"), byKey("wedding")];
 const LOBE_RADIUS = ["22px 5px 5px 5px", "5px 22px 5px 5px", "5px 5px 5px 22px", "5px 5px 22px 5px"];
 /** Label sits a little toward each lobe's outer point, clear of the hub. */
 const LABEL_POS = [
@@ -100,12 +81,30 @@ const AUTO_MS = 3600;
 /** How long a tap/click holds the focus before the walk carries on. */
 const HOLD_MS = 9000;
 
-export default function ImpactDiagram() {
+export default function ImpactDiagram({
+  items = CATERING,
+  eyebrow = "Our Services",
+  title = ["Catering For", "Every Occasion"],
+  label = servicesTitle,
+  id = "services",
+}: {
+  items?: DiagramItem[];
+  eyebrow?: string;
+  title?: readonly [string, string];
+  label?: string;
+  id?: string;
+} = {}) {
+  const QUADRANTS: Quadrant[] = items.slice(0, 4).map((it, i) => ({ ...it, ...LOOK[i], n: `0${i + 1}` }));
+  const byKey = (k: string) => QUADRANTS.find((q) => q.key === k)!;
+  const keys = useMemo(() => items.slice(0, 4).map((it) => it.key), [items]);
+  /** The diamond is the 2×2 grid turned 45°: grid tl → top lobe, tr → right, br → bottom, bl → left. */
+  const GRID_ORDER: Quadrant[] = [QUADRANTS[0], QUADRANTS[1], QUADRANTS[3], QUADRANTS[2]];
+
   const root = useRef<HTMLElement>(null);
   /** The service in focus — always one, moved on by the timer. */
-  const [active, setActive] = useState<Service["key"]>(QUADRANTS[0].key);
+  const [active, setActive] = useState<string>(items[0].key);
   /** Mouse/keyboard preview; overrides `active` while set. */
-  const [hover, setHover] = useState<Service["key"] | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
   const [held, setHeld] = useState(false);
   const [visible, setVisible] = useState(false);
   const [reduced, setReduced] = useState(false);
@@ -118,7 +117,7 @@ export default function ImpactDiagram() {
   const shownIdx = QUADRANTS.findIndex((x) => x.key === shown);
   const running = visible && !reduced && !hover && !held;
 
-  const select = useCallback((key: Service["key"]) => {
+  const select = useCallback((key: string) => {
     setActive(key);
     setHeld(true);
     window.clearTimeout(holdTimer.current);
@@ -140,10 +139,10 @@ export default function ImpactDiagram() {
   useEffect(() => {
     if (!running) return;
     const t = window.setTimeout(() => {
-      setActive((cur) => QUADRANTS[(QUADRANTS.findIndex((q) => q.key === cur) + 1) % QUADRANTS.length].key);
+      setActive((cur) => keys[(keys.indexOf(cur) + 1) % keys.length]);
     }, AUTO_MS);
     return () => window.clearTimeout(t);
-  }, [running, active, cycle]);
+  }, [running, active, cycle, keys]);
 
   useEffect(() => {
     // Read once on mount (client only), so the server render stays static.
@@ -206,8 +205,8 @@ export default function ImpactDiagram() {
   return (
     <section
       ref={root}
-      id="services"
-      aria-label={servicesTitle}
+      id={id}
+      aria-label={label}
       className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-5 pb-[88px] pt-[calc(var(--header-h)+0.5rem)] sm:px-8 md:pb-8 lg:px-12"
     >
       <div aria-hidden className="wall-sun" />
@@ -215,9 +214,9 @@ export default function ImpactDiagram() {
       <div className="relative mx-auto w-full max-w-[1280px]">
         {/* heading — compact so the whole diagram fits one screen */}
         <div className="text-center">
-          <Eyebrow className="justify-center max-md:[@media(max-height:700px)]:hidden">Our Services</Eyebrow>
+          <Eyebrow className="justify-center max-md:[@media(max-height:700px)]:hidden">{eyebrow}</Eyebrow>
           <h2 className="display mt-2 text-[clamp(1.75rem,4.2vw,3.1rem)] md:mt-4">
-            Catering For <span className="display-italic max-md:block">Every Occasion</span>
+            {title[0]} <span className="display-italic max-md:block">{title[1]}</span>
           </h2>
         </div>
 
@@ -252,8 +251,8 @@ export default function ImpactDiagram() {
                             transform: on ? "scale(1.07)" : "scale(1)",
                             zIndex: on ? 2 : 1,
                             boxShadow: on
-                              ? "0 0 0 2px rgba(231,199,97,0.95), 0 26px 50px -18px rgba(1,43,21,0.65)"
-                              : "inset 0 0 0 1px rgba(231,199,97,0.35)",
+                              ? "0 0 0 2px rgba(216,180,111,0.95), 0 26px 50px -18px rgba(18,20,16,0.65)"
+                              : "inset 0 0 0 1px rgba(216,180,111,0.35)",
                           }}
                         >
                           {/* The photograph rises inside the lobe in focus (counter-rotated to stand upright). */}
@@ -289,13 +288,13 @@ export default function ImpactDiagram() {
               {/* hub */}
               <div
                 data-hub
-                className="pointer-events-none absolute left-1/2 top-1/2 flex h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-wall-lit text-center shadow-[0_22px_60px_-18px_rgba(1,43,21,0.45)]"
+                className="pointer-events-none absolute left-1/2 top-1/2 flex h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-wall-lit text-center shadow-[0_22px_60px_-18px_rgba(18,20,16,0.45)]"
               >
                 <span data-hub-ring aria-hidden className="absolute inset-0 rounded-full border border-gold" />
                 <span aria-hidden className="absolute inset-[6%] rounded-full border border-gold/30" />
                 <div key={shown} className="flex flex-col items-center px-2 animate-[hub-in_0.6s_var(--ease-out-expo)_both]">
                   <span className="text-[8.5px] font-semibold uppercase tracking-[0.22em] text-gold-deep lining-nums md:text-[9px]">{shownQ.n} / 04</span>
-                  <span className="mt-1 font-display text-[clamp(0.9rem,2.6vw,1.35rem)] font-semibold leading-[1.02] text-green">{shownQ.title}</span>
+                  <span className="mt-1 font-display text-[clamp(0.9rem,2.6vw,1.35rem)] font-semibold leading-[1.02] text-onyx">{shownQ.title}</span>
                 </div>
               </div>
             </div>
@@ -313,7 +312,7 @@ export default function ImpactDiagram() {
                     aria-controls={`svc-card-${q.key}`}
                     className="group flex min-h-11 flex-col justify-center gap-1.5 text-left"
                   >
-                    <span className={`text-[10px] font-semibold uppercase tracking-[0.14em] lining-nums transition-colors duration-500 ${on ? "text-green" : "text-faint group-hover:text-muted"}`}>
+                    <span className={`text-[10px] font-semibold uppercase tracking-[0.14em] lining-nums transition-colors duration-500 ${on ? "text-onyx" : "text-faint group-hover:text-muted"}`}>
                       <span className="sm:hidden">{q.n}</span>
                       <span className="hidden whitespace-nowrap sm:inline">{q.short}</span>
                     </span>
@@ -351,7 +350,7 @@ export default function ImpactDiagram() {
                       leftSide ? "xl:ml-auto xl:items-end xl:text-right" : "xl:mr-auto xl:items-start xl:text-left"
                     } ${
                       on
-                        ? "border-gold-light/70 shadow-[0_30px_60px_-30px_rgba(1,43,21,0.7)]"
+                        ? "border-gold-light/70 shadow-[0_30px_60px_-30px_rgba(18,20,16,0.7)]"
                         : "border-white/20 xl:[filter:saturate(0.5)_brightness(0.82)] xl:hover:[filter:none]"
                     }`}
                   >
@@ -375,7 +374,7 @@ export default function ImpactDiagram() {
                       <span
                         aria-hidden
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-500 ${
-                          on ? "bg-gold-light text-green-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
+                          on ? "bg-gold-light text-onyx-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
                         }`}
                       >
                         <Icon name={q.icon} size={18} />
@@ -395,8 +394,8 @@ export default function ImpactDiagram() {
                         </li>
                       ))}
                     </ul>
-                    <a href="#enquiry" className="group mt-2 inline-flex min-h-11 items-center gap-2 text-[13.5px] font-semibold text-gold-light max-md:hidden xl:min-h-9">
-                      Enquire Now
+                    <a href={q.href ?? "#enquiry"} className="group mt-2 inline-flex min-h-11 items-center gap-2 text-[13.5px] font-semibold text-gold-light max-md:hidden xl:min-h-9">
+                      {q.cta ?? "Enquire Now"}
                       <Arrow />
                     </a>
                   </article>

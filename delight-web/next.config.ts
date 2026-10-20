@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [75, 85],
   },
+  /** The old Delight Caterers URLs, so existing links and search results land on their new homes. */
+  redirects() {
+    return [
+      { source: "/about-us", destination: "/about", permanent: true },
+      { source: "/service", destination: "/eatry/delight-caterers", permanent: true },
+      { source: "/contact-us", destination: "/contact", permanent: true },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {

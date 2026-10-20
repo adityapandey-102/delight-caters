@@ -30,17 +30,17 @@ export default function Faq() {
           </Reveal>
 
           <Reveal delay={0.08} className="mt-10">
-            <div className="relative overflow-hidden rounded-[14px] border border-line bg-wall-lit p-7 shadow-[0_30px_60px_-45px_rgba(1,43,21,0.45)] sm:p-8">
+            <div className="relative overflow-hidden rounded-[14px] border border-line bg-wall-lit p-7 shadow-[0_30px_60px_-45px_rgba(18,20,16,0.45)] sm:p-8">
               <div aria-hidden className="gold-hairline absolute inset-x-0 top-0" />
-              <h3 className="font-display text-[1.7rem] font-semibold leading-tight text-green">{faqIntro.contactTitle}</h3>
+              <h3 className="font-display text-[1.7rem] font-semibold leading-tight text-onyx">{faqIntro.contactTitle}</h3>
               <p className="mt-2 text-[15px] leading-[1.7] text-body">{faqIntro.contactBody}</p>
               <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <a href="#enquiry" className="btn-green group">
+                <a href="#enquiry" className="btn-onyx group">
                   {faqIntro.contactCta} <Arrow />
                 </a>
                 <a
                   href={contact.phoneHref}
-                  className="inline-flex min-h-11 items-center gap-2.5 text-[14.5px] font-semibold text-green transition-colors hover:text-gold-deep"
+                  className="inline-flex min-h-11 items-center gap-2.5 text-[14.5px] font-semibold text-onyx transition-colors hover:text-gold-deep"
                 >
                   <Icon name="phone" size={16} className="text-gold-deep" />
                   <span className="ulink">{contact.phoneDisplay}</span>

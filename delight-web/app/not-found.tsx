@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { company, contact } from "@/lib/content/site";
+import { group } from "@/lib/content/group";
 
 /** Any unknown URL: the mark, a short apology and the way back. */
 export default function NotFound() {
   return (
-    <main className="green-velvet relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 text-center">
+    <main className="onyx-velvet relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 text-center">
       <div aria-hidden className="grain" />
-      <Image src="/brand/logo-gold.png" alt={company.name} width={1200} height={634} sizes="220px" className="relative h-28 w-auto" />
+      <Image src="/brand/zyra-mark.png" alt={group.name} width={291} height={363} sizes="90px" className="relative h-24 w-auto" />
       <p className="eyebrow on-dark relative mt-10 justify-center">Page not found</p>
       <h1 className="display on-dark relative mt-5 text-[clamp(2.4rem,7vw,4rem)]">
         This table <span className="display-italic">isn&rsquo;t set.</span>
@@ -19,9 +19,9 @@ export default function NotFound() {
         <Link href="/" className="btn-gold shine">
           Back to home
         </Link>
-        <a href={contact.phoneHref} className="btn-ghost-dark">
-          Call {contact.phoneDisplay}
-        </a>
+        <Link href="/contact" className="btn-ghost-dark">
+          Contact us
+        </Link>
       </div>
     </main>
   );

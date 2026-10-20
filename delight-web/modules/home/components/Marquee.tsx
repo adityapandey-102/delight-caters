@@ -23,7 +23,7 @@ export default function Marquee({
           <span key={i} className="flex shrink-0 items-center gap-10 sm:gap-12">
             <span
               className={`font-display text-[1.7rem] tracking-tight sm:text-[2.1rem] ${
-                i % 2 === 0 ? "font-medium text-green/85" : "font-medium italic text-gold-deep"
+                i % 2 === 0 ? "font-medium text-onyx/85" : "font-medium italic text-gold-deep"
               }`}
             >
               {w}

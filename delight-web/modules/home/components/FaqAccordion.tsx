@@ -47,7 +47,7 @@ export default function FaqAccordion({
                 </span>
                 <span
                   className={`flex-1 font-display text-[1.4rem] font-semibold leading-[1.2] transition-colors duration-500 sm:text-[1.6rem] ${
-                    isOpen ? "text-green" : "text-ink group-hover:text-green"
+                    isOpen ? "text-onyx" : "text-ink group-hover:text-onyx"
                   }`}
                 >
                   {item.q}
@@ -56,8 +56,8 @@ export default function FaqAccordion({
                   aria-hidden
                   className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-[rotate,background-color,border-color,color] duration-500 ease-out-expo ${
                     isOpen
-                      ? "rotate-45 border-green bg-green text-gold-light"
-                      : "border-gold/50 text-gold-deep group-hover:border-green group-hover:text-green"
+                      ? "rotate-45 border-onyx bg-onyx text-gold-light"
+                      : "border-gold/50 text-gold-deep group-hover:border-onyx group-hover:text-onyx"
                   }`}
                 >
                   <Icon name="plus" size={16} />

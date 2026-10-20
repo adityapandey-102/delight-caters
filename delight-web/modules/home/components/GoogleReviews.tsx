@@ -1,14 +1,13 @@
 import { googleReviews } from "@/lib/content/site";
+import type { ReviewSet } from "@/lib/content/reviews";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { Reveal } from "@/components/ui/motion";
 import { Arrow } from "@/components/ui/Arrow";
 import { NEW_TAB } from "./text";
 
 const UI = {
-  eyebrow: "Google Reviews",
-  title: { roman: "Words from", italic: "our guests" },
   panel: "Google Reviews",
-  preview: "Preview — genuine Google reviews will appear here",
+  preview: "Sample reviews — live Google reviews coming soon",
   seeAll: "See all reviews on Google",
   count: (n: number) => `${n.toLocaleString("en-IN")} reviews`,
   rated: (r: number) => `Rated ${r} out of 5 on Google`,
@@ -77,20 +76,36 @@ const initials = (name: string) =>
  * pause under the pointer. While the content is a placeholder the summary
  * says so; nothing here invents a rating or a word of review.
  */
-export default function GoogleReviews() {
-  const { rating, count, isPlaceholder, profileUrl, reviews } = googleReviews;
+const defaultData: ReviewSet = {
+  rating: googleReviews.rating,
+  count: googleReviews.count,
+  profileUrl: googleReviews.profileUrl,
+  isSample: googleReviews.isPlaceholder,
+  items: googleReviews.reviews,
+};
+
+export default function GoogleReviews({
+  data = defaultData,
+  title = ["Words from", "our guests"],
+  eyebrow = "Google Reviews",
+}: {
+  data?: ReviewSet;
+  title?: readonly [string, string];
+  eyebrow?: string;
+}) {
+  const { rating, count, isSample, profileUrl, items: reviews } = data;
   const run = [...reviews, ...reviews];
 
   return (
-    <section className="green-velvet overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-12">
+    <section className="onyx-velvet overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-12">
       <div aria-hidden className="grain" />
 
       <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-10 lg:grid-cols-[minmax(0,330px)_minmax(0,1fr)] lg:gap-12">
         <Reveal>
-          <Eyebrow onDark>{UI.eyebrow}</Eyebrow>
+          <Eyebrow onDark>{eyebrow}</Eyebrow>
           <h2 className="display on-dark mt-4 text-[clamp(2rem,4vw,3rem)]">
-            <span className="block">{UI.title.roman}</span>
-            <span className="display-italic block">{UI.title.italic}</span>
+            <span className="block">{title[0]}</span>
+            <span className="display-italic block">{title[1]}</span>
           </h2>
 
           <div className="mt-6 flex items-center gap-3.5">
@@ -108,7 +123,7 @@ export default function GoogleReviews() {
             </div>
           </div>
 
-          {isPlaceholder && <p className="mt-4 text-[12px] italic leading-snug text-gold-pale/80">{UI.preview}</p>}
+          {isSample &&<p className="mt-4 text-[12px] italic leading-snug text-gold-pale/80">{UI.preview}</p>}
 
           <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark group mt-6 !px-5 !py-2.5 !text-[12.5px]">
             {UI.seeAll}
@@ -120,7 +135,7 @@ export default function GoogleReviews() {
         {reviews.length > 0 && (
           <Reveal className="relative -mx-5 overflow-hidden sm:-mx-8 lg:mx-0 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
             {/* Two copies glide by half their length, so the loop is seamless; the copy is hidden from screen readers. */}
-            <ul className="marquee-track flex w-max gap-4 py-3 [--dur:60s] sm:gap-5" aria-label={UI.eyebrow}>
+            <ul className="marquee-track flex w-max gap-4 py-3 [--dur:60s] sm:gap-5" aria-label={eyebrow}>
               {run.map((r, i) => (
                 <li key={i} aria-hidden={i >= reviews.length} className="w-[272px] shrink-0 sm:w-[300px]">
                   <figure className="flex h-full flex-col rounded-2xl bg-wall-lit p-5 text-ink shadow-[0_24px_44px_-30px_rgba(0,0,0,0.7)]">
@@ -132,7 +147,7 @@ export default function GoogleReviews() {
                     <figcaption className="mt-4 flex items-center gap-3 border-t border-line pt-3.5">
                       <span
                         aria-hidden
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green font-display text-[0.95rem] font-semibold text-gold-light"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-onyx font-display text-[0.95rem] font-semibold text-gold-light"
                       >
                         {initials(r.name)}
                       </span>

@@ -167,9 +167,9 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
                 setHovered(null);
                 setActive(i); // carry on the walk from the reel just watched
               }}
-              className={`group relative aspect-[10/16] overflow-hidden rounded-2xl bg-green-ink shadow-[0_26px_50px_-34px_rgba(1,43,21,0.6)] transition-[translate,box-shadow] duration-700 ease-out-expo ${
+              className={`group relative aspect-[10/16] overflow-hidden rounded-2xl bg-onyx-ink shadow-[0_26px_50px_-34px_rgba(18,20,16,0.6)] transition-[translate,box-shadow] duration-700 ease-out-expo ${
                 on
-                  ? "-translate-y-2 shadow-[0_40px_70px_-34px_rgba(1,43,21,0.75)] ring-2 ring-gold-light/80"
+                  ? "-translate-y-2 shadow-[0_40px_70px_-34px_rgba(18,20,16,0.75)] ring-2 ring-gold-light/80"
                   : "ring-1 ring-gold-light/15"
               }`}
             >
@@ -219,12 +219,12 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
                 {reel.caption}
               </span>
 
-              {/* The whole card opens the reel on Instagram (on touch, the first tap plays it). */}
+              {/* The whole card opens the reel — on Instagram, or the brand's page (on touch, the first tap plays it). */}
               <a
                 href={reel.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${reel.caption} — watch on Instagram${NEW_TAB}`}
+                target={reel.href.startsWith("/") ? undefined : "_blank"}
+                rel={reel.href.startsWith("/") ? undefined : "noopener noreferrer"}
+                aria-label={reel.href.startsWith("/") ? `${reel.caption} — open` : `${reel.caption} — watch on Instagram${NEW_TAB}`}
                 onClick={(e) => {
                   if (pointerType.current !== "mouse" && i !== playing && !reduced) {
                     e.preventDefault();
@@ -245,7 +245,7 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
                   }}
                   aria-label={muted ? "Turn sound on" : "Turn sound off"}
                   aria-pressed={!muted}
-                  className={`absolute right-3 top-8 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-sm transition-opacity duration-500 hover:bg-black/55 ${
+                  className={`absolute right-3 top-8 z-20 glass-icon-dark flex h-10 w-10 items-center justify-center rounded-full transition-opacity duration-500 ${
                     on ? "opacity-100" : "pointer-events-none opacity-0"
                   }`}
                   tabIndex={on ? 0 : -1}
