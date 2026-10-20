@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Offer } from "@/lib/content/offers";
-
-const EVERY = 4500; // ms per message
+import { readingSeconds } from "@/lib/reading";
 
 /**
  * The marketing ribbon — Apple's announcement strip, made to run. It lives in
  * the global nav, under the bar, on every page: one offer, event or
- * collaboration at a time, sliding up to the next every few seconds. Hover or
- * focus pauses it; the arrows step through by hand.
+ * collaboration at a time, each held just long enough to read before it
+ * slides up to the next. Hover or focus pauses it; the arrows step by hand.
  */
 export function PromoRibbon({ items, tone = "dark" }: { items: Offer[]; tone?: "dark" | "light" }) {
   const [i, setI] = useState(0);
@@ -18,12 +17,13 @@ export function PromoRibbon({ items, tone = "dark" }: { items: Offer[]; tone?: "
   const n = items.length;
   const light = tone === "light";
   const current = n ? i % n : 0;
+  const ms = n ? readingSeconds(`${items[current].kind} ${items[current].brand} ${items[current].line} ${items[current].cta.label}`) * 1000 : 0;
 
   useEffect(() => {
     if (paused || n < 2) return;
-    const t = window.setTimeout(() => setI((v) => (v + 1) % n), EVERY);
+    const t = window.setTimeout(() => setI((v) => (v + 1) % n), ms);
     return () => window.clearTimeout(t);
-  }, [i, paused, n]);
+  }, [i, paused, n, ms]);
 
   if (!n) return null;
   const step = (d: number) => setI((v) => (v + d + n) % n);
@@ -96,7 +96,7 @@ export function PromoRibbon({ items, tone = "dark" }: { items: Offer[]; tone?: "
         <span
           key={`${current}-${paused}`}
           className={`block h-full origin-left ${light ? "bg-gold" : "bg-gold-light/70"}`}
-          style={{ animation: `progress-fill ${EVERY}ms linear both`, animationPlayState: paused ? "paused" : "running" }}
+          style={{ animation: `progress-fill ${ms}ms linear both`, animationPlayState: paused ? "paused" : "running" }}
         />
       </span>
     </div>
