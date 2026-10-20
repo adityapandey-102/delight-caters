@@ -77,6 +77,10 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
     bottom-left + glass "At a glance" facts (BrandHero); Hospitality/Eatry = white CategoryHero with outlet cards;
     About = EditorialHero (statement + story + photo collage, replaces StorySection); Contact = ContactHero (3 ways
     to reach us). Marketing first: every page goes hero → offers (Apple's strategy), then the rest
+  - Desktop fit: every section fits one screen at 1920/1440/1366/1280 widths (lg+ only). Reels band moved up
+    (after the offers) and always shows 4 tiles (photo + Instagram follow fillers). New page `/offers`
+    ("Offers" in the nav, footer and ribbon): lead offer, all offers by tab, reels, posts from
+    `resources/` (`lib/content/social.ts`, `public/media/social`, priced posts left out), follow strip
 - [ ] Next: client review; replace DUMMY content (offers, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
 
 ## Phase 2 backlog (recorded, not yet planned)

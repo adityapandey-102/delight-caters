@@ -22,6 +22,7 @@ export function ReelsSection({
   instagram,
   photos = [],
   photoHref,
+  id = "watch",
 }: {
   eyebrow: string;
   title: readonly [string, string];
@@ -32,6 +33,7 @@ export function ReelsSection({
   photos?: Photo[];
   /** Where a photo tile leads when there's no Instagram (e.g. "#gallery"). */
   photoHref?: string;
+  id?: string;
 }) {
   const free = Math.max(0, SLOTS - reels.length);
   const follow = free > 0 && instagram && brand;
@@ -54,7 +56,7 @@ export function ReelsSection({
 
   return (
     <section
-      id="watch"
+      id={id}
       className="relative isolate scroll-mt-[120px] overflow-hidden bg-black px-5 py-16 text-cream sm:px-8 md:py-24 lg:px-12 lg:py-[5vh] lg:[--reel-h:min(483px,calc(100vh-300px))]"
     >
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_15%_0%,rgba(216,180,111,0.14),transparent_70%),radial-gradient(50%_50%_at_100%_100%,rgba(216,180,111,0.08),transparent_70%)]" />

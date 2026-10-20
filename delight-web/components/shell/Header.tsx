@@ -146,8 +146,9 @@ export default function Header() {
                   if (!hasChildren(item))
                     return (
                       <li key={item.href} onPointerEnter={closeMenuSoon}>
-                        <Link href={item.href} aria-current={current ? "page" : undefined} className={base}>
+                        <Link href={item.href} aria-current={current ? "page" : undefined} className={`${base} ${item.href === "/offers" ? "inline-flex items-center gap-1.5" : ""}`}>
                           {item.label}
+                          {item.href === "/offers" && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />}
                         </Link>
                       </li>
                     );

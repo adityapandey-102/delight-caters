@@ -65,6 +65,7 @@ export const nav = [
       { label: "Delight Caterers", href: "/eatry/delight-caterers", note: "Catering for every occasion" },
     ],
   },
+  { label: "Offers", href: "/offers" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
