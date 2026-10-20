@@ -52,7 +52,7 @@ export default function DelightCaterersPage() {
       <ImpactDiagram />
       <Cuisines id="cuisines" />
       <Nutrition />
-      <section className="relative overflow-hidden px-5 py-16 sm:px-8 md:py-24 lg:px-12">
+      <section className="relative overflow-hidden px-5 py-16 sm:px-8 md:py-24 lg:px-12 lg:py-[5vh]">
         <div className="mx-auto w-full max-w-[1280px]">
           <Gallery photos={photos} title="A taste of our tables." eyebrow={company.name} />
         </div>

@@ -23,7 +23,7 @@ export function ListingCards({ items }: { items: Listing[] }) {
       {items.map((l) => (
         <li key={l.href}>
           <Link href={l.href} className="group block">
-            <ImageReveal className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-wall-warm shadow-[0_30px_60px_-40px_rgba(18,20,16,0.6)]">
+            <ImageReveal className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-[min(300px,calc(100vh-560px))] rounded-[18px] bg-wall-warm shadow-[0_30px_60px_-40px_rgba(18,20,16,0.6)]">
               <Image
                 src={l.image.src}
                 alt={l.image.alt}

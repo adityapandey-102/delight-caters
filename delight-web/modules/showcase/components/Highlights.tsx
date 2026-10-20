@@ -87,7 +87,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
   const running = many && playing && visible && !hover;
 
   return (
-    <section ref={root} className={`py-20 md:py-28 ${dark ? "bg-black text-cream" : "bg-wall"}`} aria-roledescription="carousel" aria-label={title}>
+    <section ref={root} className={`py-20 md:py-28 lg:py-[6vh] ${dark ? "bg-black text-cream" : "bg-wall"}`} aria-roledescription="carousel" aria-label={title}>
       <div className="mx-auto w-full max-w-[1080px] px-6">
         {eyebrow && <p className={`eyebrow ${dark ? "on-dark" : ""}`}>{eyebrow}</p>}
         <h2 className={`display text-[clamp(2.2rem,5vw,3.5rem)] ${eyebrow ? "mt-2" : ""} ${dark ? "on-dark" : ""}`}>{title}</h2>
@@ -101,7 +101,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
         onPointerLeave={() => setHover(false)}
         onFocus={() => setHover(true)}
         onBlur={() => setHover(false)}
-        className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[max(1.5rem,calc((100vw-1080px)/2+1.5rem))] scroll-px-[max(1.5rem,calc((100vw-1080px)/2+1.5rem))] outline-none md:mt-12"
+        className="no-scrollbar mt-10 flex snap-x lg:mt-[4vh] snap-mandatory gap-5 overflow-x-auto px-[max(1.5rem,calc((100vw-1080px)/2+1.5rem))] scroll-px-[max(1.5rem,calc((100vw-1080px)/2+1.5rem))] outline-none md:mt-12"
       >
         {items.map((h, i) => {
           const on = i === index;
@@ -115,7 +115,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
               aria-roledescription="slide"
               aria-label={`${i + 1} of ${items.length}`}
               onClick={on ? undefined : () => go(i)}
-              className={`relative aspect-[4/5] ${on ? "" : "cursor-pointer"} w-[min(86vw,1032px)] shrink-0 snap-start overflow-hidden rounded-[28px] bg-black transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.28,0.11,0.32,1)] sm:aspect-[16/10] md:aspect-[16/9] ${
+              className={`relative aspect-[4/5] ${on ? "" : "cursor-pointer"} w-[min(86vw,1032px)] shrink-0 snap-start overflow-hidden rounded-[28px] bg-black transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.28,0.11,0.32,1)] sm:aspect-[16/10] md:aspect-[16/9] lg:aspect-auto lg:h-[min(580px,calc(88vh-300px))] ${
                 on ? "scale-100 opacity-100" : "scale-[0.94] opacity-45"
               }`}
             >
@@ -162,7 +162,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
 
       {/* Control pill: dots (the active one is a timer) + play / pause */}
       {many && (
-        <div className="mt-8 flex items-center justify-center gap-3">
+        <div className="mt-8 flex items-center justify-center gap-3 lg:mt-[3vh]">
           <div className={`flex h-14 items-center gap-2.5 rounded-full px-6 backdrop-blur-xl ${dark ? "bg-white/12" : "bg-black/[0.06]"}`}>
             {items.map((h, i) => (
               <button

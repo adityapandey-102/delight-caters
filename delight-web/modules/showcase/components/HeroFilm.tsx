@@ -38,7 +38,7 @@ export function HeroFilm({
   /** A few short proof points under the buttons. */
   facts?: { value: string; label: string }[];
 }) {
-  const root = useRef<HTMLElement>(null);
+  const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     initGsap();
@@ -69,8 +69,9 @@ export function HeroFilm({
   }, []);
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-wall-lit text-ink">
-      <div className="mx-auto max-w-[920px] px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)]">
+    <div ref={root} className="relative overflow-hidden bg-wall-lit text-ink">
+      {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
+      <section className="mx-auto max-w-[920px] px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[7vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+6vh)]">
         {/* The house badge: the Zyra mark in a small ink disc, then the name */}
         <p data-copy className="inline-flex items-center gap-2.5 rounded-full border border-black/[0.07] bg-white py-1 pl-1 pr-4 text-[13px] text-body shadow-[0_6px_20px_-12px_rgba(18,20,16,0.35)]">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-onyx">
@@ -81,16 +82,16 @@ export function HeroFilm({
           <span>Bengaluru</span>
         </p>
 
-        <h1 data-copy className="display mt-8 text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium leading-[1.02] tracking-[-0.04em]">
+        <h1 data-copy className="display mt-8 text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium lg:mt-[4vh] lg:text-[min(5.4rem,10.5vh)] leading-[1.02] tracking-[-0.04em]">
           {title} <span className="display-italic gold-shimmer">{accent}</span>
           <br /> {rest}
         </h1>
 
-        <p data-copy className="mx-auto mt-6 max-w-[34rem] text-balance text-[17px] leading-[1.55] text-muted md:text-[19px]">
+        <p data-copy className="mx-auto mt-6 max-w-[34rem] text-balance lg:mt-[3vh] text-[17px] leading-[1.55] text-muted md:text-[19px]">
           {body}
         </p>
 
-        <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+        <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 lg:mt-[4vh]">
           <a href={primary.href} className="btn-onyx shine !px-6">
             {primary.label}
             <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="-mr-1">
@@ -103,7 +104,7 @@ export function HeroFilm({
         </div>
 
         {/* Quiet proof, under a hairline */}
-        <ul data-copy className="mx-auto mt-12 flex max-w-[40rem] flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-black/[0.07] pt-6 text-[13px] text-muted">
+        <ul data-copy className="mx-auto mt-12 flex max-w-[40rem] lg:mt-[5vh] lg:pt-[2.5vh] flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-black/[0.07] pt-6 text-[13px] text-muted">
           {facts.map((f, i) => (
             <li key={f.label} className="flex items-center gap-6">
               {i > 0 && <span aria-hidden className="hidden h-1 w-1 rounded-full bg-gold/60 sm:block" />}
@@ -113,9 +114,10 @@ export function HeroFilm({
             </li>
           ))}
         </ul>
-      </div>
+      </section>
 
-      <div data-frame className="relative h-[min(78vh,820px)] min-h-[420px] overflow-hidden will-change-[clip-path]">
+      {/* Screen two: the photograph, opening to full bleed — one screen tall on desktop */}
+      <section aria-label={image.alt} data-frame className="relative h-[min(78vh,820px)] min-h-[420px] overflow-hidden will-change-[clip-path] lg:h-[calc(100vh-var(--header-h))]">
         <div data-photo className="absolute inset-0 will-change-transform">
           <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover brightness-[1.12] saturate-[1.05]" />
         </div>
@@ -123,7 +125,7 @@ export function HeroFilm({
         {caption && (
           <p className="absolute bottom-6 left-1/2 w-full max-w-[1080px] -translate-x-1/2 px-6 text-[13px] text-white/75 md:bottom-9">{caption}</p>
         )}
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

@@ -43,13 +43,13 @@ export function CategoryHero({
   }, []);
 
   return (
-    <section ref={root} className="bg-wall-lit pb-3">
-      <div className="mx-auto w-full max-w-[1180px] px-6 pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] md:pt-[calc(var(--header-h)+var(--ribbon-h)+5rem)]">
+    <section ref={root} className="bg-wall-lit pb-3 lg:flex lg:h-screen lg:min-h-[640px] lg:flex-col">
+      <div className="mx-auto w-full max-w-[1180px] px-6 pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)] md:pt-[calc(var(--header-h)+var(--ribbon-h)+5rem)] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+5vh)]">
         <p data-c className="eyebrow">
           {kicker}
         </p>
         <div className="mt-3 grid items-end gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14">
-          <h1 data-c className="display text-[clamp(2.7rem,6vw,5rem)] font-medium tracking-[-0.04em]">
+          <h1 data-c className="display text-[clamp(2.7rem,6vw,5rem)] font-medium tracking-[-0.04em] lg:text-[min(5rem,9.5vh)]">
             {title} <span className="display-italic">{accent}</span>
           </h1>
           <p data-c className="max-w-[34rem] pb-1 text-[17px] leading-[1.55] text-muted md:text-[19px]">
@@ -57,7 +57,7 @@ export function CategoryHero({
           </p>
         </div>
 
-        <ul className="no-scrollbar -mx-6 mt-10 flex snap-x gap-3 overflow-x-auto px-6 md:mx-0 md:mt-12 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
+        <ul className="no-scrollbar -mx-6 mt-10 flex snap-x gap-3 overflow-x-auto px-6 md:mx-0 md:mt-12 md:grid md:grid-cols-3 md:overflow-visible md:px-0 lg:mt-[4.5vh]">
           {outlets.map((o) => (
             <li key={o.href} data-c-card className="w-[78%] shrink-0 snap-start sm:w-[46%] md:w-auto">
               <Link
@@ -80,8 +80,8 @@ export function CategoryHero({
         </ul>
       </div>
 
-      <div data-c-frame className="mt-12 px-3 md:mt-16">
-        <div className="relative h-[min(62vh,640px)] min-h-[300px] overflow-hidden rounded-[28px]">
+      <div data-c-frame className="mt-12 px-3 md:mt-16 lg:mt-[4.5vh] lg:min-h-[200px] lg:flex-1">
+        <div className="relative h-[min(62vh,640px)] min-h-[300px] overflow-hidden rounded-[28px] lg:h-full lg:min-h-0">
           <div data-c-photo className="absolute inset-0">
             <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover" />
           </div>

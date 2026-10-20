@@ -121,7 +121,7 @@ export function BrandHero({
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-[75%] bg-linear-to-t from-black/85 via-black/45 to-transparent" />
         </div>
 
-        <div ref={copy} className="relative px-5 pb-10 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] sm:px-8 md:pb-14 lg:px-12">
+        <div ref={copy} className="relative px-5 pb-10 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] sm:px-8 md:pb-14 lg:px-12 lg:pb-[6vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]">
           <div className={`mx-auto grid w-full max-w-[1280px] items-end gap-10 ${inset ? "lg:grid-cols-[minmax(0,1fr)_380px]" : shownFacts.length ? "lg:grid-cols-[minmax(0,1fr)_320px]" : ""}`}>
             <div className="max-w-[44rem]">
               {logo && (
@@ -132,13 +132,13 @@ export function BrandHero({
                   width={logo.width}
                   height={logo.height}
                   sizes="260px"
-                  className="mb-7 h-auto max-h-16 w-auto max-w-[min(240px,60vw)] object-contain object-left [filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.55))_drop-shadow(0_10px_26px_rgba(0,0,0,0.45))]"
+                  className="mb-7 h-auto max-h-16 w-auto lg:mb-[3vh] lg:max-h-[min(4rem,8vh)] max-w-[min(240px,60vw)] object-contain object-left [filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.55))_drop-shadow(0_10px_26px_rgba(0,0,0,0.45))]"
                 />
               )}
               <p data-h className="text-[13px] font-medium text-gold-light md:text-[14px]">
                 {eyebrow}
               </p>
-              <h1 data-h className="display on-dark mt-3 text-[clamp(2.9rem,7vw,6rem)] leading-[0.98]">
+              <h1 data-h className="display on-dark mt-3 text-[clamp(2.9rem,7vw,6rem)] leading-[0.98] lg:text-[min(6rem,10vh)]">
                 {lines[0]}
               </h1>
               {lines[1] && (
@@ -157,12 +157,12 @@ export function BrandHero({
                 </p>
               )}
               {(primary || secondary) && (
-                <div data-h className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:items-center">
+                <div data-h className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:items-center lg:mt-[4vh]">
                   {primary && button(primary, "group btn-gold shine")}
                   {secondary && button(secondary, "group btn-ghost-dark")}
                 </div>
               )}
-              {inset && shownFacts.length > 0 && factList("mt-9 grid max-w-[36rem] grid-cols-2 gap-x-8 gap-y-4 border-t border-white/15 pt-6 sm:grid-cols-4")}
+              {inset && shownFacts.length > 0 && factList("mt-9 grid max-w-[36rem] grid-cols-2 gap-x-8 gap-y-4 border-t border-white/15 pt-6 sm:grid-cols-4 lg:[@media(max-height:800px)]:hidden")}
             </div>
 
             {inset ? (

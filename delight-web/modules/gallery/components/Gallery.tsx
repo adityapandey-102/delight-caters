@@ -282,7 +282,7 @@ export function Gallery({
               aria-label={`Open photo ${i + 1}: ${p.alt}`}
               onClick={(e) => open(i, e.currentTarget)}
               style={{ aspectRatio: ratio }}
-              className={`group relative h-[clamp(260px,52vh,520px)] shrink-0 snap-start overflow-hidden rounded-[18px] bg-onyx-ink text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold max-md:h-auto ${
+              className={`group relative h-[clamp(260px,52vh,520px)] lg:h-[clamp(240px,calc(100vh-410px),520px)] shrink-0 snap-start overflow-hidden rounded-[18px] bg-onyx-ink text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold max-md:h-auto ${
                 tall ? "max-md:w-[62vw]" : "max-md:w-[78vw]"
               }`}
             >

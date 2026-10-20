@@ -99,12 +99,12 @@ export function VenuePage({ venue }: { venue: Venue }) {
       {/* Marketing first — what's on: this outlet's offers, events and collaborations */}
       <OffersSection eyebrow="What's on" title={`Offers at ${venue.name}.`} items={venueOffers} />
 
-      {/* 01–03: the story, on offer, spaces — beside the visit card */}
-      <section className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">
+      {/* 01–03: the story, on offer, spaces — three sections, each one screen, beside the visit card */}
+      <div className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto grid w-full max-w-[1280px] gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
           <div className="min-w-0 space-y-16">
-            <div id="overview" className="scroll-mt-[120px]">
+            <section id="overview" className="scroll-mt-[120px]">
               <Chapter n={1} label={isHotel ? "The stay" : "The place"} />
               <LineReveal lines={isHotel ? ["Arrive easy.", "Stay a while."] : ["Come hungry.", "Leave happy."]} italicFrom={1} className="display mt-6 text-[clamp(2.8rem,6vw,5.2rem)]" />
               <Reveal className="mt-7 max-w-[62ch] space-y-4 text-[16px] leading-[1.8] text-body">
@@ -120,9 +120,9 @@ export function VenuePage({ venue }: { venue: Venue }) {
                   </div>
                 ))}
               </dl>
-            </div>
+            </section>
 
-            <div id="offer" className="scroll-mt-[120px]">
+            <section id="offer" className="scroll-mt-[120px]">
               <Chapter n={2} label="On offer" />
               <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                 Everything <span className="display-italic">you need.</span>
@@ -137,10 +137,10 @@ export function VenuePage({ venue }: { venue: Venue }) {
                   </li>
                 ))}
               </Reveal>
-            </div>
+            </section>
 
             {venue.spaces.length > 0 && (
-              <div id="spaces" className="scroll-mt-[120px]">
+              <section id="spaces" className="scroll-mt-[120px]">
                 <Chapter n={3} label="Spaces" />
                 <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                   Room <span className="display-italic">to breathe.</span>
@@ -156,7 +156,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
                     </li>
                   ))}
                 </Reveal>
-              </div>
+              </section>
             )}
           </div>
 
@@ -164,7 +164,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
             <VisitCard venue={venue} />
           </aside>
         </div>
-      </section>
+      </div>
 
       {/* 04 — gallery */}
       {photos.length > 1 && (
@@ -188,7 +188,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
       )}
 
       {venue.faqs && venue.faqs.length > 0 && (
-        <section className="relative px-5 py-16 sm:px-8 md:py-24 lg:px-12">
+        <section className="relative px-5 py-16 sm:px-8 md:py-24 lg:px-12 lg:py-[5vh]">
           <div className="mx-auto grid w-full max-w-[1280px] gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
             <div>
               <Chapter n={6} label="Good to know" />

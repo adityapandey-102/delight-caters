@@ -36,7 +36,7 @@ export function StickyStory({ title, accent, steps }: { title: string; accent: s
   }, []);
 
   return (
-    <section className="bg-black text-cream">
+    <section data-scroll-story className="bg-black text-cream">
       <div className="mx-auto w-full max-w-[1080px] px-6 pt-24 md:pt-32">
         <h2 className="display on-dark max-w-[14ch] text-[clamp(2.6rem,6.4vw,5rem)]">
           {title} <span className="display-italic">{accent}</span>
@@ -68,7 +68,7 @@ export function StickyStory({ title, accent, steps }: { title: string; accent: s
         </div>
 
         <div className="hidden lg:block">
-          <div className="sticky top-[calc(var(--header-h)+9vh)] aspect-[4/5] max-h-[78vh] w-full overflow-hidden rounded-[32px] bg-onyx-soft">
+          <div className="sticky top-[calc(var(--header-h)+6vh)] aspect-[4/5] max-h-[calc(100vh-var(--header-h)-12vh)] w-full overflow-hidden rounded-[32px] bg-onyx-soft">
             {steps.map((s, i) => (
               <Image
                 key={s.image.src}

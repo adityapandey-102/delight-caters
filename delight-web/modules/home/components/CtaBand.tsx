@@ -19,7 +19,7 @@ export default function CtaBand() {
   const [line1, line2] = splitTitle(contactPage.title, 3);
 
   return (
-    <section className="relative isolate overflow-hidden px-5 py-20 sm:px-8 md:py-28 lg:px-12">
+    <section className="relative isolate overflow-hidden px-5 py-20 sm:px-8 md:py-28 lg:px-12 lg:py-[6vh]">
       <div aria-hidden className="wall-warm absolute inset-0 -z-10 mask-[linear-gradient(to_bottom,transparent,#000_7rem,#000_calc(100%-7rem),transparent)]" />
       <div aria-hidden className="wall-sun -z-10 mask-[linear-gradient(to_bottom,transparent,#000_7rem,#000_calc(100%-7rem),transparent)]" />
 
@@ -36,7 +36,7 @@ export default function CtaBand() {
           />
           <div aria-hidden className="grain" />
 
-          <div className="relative px-7 py-16 sm:px-12 sm:py-20 md:px-16 lg:px-20 lg:py-24">
+          <div className="relative px-7 py-16 sm:px-12 sm:py-20 md:px-16 lg:px-20 lg:py-[9vh]">
             <div className="max-w-2xl">
               <Eyebrow onDark>{contactPage.eyebrow}</Eyebrow>
               <h2 className="display on-dark mt-6 text-[clamp(2.5rem,5.8vw,4.8rem)]">

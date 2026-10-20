@@ -385,7 +385,7 @@ export default function ImpactDiagram({
                       <span aria-hidden className={`block h-px bg-gold-light transition-[width] duration-700 ease-out-expo ${on ? "w-20" : "w-10"}`} />
                       <span className="text-[10px] font-medium tracking-[0.2em] text-gold-light/80 lining-nums">{q.n}/04</span>
                     </div>
-                    <p className="mt-2.5 text-[14px] font-medium leading-[1.6] text-cream sm:text-[14.5px] max-md:[@media(max-height:680px)]:hidden">{q.body}</p>
+                    <p className="mt-2.5 text-[14px] font-medium leading-[1.6] text-cream sm:text-[14.5px] max-md:[@media(max-height:680px)]:hidden xl:[@media(max-height:780px)]:hidden">{q.body}</p>
                     <ul className={`mt-2.5 grid grid-cols-2 gap-x-4 gap-y-1 ${leftSide ? "xl:justify-items-end" : ""}`}>
                       {q.items.map((item) => (
                         <li key={item} className={`flex items-center gap-2 text-[13.5px] font-medium text-cream ${leftSide ? "xl:flex-row-reverse" : ""}`}>

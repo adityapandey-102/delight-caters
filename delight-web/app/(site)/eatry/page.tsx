@@ -28,12 +28,12 @@ export default function EatryPage() {
         image={{ src: "/media/dummy/buffet.webp", alt: "A catered buffet laid out for guests" }}
       />
       <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
-      <section id="brands" className="relative scroll-mt-20 px-5 py-16 sm:px-8 md:py-24 lg:px-12">
+      <section id="brands" className="relative scroll-mt-20 px-5 py-16 sm:px-8 md:py-24 lg:px-12 lg:py-[6vh]">
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto w-full max-w-[1280px]">
           <Eyebrow>Our brands</Eyebrow>
-          <LineReveal lines={["Cool, crispy", "& celebratory"]} italicFrom={1} className="display mt-5 text-[clamp(2.8rem,6vw,5.4rem)]" />
-          <div className="mt-10">
+          <LineReveal lines={["Cool, crispy", "& celebratory"]} italicFrom={1} className="display mt-5 text-[clamp(2.8rem,6vw,5.4rem)] lg:mt-3 lg:text-[min(4.2rem,7.5vh)]" />
+          <div className="mt-10 lg:mt-[4vh]">
             <ListingCards items={eatryListings} />
           </div>
         </div>

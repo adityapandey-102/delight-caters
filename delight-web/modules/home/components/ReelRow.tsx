@@ -152,7 +152,7 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
           setActive(best);
         }, 160);
       }}
-      className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 pb-6 pt-2 sm:-mx-8 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:px-0"
+      className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-px-5 px-5 pb-6 pt-2 sm:-mx-8 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:mx-auto lg:grid lg:max-w-[min(100%,calc(var(--reel-h,483px)*2.5+72px))] lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:px-0"
     >
       {reels.map((reel, i) => {
         const on = i === playing && live;

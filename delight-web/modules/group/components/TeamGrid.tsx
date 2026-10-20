@@ -31,11 +31,15 @@ function Portrait({ name }: { name: string }) {
   );
 }
 
-/** Leadership & team. Pass `limit` to show only the first few (e.g. on the home page). */
+/**
+ * Leadership & team. Pass `limit` to show only the first few (e.g. on the home page).
+ * On desktop each person is a compact row card (portrait beside the name), so
+ * the whole team sits in one screen.
+ */
 export function TeamGrid({ limit }: { limit?: number }) {
   const members = typeof limit === "number" ? team.slice(0, limit) : team;
   return (
-    <section id="team" className="relative scroll-mt-24 px-5 py-14 sm:px-8 md:py-20 lg:px-12">
+    <section id="team" className="relative scroll-mt-24 px-5 py-14 sm:px-8 md:py-20 lg:px-12 lg:py-[7vh]">
       <div className="mx-auto w-full max-w-[1280px]">
         <Reveal>
           <Eyebrow>The people</Eyebrow>
@@ -43,13 +47,17 @@ export function TeamGrid({ limit }: { limit?: number }) {
             Leadership <span className="display-italic">& team</span>
           </h2>
         </Reveal>
-        <Reveal as="ul" stagger className="mt-8 grid grid-cols-2 gap-4 md:mt-10 lg:grid-cols-4 lg:gap-6">
+        <Reveal as="ul" stagger className="mt-8 grid grid-cols-2 gap-4 md:mt-10 lg:mt-[4vh] lg:grid-cols-4 lg:gap-4">
           {members.map((m, i) => (
-            <li key={`${m.name}-${i}`}>
-              <Portrait name={m.name} />
-              <h3 className="mt-3 font-display text-[1.15rem] font-semibold leading-tight text-onyx">{m.name}</h3>
+            <li key={`${m.name}-${i}`} className="lg:flex lg:items-center lg:gap-4 lg:rounded-[20px] lg:border lg:border-line lg:bg-wall-lit lg:p-3">
+              <div className="lg:w-[clamp(72px,12vh,108px)] lg:shrink-0">
+                <Portrait name={m.name} />
+              </div>
+              <div className="min-w-0">
+              <h3 className="mt-3 lg:mt-0 font-display text-[1.15rem] font-semibold leading-tight text-onyx">{m.name}</h3>
               <p className="mt-1 text-[13.5px] leading-snug text-body">{m.role}</p>
               <p className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-[0.2em] text-gold-deep">{m.unit}</p>
+              </div>
             </li>
           ))}
         </Reveal>
