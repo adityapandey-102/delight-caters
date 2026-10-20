@@ -5,7 +5,6 @@ import Marquee from "@/modules/home/components/Marquee";
 import ImpactDiagram from "@/modules/home/components/ImpactDiagram";
 import Cuisines from "@/modules/home/components/Cuisines";
 import Nutrition from "@/modules/home/components/Nutrition";
-import WatchAndSavour from "@/modules/home/components/WatchAndSavour";
 import CtaBand from "@/modules/home/components/CtaBand";
 import GoogleReviews from "@/modules/home/components/GoogleReviews";
 import { Gallery } from "@/modules/gallery/components/Gallery";
@@ -13,7 +12,9 @@ import { Location } from "@/modules/brand/components/Location";
 import { reviewsBySlug } from "@/lib/content/reviews";
 import { offersFor } from "@/lib/content/offers";
 import { OffersSection } from "@/modules/showcase/components/OffersSection";
-import { contact, cuisines, services } from "@/lib/content/site";
+import { contact, cuisines, reels, services, social } from "@/lib/content/site";
+import { ReelsSection } from "@/modules/brand/components/ReelsSection";
+import { instagramAccount } from "@/modules/brand/components/SocialTiles";
 
 const photos = [
   ...services.map((s) => ({ src: s.image, alt: s.imageAlt })),
@@ -48,6 +49,7 @@ export default function DelightCaterersPage() {
         secondary={{ label: hero.secondaryCta, href: "/contact" }}
       />
       <OffersSection eyebrow="What's on" title="Offers at Delight Caterers." items={offersFor({ slug: "delight-caterers" })} />
+      <ReelsSection eyebrow={`${company.name} on Instagram`} title={["Watch &", "savour."]} reels={reels} brand={company.name} instagram={instagramAccount(social.instagram.href)} />
       <Marquee words={marqueeWords} />
       <ImpactDiagram />
       <Cuisines id="cuisines" />
@@ -57,7 +59,6 @@ export default function DelightCaterersPage() {
           <Gallery photos={photos} title="A taste of our tables." eyebrow={company.name} />
         </div>
       </section>
-      <WatchAndSavour />
       <GoogleReviews data={reviewsBySlug["delight-caterers"]} title={["In their", "own words."]} eyebrow="Delight Caterers · Google reviews" />
       <Location name={company.name} address={contact.address.full} mapsUrl={contact.mapsUrl} phone={{ display: contact.phoneDisplay, href: contact.phoneHref }} />
       <CtaBand />

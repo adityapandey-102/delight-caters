@@ -25,6 +25,7 @@ export default function HomePage() {
     <>
       <HeroFilm {...homeHero} />
       <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />
+      <ReelsSection eyebrow="Watch" title={["Inside the", "group."]} reels={reels} />
 
       <div className="space-y-3 bg-wall-lit pt-3">
         {featureTiles.map((t) => (
@@ -37,7 +38,6 @@ export default function HomePage() {
 
       <StickyStory title="One family." accent="Four ways in." steps={storySteps} />
       <BigNumbers title="Zyra, by the numbers." items={groupFacts} />
-      <ReelsSection eyebrow="Watch" title={["Inside the", "group."]} reels={reels} />
 
       <section className="bg-black px-6 py-28 text-center text-cream md:py-40">
         <Reveal>

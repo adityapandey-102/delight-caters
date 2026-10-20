@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Reel } from "@/lib/content/site";
 import { Icon } from "@/components/ui/Icon";
 import { NEW_TAB } from "./text";
@@ -20,7 +20,7 @@ const TOUCH_QUIET_MS = 7000;
  * card has a sound toggle. Sources load only when the row nears the screen.
  * Visitors who prefer reduced motion get still posters.
  */
-export default function ReelRow({ reels }: { reels: Reel[] }) {
+export default function ReelRow({ reels, extras = [] }: { reels: Reel[]; /** Tiles that fill the row after the reels (follow card, photos). */ extras?: ReactNode[] }) {
   const row = useRef<HTMLUListElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const lastTouch = useRef(0);
@@ -45,7 +45,7 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
   const live = inView && !reduced;
   const muted = !(soundOn && activated);
 
-  const next = useCallback(() => setActive((i) => (i + 1) % reels.length), [reels.length]);
+  const next = useCallback(() => setActive((i) => (i + 1) % Math.max(1, reels.length)), [reels.length]);
 
   useEffect(() => {
     const el = row.current;
@@ -260,6 +260,11 @@ export default function ReelRow({ reels }: { reels: Reel[] }) {
           </li>
         );
       })}
+      {extras.map((x, i) => (
+        <li key={`extra-${i}`} className="w-[72vw] max-w-[320px] shrink-0 snap-start sm:w-[44vw] md:w-[34vw] lg:w-auto lg:max-w-none">
+          {x}
+        </li>
+      ))}
     </ul>
   );
 }

@@ -27,6 +27,7 @@ export default function HospitalityPage() {
         image={{ src: "/media/sterling-plaza/lobby-lounge.webp", alt: "The lobby lounge at Sterling Plaza" }}
       />
       <OffersSection title="Offers & events at our hotels." items={offersFor({ division: "hospitality" })} />
+      <ReelsSection eyebrow={hospitality.name} title={["Stay", "a little longer"]} reels={hospitality.reels} />
       <ul className="relative mx-auto grid w-full max-w-[1280px] grid-cols-2 gap-x-6 gap-y-4 px-5 py-8 sm:grid-cols-3 sm:px-8 lg:grid-cols-6 lg:px-12">
         {hospitality.facilities.map((f) => (
           <li key={f.label} className="flex items-center gap-3 text-[13.5px] text-body">
@@ -40,7 +41,6 @@ export default function HospitalityPage() {
       <div id="hotels" className="scroll-mt-20">
         <Cuisines content={hotelIndex} />
       </div>
-      <ReelsSection eyebrow={hospitality.name} title={["Stay", "a little longer"]} reels={hospitality.reels} />
       <CtaBand />
     </>
   );

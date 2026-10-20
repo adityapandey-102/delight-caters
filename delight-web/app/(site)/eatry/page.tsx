@@ -28,6 +28,7 @@ export default function EatryPage() {
         image={{ src: "/media/dummy/buffet.webp", alt: "A catered buffet laid out for guests" }}
       />
       <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
+      <ReelsSection eyebrow="Bombay Kulfi" title={["Watch &", "crave"]} reels={eatry.reels} />
       <section id="brands" className="relative scroll-mt-20 px-5 py-16 sm:px-8 md:py-24 lg:px-12 lg:py-[6vh]">
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto w-full max-w-[1280px]">
@@ -38,7 +39,6 @@ export default function EatryPage() {
           </div>
         </div>
       </section>
-      <ReelsSection eyebrow="Bombay Kulfi" title={["Watch &", "crave"]} reels={eatry.reels} />
       <CtaBand />
     </>
   );

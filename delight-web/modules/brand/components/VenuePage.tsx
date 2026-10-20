@@ -13,6 +13,7 @@ import { BrandHero } from "./BrandHero";
 import { ReelsSection } from "./ReelsSection";
 import { Location } from "./Location";
 import { LocalNav } from "./LocalNav";
+import { instagramAccount } from "./SocialTiles";
 import { offersFor } from "@/lib/content/offers";
 import { OffersSection } from "@/modules/showcase/components/OffersSection";
 
@@ -45,6 +46,9 @@ export function VenuePage({ venue }: { venue: Venue }) {
   const logo = venue.logoOnDark ?? venue.logo;
   const reviews = reviewsBySlug[venue.slug];
   const venueOffers = offersFor({ slug: venue.slug });
+  const instagram = instagramAccount(venue.contact.instagram);
+  const reels = venue.reels ?? [];
+  const hasWatch = reels.length > 0 || Boolean(instagram);
   const photos = [venue.hero, ...venue.spaces.map((s) => s.image), ...venue.gallery].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
 
   return (
@@ -73,6 +77,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
         cta={{ label: isHotel ? "Book" : venue.cta.label, href: venue.cta.href, external: venue.cta.external }}
         links={[
           ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
+          ...(hasWatch ? [{ label: "Watch", href: "#watch" }] : []),
           { label: "Overview", href: "#overview" },
           { label: isHotel ? "Amenities" : "Highlights", href: "#offer" },
           ...(venue.spaces.length ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
@@ -98,6 +103,19 @@ export function VenuePage({ venue }: { venue: Venue }) {
 
       {/* Marketing first — what's on: this outlet's offers, events and collaborations */}
       <OffersSection eyebrow="What's on" title={`Offers at ${venue.name}.`} items={venueOffers} />
+
+      {/* Watch: the reels, high on the page; free slots filled with photos and a follow card */}
+      {hasWatch && (
+      <ReelsSection
+        eyebrow={instagram ? `${venue.name} on Instagram` : `${venue.name} in motion`}
+        title={reels.length ? ["Watch &", "savour."] : ["Follow", "along."]}
+        reels={reels}
+        brand={venue.name}
+        instagram={instagram}
+        photos={photos.slice(1)}
+        photoHref="#gallery"
+      />
+      )}
 
       {/* 01–03: the story, on offer, spaces — three sections, each one screen, beside the visit card */}
       <div className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">
@@ -201,7 +219,6 @@ export function VenuePage({ venue }: { venue: Venue }) {
         </section>
       )}
 
-      {venue.reels && <ReelsSection eyebrow={`${venue.name} on Instagram`} title={["Watch &", "savour"]} reels={venue.reels} />}
     </>
   );
 }
