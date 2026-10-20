@@ -181,13 +181,13 @@ export function BrandHero({
               </p>
 
               <h1
-                className={`display on-dark mt-6 text-[clamp(3.2rem,8.6vw,8.4rem)] font-light leading-[0.86] [text-shadow:0_2px_30px_rgba(0,0,0,0.45)] ${inset ? "mx-auto lg:mx-0" : "mx-auto"} max-w-[14ch]`}
+                className={`display on-dark mt-4 text-[clamp(3rem,7.4vw,6.6rem)] leading-[1] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] ${inset ? "mx-auto lg:mx-0" : "mx-auto"} max-w-[18ch]`}
               >
                 {lines.map((line, i) =>
                   line ? (
                     <span key={line} data-h-line className="block overflow-hidden pb-[0.08em]">
                       <span
-                        className={`block origin-left will-change-transform ${i === 1 ? `display-italic ${line.length > 16 ? "text-[0.62em] leading-[0.98]" : ""}` : ""}`}
+                        className={`block origin-left will-change-transform ${i === 1 ? `display-italic mt-2 leading-[1.1] ${line.length > 16 ? "text-[0.46em]" : "text-[0.6em]"}` : ""}`}
                         style={{ opacity: 0 }}
                       >
                         {line}
@@ -201,18 +201,16 @@ export function BrandHero({
                 <div
                   data-h-fade="rule"
                   aria-hidden
-                  className={`mt-8 flex max-w-sm items-center gap-4 opacity-0 [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.6))] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
+                  className={`mt-5 flex max-w-sm items-center gap-4 opacity-0 [filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.6))] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
                 >
-                  <span className="gold-rule flex-1" />
-                  <span className="whitespace-nowrap text-[10.5px] font-medium uppercase tracking-[0.3em] text-gold-light">{tagline}</span>
-                  <span className="gold-rule flex-1" />
+                  <span className="w-full text-[15px] text-cream/80">{tagline}</span>
                 </div>
               )}
 
               {body && (
                 <p
                   data-h-fade="sub"
-                  className={`mt-7 max-w-[58ch] text-[15.5px] leading-[1.8] text-cream opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_16px_rgba(0,0,0,0.55)] sm:text-[16.5px] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
+                  className={`mt-6 max-w-[52ch] text-[16px] leading-[1.55] text-cream opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_16px_rgba(0,0,0,0.55)] sm:text-[18px] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
                 >
                   {body}
                 </p>
@@ -227,17 +225,16 @@ export function BrandHero({
                   {secondary &&
                     button(
                       secondary,
-                      "group btn-ghost-dark bg-onyx-ink/55 text-cream shadow-[0_2px_4px_rgba(0,0,0,0.25),0_18px_40px_-14px_rgba(0,0,0,0.65)] backdrop-blur-md hover:bg-onyx-ink/80",
+                      "group btn-ghost-dark",
                     )}
                 </div>
               )}
             </div>
 
             {inset && (
-              <div className="relative mx-auto hidden aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[24px] shadow-[0_50px_90px_-40px_rgba(0,0,0,0.9)] ring-1 ring-gold-light/30 lg:block">
+              <div className="relative mx-auto hidden aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[24px] shadow-[0_50px_90px_-40px_rgba(0,0,0,0.9)] ring-1 ring-white/15 lg:block">
                 <Image src={image.src} alt={image.alt} fill preload sizes="420px" className="object-cover" />
-                <span aria-hidden className="absolute inset-3 rounded-[18px] border border-gold-light/50" />
-              </div>
+                              </div>
             )}
           </div>
         </div>
@@ -254,7 +251,7 @@ export function BrandHero({
         {/* Scroll cue */}
         <div aria-hidden className={`pointer-events-none absolute inset-x-0 bottom-5 hidden justify-center ${children ? "" : "md:flex"}`}>
           <span className="relative block h-12 w-px overflow-hidden bg-cream/25">
-            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.2s_ease-in-out_infinite] bg-gold-light" />
+            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.2s_ease-in-out_infinite] bg-white" />
           </span>
         </div>
       </section>

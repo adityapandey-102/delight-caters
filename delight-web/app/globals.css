@@ -1,57 +1,58 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   Zyra Group — design tokens
+   Zyra Group — design tokens (apple-design branch)
 
-   The cream plaster wall carries every page (fine grain + mottle), warm onyx
-   carries the dark bands and the footer, and the Zyra gold is the accent.
-   Large, light Cormorant Garamond headlines (editorial, after
-   residences.loamhouse.com.au) over DM Sans body text.
+   Apple's design sense in Zyra's colours: clean neutral surfaces, pure black
+   "film" sections, one tight sans (Inter Tight for display, Inter for text),
+   gold as the single accent — set as gradient words in headlines, the way
+   Apple lights a product name — and glass pill buttons.
    ========================================================================== */
 
 @theme {
-  /* Paper (50%) — the plastered page */
-  --color-wall: #f1eee7; /* paper */
-  --color-wall-lit: #fbfaf6; /* chalk — raised surfaces */
-  --color-wall-warm: #e8e3d8; /* alternating bands */
-  --color-wall-shade: #dbd5c8;
-  --color-line: #d3cec3; /* rules and card borders */
-  --color-line-soft: #e4dfd5;
+  /* Light surfaces */
+  --color-wall: #f5f5f3; /* page */
+  --color-wall-lit: #ffffff; /* raised surfaces, tiles */
+  --color-wall-warm: #ececea; /* alternating bands */
+  --color-wall-shade: #d9d9d6;
+  --color-line: #d6d6d3;
+  --color-line-soft: #e8e8e5;
 
-  /* Ink (30%) — a cool near-black for headings, dark bands and the footer */
-  --color-onyx: #1e211d;
-  --color-onyx-deep: #171a16;
-  --color-onyx-ink: #121410;
-  --color-onyx-soft: #2c302a;
-  --color-onyx-mist: #6f736b;
+  /* Ink and the black film sections */
+  --color-onyx: #1d1d1f;
+  --color-onyx-deep: #111112;
+  --color-onyx-ink: #000000;
+  --color-onyx-soft: #2d2d30;
+  --color-onyx-mist: #86868b;
 
-  /* Gold (accent) */
+  /* Gold (the one accent) */
   --color-gold: #c29a55;
-  --color-gold-light: #d8b46f; /* on ink */
+  --color-gold-light: #d8b46f;
   --color-gold-pale: #ecdcb8;
-  --color-gold-deep: #8a6526; /* text-bearing gold on paper (AA) */
+  --color-gold-deep: #8a6526;
   --color-gold-ink: #6a4d1c;
 
-  /* Text on paper */
-  --color-ink: #1e211d;
-  --color-body: #4a4d46;
-  --color-muted: #6c7068;
-  --color-faint: #989b93;
+  /* Text on light */
+  --color-ink: #1d1d1f;
+  --color-body: #424245;
+  --color-muted: #6e6e73;
+  --color-faint: #a1a1a6;
 
-  /* Text on ink */
-  --color-cream: #fbfaf6;
-  --color-cream-muted: #cdd0c8;
+  /* Text on black */
+  --color-cream: #f5f5f7;
+  --color-cream-muted: #a1a1a6;
 
-  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
-  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-script: var(--font-pinyon), "Pinyon Script", cursive;
+  --font-display: var(--font-inter-tight), "Inter Tight", "SF Pro Display", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", "SF Pro Text", system-ui, sans-serif;
+  --font-serif: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
+  --font-script: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-apple: cubic-bezier(0.28, 0.11, 0.32, 1);
 }
 
 :root {
-  --header-h: 72px;
+  --header-h: 52px;
 
   /* The plaster: a fine grain plus a broad, uneven mottle, both tinted the
      wall's own shadow brown. Tiled SVG noise — rendered once, no image file. */
@@ -73,10 +74,10 @@ html {
 
 body {
   background-color: var(--color-wall);
-  background-image: var(--plaster-grain), var(--plaster-mottle);
-  background-size: 220px 220px, 768px 768px;
   color: var(--color-body);
   font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  letter-spacing: -0.011em;
   overflow-x: hidden;
 }
 
@@ -124,13 +125,9 @@ html.lenis body {
   /* The wall as its own band (the exact photographed tone), with the plaster. */
   .wall-warm {
     background-color: var(--color-wall-warm);
-    background-image: var(--plaster-grain), var(--plaster-mottle);
-    background-size: 220px 220px, 768px 768px;
   }
   .wall-lit {
     background-color: var(--color-wall-lit);
-    background-image: var(--plaster-grain);
-    background-size: 220px 220px;
   }
 
   /* Afternoon sun through a window: a warm pool of light high on one side and
@@ -139,90 +136,93 @@ html.lenis body {
      Absolutely positioned decoration; parent must be `relative`. */
   /* Afternoon sun on the wall: a warm pool of light, fading out at the section edges. */
   .wall-sun {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(55% 50% at 80% 12%, rgba(255, 248, 234, 0.55), transparent 72%),
-      linear-gradient(118deg, transparent 38%, rgba(255, 248, 234, 0.18) 50%, transparent 62%),
-      radial-gradient(45% 50% at 8% 92%, rgba(150, 112, 62, 0.1), transparent 70%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8rem, #000 calc(100% - 8rem), transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 8rem, #000 calc(100% - 8rem), transparent);
+    display: none;
   }
 
   /* Onyx velvet: deep warm black with a lift in one corner and grain, so big
      dark areas never look flat. */
   .onyx-velvet {
     position: relative;
-    background-color: var(--color-onyx);
-    background-image:
-      radial-gradient(55% 60% at 12% 0%, rgba(62, 68, 60, 0.55), transparent 70%),
-      radial-gradient(45% 50% at 95% 100%, rgba(210, 171, 104, 0.1), transparent 70%),
-      radial-gradient(80% 80% at 50% 50%, transparent 40%, rgba(12, 14, 11, 0.5) 100%);
+    background-color: var(--color-onyx-ink);
     color: var(--color-cream);
   }
   .grain {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: var(--grain-light);
-    opacity: 0.07;
-    mix-blend-mode: overlay;
+    display: none;
   }
 
   /* ---------------------------------------------------------- type helpers */
 
-  /* The signature two-line heading: onyx roman over gold italic. */
-  /* Display headings: large serif set tight (editorial). */
+  /* Display headings: one tight sans, semibold. */
   .display {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 0.92;
-    color: var(--color-onyx);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    color: var(--color-ink);
     text-wrap: balance;
   }
+  /* The accent words: lit in gold (Apple's gradient product names). */
   .display-italic {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    color: var(--color-gold-deep);
-    letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    background: linear-gradient(100deg, #6a4d1c 0%, #a07a35 40%, #c29a55 70%, #8a6526 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.06em;
   }
   .display.on-dark {
     color: var(--color-cream);
   }
   .on-dark .display-italic,
-  .display.on-dark .display-italic {
-    color: var(--color-gold-light);
+  .display.on-dark .display-italic,
+  .onyx-velvet .display-italic {
+    background-image: linear-gradient(100deg, #b8904a 0%, #ecdcb8 45%, #d8b46f 70%, #c29a55 100%);
   }
 
-  /* Section label: small spaced capitals, led by a short gold rule. */
+  /* Section label: Apple's small coloured kicker. */
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     font-family: var(--font-sans);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     color: var(--color-gold-deep);
-  }
-  /* A small gold lozenge before the label. */
-  .eyebrow::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    transform: rotate(45deg);
-    background: var(--color-gold);
-    flex: none;
   }
   .eyebrow.on-dark {
     color: var(--color-gold-light);
   }
-  .eyebrow.on-dark::before {
-    background: var(--color-gold-light);
+
+  /* "Learn more ›" — Apple's text link, in gold. */
+  .link-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--color-gold-deep);
+  }
+  .link-more::after {
+    content: "›";
+    font-size: 1.15em;
+    line-height: 1;
+    transform: translateY(-0.04em);
+    transition: transform 0.3s var(--ease-apple);
+  }
+  .link-more:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .link-more:hover::after {
+    transform: translate(2px, -0.04em);
+  }
+  .on-dark .link-more,
+  .link-more.on-dark {
+    color: var(--color-gold-light);
   }
 
   /* Gold leaf text, graded through the mark's own highlight and shadow. Display
@@ -278,13 +278,13 @@ html.lenis body {
     justify-content: center;
     gap: 0.65rem;
     border-radius: 999px;
-    padding: 0.95rem 1.6rem;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    -webkit-backdrop-filter: blur(14px) saturate(1.5);
-    backdrop-filter: blur(14px) saturate(1.5);
+    padding: 0.78rem 1.4rem;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    backdrop-filter: blur(20px) saturate(1.8);
     transition:
       background-color 0.4s ease,
       border-color 0.4s ease,
@@ -301,7 +301,7 @@ html.lenis body {
 
   /* Primary: frosted chalk glass, warming to gold glass on hover */
   .btn-gold {
-    background: rgba(251, 250, 246, 0.74);
+    background: rgba(255, 255, 255, 0.94);
     color: var(--color-ink);
     border: 1px solid rgba(255, 255, 255, 0.7);
     box-shadow:
@@ -839,4 +839,26 @@ html.lenis body {
     opacity: 0;
     visibility: hidden;
   }
+}
+
+/* Global nav flyout: each column drops in a beat after the last. */
+@keyframes flyout-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* apple-design: the old small spaced capitals (chapter labels, card kickers,
+   form labels) read as Apple's sentence-case labels instead. */
+.uppercase {
+  text-transform: none !important;
+  letter-spacing: -0.005em !important;
+  font-size: max(12.5px, 0.8125rem) !important;
+}
+
+p,
+dd,
+li {
+  text-wrap: pretty;
 }

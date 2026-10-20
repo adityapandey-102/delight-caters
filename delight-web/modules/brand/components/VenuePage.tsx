@@ -12,6 +12,7 @@ import { Gallery } from "@/modules/gallery/components/Gallery";
 import { BrandHero } from "./BrandHero";
 import { ReelsSection } from "./ReelsSection";
 import { Location } from "./Location";
+import { LocalNav } from "./LocalNav";
 
 const DIVISION = {
   hospitality: { name: "Delight Hospitality", href: "/hospitality" },
@@ -63,6 +64,19 @@ export function VenuePage({ venue }: { venue: Venue }) {
         }
       />
 
+      <LocalNav
+        name={venue.name}
+        cta={{ label: isHotel ? "Book" : venue.cta.label, href: venue.cta.href, external: venue.cta.external }}
+        links={[
+          { label: "Overview", href: "#overview" },
+          { label: "On offer", href: "#offer" },
+          ...(venue.spaces.length ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
+          ...(photos.length > 1 ? [{ label: "Gallery", href: "#gallery" }] : []),
+          { label: "Location", href: "#location" },
+          ...(reviews ? [{ label: "Reviews", href: "#reviews" }] : []),
+        ]}
+      />
+
       <nav aria-label="Breadcrumb" className="px-5 pt-6 text-[12.5px] text-muted sm:px-8 lg:px-12">
         <ol className="mx-auto flex w-full max-w-[1280px] flex-wrap items-center gap-2">
           <li>
@@ -82,7 +96,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto grid w-full max-w-[1280px] gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
           <div className="min-w-0 space-y-16">
-            <div>
+            <div id="overview" className="scroll-mt-[120px]">
               <Chapter n={1} label={isHotel ? "The stay" : "The place"} />
               <LineReveal lines={isHotel ? ["Arrive easy.", "Stay a while."] : ["Come hungry.", "Leave happy."]} italicFrom={1} className="display mt-6 text-[clamp(2.8rem,6vw,5.2rem)]" />
               <Reveal className="mt-7 max-w-[62ch] space-y-4 text-[16px] leading-[1.8] text-body">
@@ -100,7 +114,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
               </dl>
             </div>
 
-            <div>
+            <div id="offer" className="scroll-mt-[120px]">
               <Chapter n={2} label="On offer" />
               <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                 Everything <span className="display-italic">you need.</span>
@@ -118,7 +132,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
             </div>
 
             {venue.spaces.length > 0 && (
-              <div>
+              <div id="spaces" className="scroll-mt-[120px]">
                 <Chapter n={3} label="Spaces" />
                 <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                   Room <span className="display-italic">to breathe.</span>
@@ -146,7 +160,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
 
       {/* 04 — gallery */}
       {photos.length > 1 && (
-        <section className="relative overflow-hidden px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
+        <section id="gallery" className="relative scroll-mt-[120px] overflow-hidden px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
           <div className="mx-auto w-full max-w-[1280px]">
             <div className="mb-8">
               <Chapter n={4} label="Gallery" />
@@ -159,7 +173,11 @@ export function VenuePage({ venue }: { venue: Venue }) {
       {/* 05 — location */}
       <Location n={5} name={venue.name} address={venue.contact.address} mapsUrl={venue.contact.mapsUrl} phone={venue.contact.phone} query={venue.contact.mapQuery} />
 
-      {reviews && <GoogleReviews data={reviews} title={["In their", "own words."]} eyebrow={`${venue.name} · Google reviews`} />}
+      {reviews && (
+        <div id="reviews" className="scroll-mt-[104px]">
+          <GoogleReviews data={reviews} title={["In their", "own words."]} eyebrow={`${venue.name} · Google reviews`} />
+        </div>
+      )}
 
       {venue.faqs && venue.faqs.length > 0 && (
         <section className="relative px-5 py-16 sm:px-8 md:py-24 lg:px-12">

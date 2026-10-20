@@ -64,6 +64,12 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
       button is a glass pill (`.btn-*`, round `.glass-icon[-dark]`), with a light sweep (`.shine`) on the
       attention buttons (enquiry submit, Plan your event, page CTAs). Checks: lint ✓ typecheck ✓ 37 unit ✓ build ✓,
       11 routes × 2 widths 200 / 0 overflow / 1 h1
+- [x] Branch `apple-design` (try-out for the client, `main` untouched): Apple's design sense in Zyra's colours —
+      Inter / Inter Tight, gold gradient accent words, clean surfaces (no plaster), black "film" sections, sentence-
+      case glass pills, adaptive glass global nav with full-width flyouts, Apple-style footer; home rebuilt from
+      `modules/showcase` (HeroFilm scroll-open hero, Tile / TileGrid, Highlights carousel, StickyStory, BigNumbers);
+      outlet pages get a sticky LocalNav. Home photos are DUMMY Unsplash stock (`public/media/dummy`, list in
+      `lib/content/home.ts`)
 - [ ] Next: client review; replace DUMMY content (campaigns, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
 
 ## Open questions for the client

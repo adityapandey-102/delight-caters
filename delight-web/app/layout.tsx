@@ -1,30 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, DM_Sans, Pinyon_Script } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { company, contact, social } from "@/lib/content/site";
 import { group } from "@/lib/content/group";
 import { hotels } from "@/lib/content/hospitality";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+/* Apple-style type: Inter Tight for display (SF Pro Display stand-in), Inter for text. */
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  display: "swap",
-});
-
-/* "Taste of Tradition" — the logo's script, used only for the tagline. */
-const pinyon = Pinyon_Script({
-  variable: "--font-pinyon",
-  subsets: ["latin"],
-  weight: "400",
   display: "swap",
 });
 
@@ -46,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e211d",
+  themeColor: "#000000",
 };
 
 /** The group and its businesses, for search engines. */
@@ -67,7 +59,7 @@ const GROUP_JSON_LD = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${cormorant.variable} ${dmSans.variable} ${pinyon.variable} h-full antialiased`}>
+    <html lang="en-IN" className={`${interTight.variable} ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col text-body">
         <script
           type="application/ld+json"

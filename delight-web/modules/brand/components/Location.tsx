@@ -10,6 +10,7 @@ export function Location({
   mapsUrl,
   phone,
   query,
+  id = "location",
 }: {
   n?: number;
   name: string;
@@ -17,10 +18,11 @@ export function Location({
   mapsUrl?: string;
   phone?: { display: string; href: string };
   query?: string;
+  id?: string;
 }) {
   const q = encodeURIComponent(query ?? `${name}, ${address ?? "Bengaluru"}`);
   return (
-    <section className="relative px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
+    <section id={id} className="relative scroll-mt-[120px] px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
       <div className="mx-auto w-full max-w-[1280px]">
         <p className="flex items-center gap-3 border-t border-line pt-4 text-[10.5px] font-semibold uppercase tracking-[0.22em] text-muted">
           {n !== undefined && (

@@ -5,36 +5,56 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { group, nav } from "@/lib/content/group";
-import { Icon } from "@/components/ui/Icon";
-import { Arrow } from "@/components/ui/Arrow";
 import { lockScroll, unlockScroll } from "./SmoothScroll";
 
 type NavItem = (typeof nav)[number];
 type Parent = Extract<NavItem, { children: readonly unknown[] }>;
 const hasChildren = (item: NavItem): item is Parent => "children" in item;
 
+const desktopItems = nav.filter((i) => i.href !== "/");
+const divisions = nav.filter(hasChildren);
+/** Sections the bar should read as dark glass over. */
+const DARK_SURFACES = "[data-nav-dark], .bg-black, .bg-onyx-ink, .onyx-velvet";
+
 /**
- * Fixed, fully transparent bar: the Zyra mark on the left, a glass pill nav in
- * the centre — Hospitality and Eatry open a panel of their brands — and "Plan
- * Your Event" on the right. Every item carries its own soft shadow so it reads
- * over photographs and the cream alike. Phones get a full-screen onyx sheet
- * with the brands grouped under their division.
+ * Apple-style global nav: a slim glass bar (dark over the opening film, light
+ * once the page moves), the logo as home, evenly spaced links, and a
+ * full-width flyout for each division — big links to its brands, then quick
+ * actions — that blurs the page beneath. Phones get a light full-screen sheet.
  */
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  /** Transparent over the dark heroes; once the page moves, the light treatment and a soft cream fade behind the bar. */
-  const [scrolled, setScrolled] = useState(false);
-  const solid = scrolled;
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  /** True while the bar sits over a dark section (black films, photo heroes) — the bar turns dark glass there, as Apple's does. */
+  const [overDark, setOverDark] = useState(true);
   const [menu, setMenu] = useState<string | null>(null);
   const closeTimer = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    let frame = 0;
+    const probe = () => {
+      frame = 0;
+      const y = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 52) + 4;
+      const el = document.elementFromPoint(24, y);
+      if (!el || el.closest("dialog")) return; // an open popup: keep the tone of the page behind it
+      setOverDark(!!el.closest(DARK_SURFACES));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(probe);
+    };
+    probe();
+    const settle = window.setTimeout(probe, 400);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    document.addEventListener("close", onScroll, true); // a dialog closing reveals the page again
+    return () => {
+      document.removeEventListener("close", onScroll, true);
+      cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -54,7 +74,7 @@ export default function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menu]);
 
-  // Close the sheet and any panel whenever the route changes.
+  // Close the sheet and any flyout whenever the route changes.
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
@@ -69,185 +89,188 @@ export default function Header() {
   };
   const closeMenuSoon = () => {
     window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setMenu(null), 160);
+    closeTimer.current = window.setTimeout(() => setMenu(null), 140);
   };
 
-  const pill = solid
-    ? "border-white/70 bg-wall-lit/80 shadow-[0_10px_30px_-10px_rgba(18,20,16,0.35),0_2px_6px_-2px_rgba(18,20,16,0.15)]"
-    : "border-white/15 bg-onyx-ink/35 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)]";
-  const itemTone = (current: boolean) =>
-    current
-      ? solid
-        ? "bg-onyx text-gold-pale"
-        : "bg-gold-light text-onyx-ink"
-      : solid
-        ? "text-body hover:text-onyx"
-        : "text-cream/85 hover:text-gold-light";
+  const light = !overDark || !!menu || open;
+  const active = divisions.find((d) => d.label === menu);
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 bg-transparent [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_[data-panel]]:pointer-events-auto">
+      {/* The page dims and blurs beneath an open flyout (Apple's curtain). */}
+      <div
+        aria-hidden
+        className={`fixed inset-0 z-40 hidden bg-[rgba(232,232,230,0.4)] backdrop-blur-[18px] transition-opacity duration-500 lg:block ${
+          menu ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
+      <header className="fixed inset-x-0 top-0 z-50" onPointerLeave={closeMenuSoon}>
         <div
-          aria-hidden
-          className={`absolute inset-x-0 top-0 h-[calc(var(--header-h)+32px)] bg-linear-to-b from-wall via-wall/90 to-wall/0 transition-opacity duration-500 ${scrolled && !open ? "opacity-100" : "opacity-0"}`}
-        />
-        <div className="relative mx-auto flex h-[var(--header-h)] w-full max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-8 lg:px-10">
-          {/* The Zyra mark and wordmark — shadow only, no plate behind them. */}
-          <Link
-            href="/"
-            aria-label={`${group.name} — home`}
-            className={`group relative z-10 flex items-center gap-2.5 transition-[filter] duration-500 ${
-              solid || open
-                ? "[filter:drop-shadow(0_1px_0_rgba(255,255,255,0.7))_drop-shadow(0_1px_1.5px_rgba(80,45,0,0.5))_drop-shadow(0_6px_14px_rgba(18,20,16,0.2))]"
-                : "[filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.85))_drop-shadow(0_2px_8px_rgba(0,0,0,0.55))]"
+          className={`relative transition-colors duration-500 ${
+            light
+              ? "bg-[rgba(250,250,248,0.8)] text-ink shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+              : "bg-[rgba(18,18,19,0.42)] text-white shadow-[0_1px_0_rgba(255,255,255,0.08)]"
+          } backdrop-blur-2xl backdrop-saturate-[1.8]`}
+        >
+          <div className="mx-auto flex h-[var(--header-h)] w-full max-w-[1080px] items-center justify-between gap-6 px-5">
+            <Link href="/" aria-label={`${group.name} — home`} className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80" onPointerEnter={closeMenuSoon}>
+              <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} loading="eager" sizes="28px" className="h-[26px] w-auto" />
+              <Image
+                src="/brand/zyra-word.png"
+                alt={group.shortName}
+                width={698}
+                height={187}
+                loading="eager"
+                sizes="64px"
+                className="h-[14px] w-auto"
+              />
+            </Link>
+
+            <nav aria-label="Main" className="hidden flex-1 items-center justify-center lg:flex">
+              <ul className="flex items-center gap-1">
+                {desktopItems.map((item) => {
+                  const current = isActive(item.href);
+                  const base = `block rounded-full px-3.5 py-1.5 text-[12.5px] tracking-[-0.005em] transition-opacity duration-300 ${
+                    current ? "opacity-100 font-medium" : "opacity-75 hover:opacity-100"
+                  }`;
+                  if (!hasChildren(item))
+                    return (
+                      <li key={item.href} onPointerEnter={closeMenuSoon}>
+                        <Link href={item.href} aria-current={current ? "page" : undefined} className={base}>
+                          {item.label}
+                        </Link>
+                      </li>
+                    );
+                  return (
+                    <li key={item.href} onPointerEnter={() => openMenu(item.label)}>
+                      <Link
+                        href={item.href}
+                        aria-current={current ? "page" : undefined}
+                        aria-expanded={menu === item.label}
+                        aria-controls="nav-flyout"
+                        onFocus={() => openMenu(item.label)}
+                        className={base}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-2" onPointerEnter={closeMenuSoon}>
+              <a href="#enquiry" className="btn-gold shine hidden !px-3.5 !py-1.5 !text-[12.5px] sm:inline-flex">
+                Plan your event
+              </a>
+              <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                className="-mr-2 flex h-11 w-11 items-center justify-center lg:hidden"
+              >
+                <span aria-hidden className="relative block h-2.5 w-[17px]">
+                  <span className={`absolute left-0 h-[1.5px] w-full rounded-full bg-current transition-all duration-400 ease-out-expo ${open ? "top-[4.5px] rotate-45" : "top-0"}`} />
+                  <span className={`absolute left-0 h-[1.5px] w-full rounded-full bg-current transition-all duration-400 ease-out-expo ${open ? "top-[4.5px] -rotate-45" : "top-[9px]"}`} />
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Flyout: one panel that grows open under the bar */}
+          <div
+            id="nav-flyout"
+            onPointerEnter={() => menu && openMenu(menu)}
+            className={`hidden overflow-hidden transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.28,0.11,0.32,1)] lg:grid ${
+              menu ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
             }`}
           >
-            <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} loading="eager" sizes="40px" className="h-10 w-auto sm:h-11" />
-            <Image src="/brand/zyra-word.png" alt={group.shortName} width={698} height={187} loading="eager" sizes="110px" className="h-[22px] w-auto sm:h-6" />
-          </Link>
-
-          <nav
-            aria-label="Main"
-            className={`absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 rounded-full border p-1 backdrop-blur-xl transition-colors duration-500 lg:flex ${pill}`}
-          >
-            {nav.map((item) => {
-              const current = isActive(item.href);
-              if (!hasChildren(item)) {
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    aria-current={current ? "page" : undefined}
-                    className={`rounded-full px-4 py-1.5 text-[12.5px] font-medium tracking-[0.04em] transition-colors duration-300 ${itemTone(current)}`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              }
-              const shown = menu === item.label;
-              return (
-                <div key={item.href} className="relative" onPointerEnter={() => openMenu(item.label)} onPointerLeave={closeMenuSoon}>
-                  <button
-                    type="button"
-                    aria-expanded={shown}
-                    aria-controls={`panel-${item.label}`}
-                    onClick={() => (shown ? setMenu(null) : openMenu(item.label))}
-                    className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12.5px] font-medium tracking-[0.04em] transition-colors duration-300 ${itemTone(current)}`}
-                  >
-                    {item.label}
-                    <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden className={`transition-transform duration-300 ${shown ? "rotate-180" : ""}`}>
-                      <path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                    </svg>
-                  </button>
-
-                  {/* The division's brands */}
-                  <div
-                    id={`panel-${item.label}`}
-                    data-panel
-                    className={`absolute left-1/2 top-full w-[340px] -translate-x-1/2 pt-3 transition-[opacity,translate,visibility] duration-300 ease-out-expo ${
-                      shown ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
-                    }`}
-                  >
-                    <div className="overflow-hidden rounded-2xl border border-line bg-wall-lit shadow-[0_30px_60px_-28px_rgba(18,20,16,0.45)]">
-                      <div className="relative p-2">
-                        <Link href={item.href} className="group flex items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-wall-warm">
-                          <span>
-                            <span className="block text-[1.05rem] font-semibold leading-tight tracking-tight text-ink">Delight {item.label}</span>
-                            <span className="mt-0.5 block text-[12.5px] text-muted">{item.blurb}</span>
-                          </span>
-                          <Arrow className="text-gold-deep" />
+            <div className="min-h-0">
+              {active && (
+                <div key={active.label} className="mx-auto grid w-full max-w-[1080px] grid-cols-[1.4fr_1fr_1fr] gap-10 px-5 pb-14 pt-8">
+                  <FlyoutColumn title={`Explore Delight ${active.label}`} delay={0}>
+                    {active.children.map((c) => (
+                      <li key={c.href}>
+                        <Link href={c.href} className="block py-1 font-display text-[24px] font-semibold tracking-[-0.025em] text-ink transition-colors hover:text-gold-deep">
+                          {c.label}
                         </Link>
-                        <div aria-hidden className="gold-hairline mx-4 my-1 opacity-40" />
-                        <ul>
-                          {item.children.map((c) => (
-                            <li key={c.href}>
-                              <Link
-                                href={c.href}
-                                aria-current={pathname === c.href ? "page" : undefined}
-                                className="flex items-baseline justify-between gap-4 rounded-xl px-4 py-2.5 transition-colors hover:bg-wall-warm aria-[current=page]:bg-wall-warm"
-                              >
-                                <span className="text-[14.5px] font-medium text-ink">{c.label}</span>
-                                <span className="text-[12px] text-muted">{c.note}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                      </li>
+                    ))}
+                    <li>
+                      <Link href={active.href} className="mt-1 block py-1 font-display text-[24px] font-semibold tracking-[-0.025em] text-muted transition-colors hover:text-gold-deep">
+                        {active.label === "Hospitality" ? "All hotels" : "All of Eatry"}
+                      </Link>
+                    </li>
+                  </FlyoutColumn>
+                  <FlyoutColumn title="At a glance" delay={60}>
+                    {active.children.map((c) => (
+                      <li key={c.href}>
+                        <Link href={c.href} className="block py-1.5 text-[12.5px] font-medium text-body transition-colors hover:text-gold-deep">
+                          {c.label} <span className="font-normal text-muted">· {c.note}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </FlyoutColumn>
+                  <FlyoutColumn title="Plan" delay={120}>
+                    <li>
+                      <a href="#enquiry" onClick={() => setMenu(null)} className="block py-1.5 text-[12.5px] font-medium text-body hover:text-gold-deep">
+                        Plan your event
+                      </a>
+                    </li>
+                    <li>
+                      <Link href="/contact" className="block py-1.5 text-[12.5px] font-medium text-body hover:text-gold-deep">
+                        Contact the group
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/about" className="block py-1.5 text-[12.5px] font-medium text-body hover:text-gold-deep">
+                        About Zyra
+                      </Link>
+                    </li>
+                  </FlyoutColumn>
                 </div>
-              );
-            })}
-          </nav>
-
-          <div className="relative z-10 flex items-center gap-2.5">
-            <a
-              href="#enquiry"
-              className="btn-gold shine hidden !px-5 !py-2.5 !text-[12.5px] !shadow-[0_10px_26px_-8px_rgba(70,40,0,0.55),0_2px_6px_-2px_rgba(14,16,12,0.3)] sm:inline-flex"
-            >
-              Plan Your Event
-            </a>
-
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-label={open ? "Close menu" : "Open menu"}
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-              className={`flex h-11 w-11 items-center justify-center rounded-full ring-1 transition-colors duration-500 md:backdrop-blur-xl lg:hidden ${
-                open
-                  ? "bg-gold-light text-onyx-ink ring-gold-light"
-                  : solid
-                    ? "bg-onyx text-gold-pale shadow-[0_10px_26px_-10px_rgba(18,20,16,0.6)] ring-onyx"
-                    : "bg-onyx-ink/70 text-cream shadow-[0_10px_26px_-12px_rgba(0,0,0,0.5)] ring-white/20 md:bg-onyx-ink/40"
-              }`}
-            >
-              <span aria-hidden className="relative block h-2.5 w-[18px]">
-                <span className={`absolute left-0 h-[1.5px] w-full rounded-full bg-current transition-all duration-400 ease-out-expo ${open ? "top-[4.5px] rotate-45" : "top-0"}`} />
-                <span
-                  className={`absolute h-[1.5px] rounded-full bg-current transition-all duration-400 ease-out-expo ${
-                    open ? "left-0 top-[4.5px] w-full -rotate-45" : "right-0 top-[9px] w-3/5"
-                  }`}
-                />
-              </span>
-            </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile sheet */}
+      {/* Phones: a light full-screen sheet */}
       <div
         id="mobile-menu"
-        className={`onyx-velvet fixed inset-0 z-40 overflow-y-auto transition-all duration-500 lg:hidden ${
+        className={`fixed inset-0 z-40 overflow-y-auto bg-[rgba(250,250,248,0.97)] backdrop-blur-2xl transition-opacity duration-500 lg:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
       >
-        <div aria-hidden className="grain" />
-        <div className="relative flex min-h-full flex-col px-7 pb-10 pt-[calc(var(--header-h)+1.5rem)]">
-          <nav aria-label="Mobile" className="flex flex-col">
+        <div className="flex min-h-full flex-col px-8 pb-10 pt-[calc(var(--header-h)+1.25rem)]">
+          <nav aria-label="Mobile" className="flex flex-col gap-1">
             {nav.map((item, i) => (
               <div
                 key={item.href}
-                className="border-b border-gold-light/15 py-3.5 transition-all duration-500"
-                style={{ transform: open ? "translateY(0)" : "translateY(20px)", opacity: open ? 1 : 0, transitionDelay: `${90 + i * 55}ms` }}
+                className="transition-all duration-500 ease-out-expo"
+                style={{ transform: open ? "none" : "translateY(-8px)", opacity: open ? 1 : 0, transitionDelay: `${60 + i * 40}ms` }}
               >
-                <Link href={item.href} onClick={() => setOpen(false)} className="flex items-baseline gap-4">
-                  <span className="text-[10px] font-medium tracking-[0.24em] text-gold-light/70">0{i + 1}</span>
-                  <span className={`font-display text-[2rem] font-semibold leading-tight ${isActive(item.href) ? "text-gold-light" : "text-cream"}`}>
-                    {hasChildren(item) ? `Delight ${item.label}` : item.label}
-                  </span>
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`block py-1.5 font-display text-[28px] font-semibold tracking-[-0.03em] ${isActive(item.href) ? "text-gold-deep" : "text-ink"}`}
+                >
+                  {hasChildren(item) ? `Delight ${item.label}` : item.label}
                 </Link>
                 {hasChildren(item) && (
-                  <ul className="mt-2 grid gap-1 pl-9">
+                  <ul className="mb-3 mt-1 grid gap-0.5">
                     {item.children.map((c) => (
                       <li key={c.href}>
                         <Link
                           href={c.href}
                           onClick={() => setOpen(false)}
-                          className={`flex min-h-10 items-center justify-between gap-3 text-[15px] ${pathname === c.href ? "text-gold-light" : "text-cream/80"}`}
+                          className={`flex min-h-10 items-center justify-between gap-3 text-[17px] ${pathname === c.href ? "text-gold-deep" : "text-body"}`}
                         >
                           {c.label}
-                          <span className="text-[11.5px] text-cream-muted/70">{c.note}</span>
+                          <span className="text-[13px] text-muted">{c.note}</span>
                         </Link>
                       </li>
                     ))}
@@ -258,15 +281,22 @@ export default function Header() {
           </nav>
 
           <div className="mt-auto pt-8">
-            <a href="#enquiry" onClick={() => setOpen(false)} className="btn-gold shine w-full">
-              Plan Your Event
+            <a href="#enquiry" onClick={() => setOpen(false)} className="btn-onyx shine w-full">
+              Plan your event
             </a>
-            <p className="mt-6 flex items-center justify-center gap-2 text-center text-[11px] uppercase tracking-[0.24em] text-gold-light/70">
-              <Icon name="sparkle" size={12} /> {group.tagline}
-            </p>
+            <p className="mt-5 text-center text-[13px] text-muted">{group.tagline}</p>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+function FlyoutColumn({ title, delay, children }: { title: string; delay: number; children: React.ReactNode }) {
+  return (
+    <div className="animate-[flyout-in_0.5s_cubic-bezier(0.28,0.11,0.32,1)_both]" style={{ animationDelay: `${delay}ms` }}>
+      <p className="text-[12px] text-muted">{title}</p>
+      <ul className="mt-3">{children}</ul>
+    </div>
   );
 }
