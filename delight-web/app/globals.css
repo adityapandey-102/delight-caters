@@ -702,3 +702,26 @@ dd,
 li {
   text-wrap-style: pretty;
 }
+
+/* A slow light passing through the gold accent word (home hero). */
+.gold-shimmer {
+  background-image: linear-gradient(100deg, #6a4d1c 0%, #9a7330 22%, #c29a55 40%, #e6cf9c 50%, #c29a55 60%, #9a7330 78%, #6a4d1c 100%);
+  background-size: 240% 100%;
+  animation: gold-shimmer 8s ease-in-out infinite;
+}
+@keyframes gold-shimmer {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+}
+
+/* On dark pills the sweep is a soft warm glint, not a grey smear. */
+.btn-onyx.shine::after,
+.btn-ghost-dark.shine::after {
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.1) 35%, rgba(236, 220, 184, 0.28) 50%, rgba(255, 255, 255, 0.1) 65%, transparent);
+}

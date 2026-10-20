@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { group } from "@/lib/content/group";
-import { BrandHero } from "@/modules/brand/components/BrandHero";
-import { StorySection } from "@/modules/group/components/StorySection";
+import { EditorialHero } from "@/modules/showcase/components/EditorialHero";
 import { VisionValues } from "@/modules/group/components/VisionValues";
 import { TeamGrid } from "@/modules/group/components/TeamGrid";
 import CtaBand from "@/modules/home/components/CtaBand";
@@ -11,20 +10,24 @@ export const metadata: Metadata = {
   description: group.story.paragraphs[0],
 };
 
-/** The group: its story, what guides it, and the people behind it. */
+/** The group: its story (told in the hero), what guides it, and the people behind it. */
 export default function AboutPage() {
   return (
     <>
-      <BrandHero
-        eyebrow={`${group.name} · About`}
-        lines={group.story.title}
-        body={group.story.paragraphs[0]}
-        tagline={group.tagline}
-        image={{ src: "/media/sterling-plaza/lobby.webp", alt: "The lobby at Sterling Plaza" }}
+      <EditorialHero
+        kicker={`About ${group.name}`}
+        title={`${group.story.title[0]}`}
+        accent={`${group.story.title[1]}.`}
+        lead={group.story.paragraphs[0]}
+        aside={group.story.paragraphs[1]}
         primary={{ label: "Meet the team", href: "#team" }}
         secondary={{ label: "Contact us", href: "/contact" }}
+        photos={[
+          { src: "/media/sterling-plaza/lobby.webp", alt: "The lobby at Sterling Plaza" },
+          { src: "/media/dummy/banquet.webp", alt: "A banquet hall set for an evening" },
+          { src: "/media/bombay-kulfi/storefront.webp", alt: "Bombay Kulfi on Commercial Street" },
+        ]}
       />
-      <StorySection />
       <VisionValues />
       <TeamGrid />
       <CtaBand />

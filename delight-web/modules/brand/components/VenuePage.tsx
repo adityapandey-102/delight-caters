@@ -56,6 +56,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
         body={venue.intro[0]}
         image={venue.hero}
         inset={venue.heroInset}
+        facts={venue.facts}
         logo={logo ? { ...logo, alt: venue.name } : null}
         primary={venue.cta}
         secondary={
@@ -71,10 +72,10 @@ export function VenuePage({ venue }: { venue: Venue }) {
         name={venue.name}
         cta={{ label: isHotel ? "Book" : venue.cta.label, href: venue.cta.href, external: venue.cta.external }}
         links={[
+          ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
           { label: "Overview", href: "#overview" },
           { label: isHotel ? "Amenities" : "Highlights", href: "#offer" },
           ...(venue.spaces.length ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
-          ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
           ...(photos.length > 1 ? [{ label: "Gallery", href: "#gallery" }] : []),
           { label: "Location", href: "#location" },
           ...(reviews ? [{ label: "Reviews", href: "#reviews" }] : []),
@@ -94,6 +95,9 @@ export function VenuePage({ venue }: { venue: Venue }) {
           <li aria-current="page" className="text-ink">{venue.name}</li>
         </ol>
       </nav>
+
+      {/* Marketing first — what's on: this outlet's offers, events and collaborations */}
+      <OffersSection eyebrow="What's on" title={`Offers at ${venue.name}.`} items={venueOffers} />
 
       {/* 01–03: the story, on offer, spaces — beside the visit card */}
       <section className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">
@@ -161,9 +165,6 @@ export function VenuePage({ venue }: { venue: Venue }) {
           </aside>
         </div>
       </section>
-
-      {/* What's on: this outlet's offers, events and collaborations */}
-      <OffersSection eyebrow="What's on" title={`Offers at ${venue.name}.`} items={venueOffers} />
 
       {/* 04 — gallery */}
       {photos.length > 1 && (

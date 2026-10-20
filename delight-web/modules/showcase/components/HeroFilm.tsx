@@ -23,6 +23,7 @@ export function HeroFilm({
   secondary,
   image,
   caption,
+  facts = [],
 }: {
   kicker: string;
   /** Headline as three parts: lead, the gold accent word(s), and the rest. */
@@ -34,6 +35,8 @@ export function HeroFilm({
   secondary: Action;
   image: { src: string; alt: string };
   caption?: string;
+  /** A few short proof points under the buttons. */
+  facts?: { value: string; label: string }[];
 }) {
   const root = useRef<HTMLElement>(null);
 
@@ -67,25 +70,49 @@ export function HeroFilm({
 
   return (
     <section ref={root} className="relative overflow-hidden bg-wall-lit text-ink">
-      <div className="mx-auto max-w-[980px] px-6 pb-12 pt-[calc(var(--header-h)+var(--ribbon-h)+2.5rem)] text-center md:pb-16 md:pt-[calc(var(--header-h)+var(--ribbon-h)+3.5rem)]">
-        <p data-copy className="eyebrow justify-center text-[15px] md:text-[17px]">
-          {kicker}
+      <div className="mx-auto max-w-[920px] px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)]">
+        {/* The house badge: the Zyra mark in a small ink disc, then the name */}
+        <p data-copy className="inline-flex items-center gap-2.5 rounded-full border border-black/[0.07] bg-white py-1 pl-1 pr-4 text-[13px] text-body shadow-[0_6px_20px_-12px_rgba(18,20,16,0.35)]">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-onyx">
+            <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="16px" className="h-4 w-auto" />
+          </span>
+          <span className="font-medium text-ink">{kicker}</span>
+          <span aria-hidden className="h-3 w-px bg-black/15" />
+          <span>Bengaluru</span>
         </p>
-        <h1 data-copy className="display mt-3 text-[clamp(2.9rem,8.4vw,6.6rem)] leading-[1]">
-          {title} <span className="display-italic">{accent}</span>
-          <br className="hidden sm:block" /> {rest}
+
+        <h1 data-copy className="display mt-8 text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium leading-[1.02] tracking-[-0.04em]">
+          {title} <span className="display-italic gold-shimmer">{accent}</span>
+          <br /> {rest}
         </h1>
-        <p data-copy className="mx-auto mt-6 max-w-[36ch] text-[clamp(1.05rem,1.7vw,1.4rem)] font-normal leading-[1.45] text-body">
+
+        <p data-copy className="mx-auto mt-6 max-w-[34rem] text-balance text-[17px] leading-[1.55] text-muted md:text-[19px]">
           {body}
         </p>
-        <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <a href={primary.href} className="btn-onyx shine">
+
+        <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+          <a href={primary.href} className="btn-onyx shine !px-6">
             {primary.label}
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="-mr-1">
+              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
-          <Link href={secondary.href} className="btn-ghost">
+          <Link href={secondary.href} className="link-more">
             {secondary.label}
           </Link>
         </div>
+
+        {/* Quiet proof, under a hairline */}
+        <ul data-copy className="mx-auto mt-12 flex max-w-[40rem] flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-black/[0.07] pt-6 text-[13px] text-muted">
+          {facts.map((f, i) => (
+            <li key={f.label} className="flex items-center gap-6">
+              {i > 0 && <span aria-hidden className="hidden h-1 w-1 rounded-full bg-gold/60 sm:block" />}
+              <span>
+                <span className="font-semibold text-ink">{f.value}</span> {f.label}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div data-frame className="relative h-[min(78vh,820px)] min-h-[420px] overflow-hidden will-change-[clip-path]">

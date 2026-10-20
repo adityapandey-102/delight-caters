@@ -15,14 +15,16 @@ import { Reveal } from "@/components/ui/motion";
 const reels = [hospitality.reels[0], eatry.reels[0], hospitality.reels[1], eatry.reels[2]];
 
 /**
- * Zyra Group home, told the Apple way: the opening film, full-width tiles for
- * the two divisions, the two-up brand grid, what's on now, the four ways in as
- * a pinned story, the numbers, the films — and one clear invitation to close.
+ * Zyra Group home, told the Apple way: the opening film, then straight to
+ * what's on now (the highlights — marketing gets the first scroll), full-width
+ * tiles for the two divisions, the two-up brand grid, the four ways in as a
+ * pinned story, the numbers, the films — and one clear invitation to close.
  */
 export default function HomePage() {
   return (
     <>
       <HeroFilm {...homeHero} />
+      <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />
 
       <div className="space-y-3 bg-wall-lit pt-3">
         {featureTiles.map((t) => (
@@ -33,7 +35,6 @@ export default function HomePage() {
         <TileGrid tiles={gridTiles} />
       </div>
 
-      <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />
       <StickyStory title="One family." accent="Four ways in." steps={storySteps} />
       <BigNumbers title="Zyra, by the numbers." items={groupFacts} />
       <ReelsSection eyebrow="Watch" title={["Inside the", "group."]} reels={reels} />

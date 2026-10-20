@@ -73,6 +73,10 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
   - Client round on the branch: home hero on white; no loading screen; marketing ribbon in the nav on every
     page (offers of the section in view first, folds away on scroll); an offers section on every category and
     outlet page — all from one list, `lib/content/offers.ts` (DUMMY, no prices)
+  - Heroes per page type (home hero untouched apart from its copy block): outlet pages = full-bleed photo, copy
+    bottom-left + glass "At a glance" facts (BrandHero); Hospitality/Eatry = white CategoryHero with outlet cards;
+    About = EditorialHero (statement + story + photo collage, replaces StorySection); Contact = ContactHero (3 ways
+    to reach us). Marketing first: every page goes hero → offers (Apple's strategy), then the rest
 - [ ] Next: client review; replace DUMMY content (offers, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
 
 ## Phase 2 backlog (recorded, not yet planned)

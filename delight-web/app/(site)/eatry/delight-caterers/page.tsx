@@ -32,20 +32,26 @@ export default function DelightCaterersPage() {
   return (
     <>
       <BrandHero
-        eyebrow={`Delight Eatry · ${company.name}`}
+        eyebrow={`Delight Eatry · ${company.name} · ${company.tagline}`}
         lines={hero.lines}
-        tagline={company.tagline}
+        tagline="Hunasamaranahalli, Bengaluru"
         body={hero.body}
         image={{ src: hero.image, alt: hero.imageAlt }}
         logo={{ src: "/brand/logo-gold.png", width: 1200, height: 634, alt: company.name }}
+        facts={[
+          { label: "Cuisines", value: "Eight, cooked fresh" },
+          { label: "Occasions", value: "Weddings, corporate, events" },
+          { label: "Menus", value: "Veg & non-veg" },
+          { label: "Nutrition", value: "Dietitian-planned options" },
+        ]}
         primary={{ label: hero.primaryCta, href: "#enquiry" }}
         secondary={{ label: hero.secondaryCta, href: "/contact" }}
       />
+      <OffersSection eyebrow="What's on" title="Offers at Delight Caterers." items={offersFor({ slug: "delight-caterers" })} />
       <Marquee words={marqueeWords} />
       <ImpactDiagram />
       <Cuisines id="cuisines" />
       <Nutrition />
-      <OffersSection eyebrow="What's on" title="Offers at Delight Caterers." items={offersFor({ slug: "delight-caterers" })} />
       <section className="relative overflow-hidden px-5 py-16 sm:px-8 md:py-24 lg:px-12">
         <div className="mx-auto w-full max-w-[1280px]">
           <Gallery photos={photos} title="A taste of our tables." eyebrow={company.name} />

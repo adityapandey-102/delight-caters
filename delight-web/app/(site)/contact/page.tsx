@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { group } from "@/lib/content/group";
-import { BrandHero } from "@/modules/brand/components/BrandHero";
+import { ContactHero } from "@/modules/contact/components/ContactHero";
+import { contact, whatsappHref } from "@/lib/content/site";
+import { sterlingInn } from "@/lib/content/hospitality";
 import { ContactDirectory } from "@/modules/contact/components/ContactDirectory";
 
 export const metadata: Metadata = {
@@ -12,12 +14,16 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <BrandHero
-        eyebrow={`${group.name} · Contact`}
-        lines={["Let's make it", "unforgettable"]}
+      <ContactHero
+        kicker={`Contact ${group.shortName}`}
+        title="Let's make it"
+        accent="unforgettable."
         body="Reach any of our hotels and food brands directly, or tell us about your event and we'll take it from there."
-        tagline={group.tagline}
-        image={{ src: "/media/olive/banquet.webp", alt: "The banquet hall at Olive" }}
+        ways={[
+          { icon: "phone", title: "Stay with us", line: `Sterling hotels · ${sterlingInn.contact.phone?.display ?? ""}`, href: sterlingInn.contact.phone?.href ?? "#directory" },
+          { icon: "sparkle", title: "Plan an event", line: "Weddings, conferences and celebrations", href: "#enquiry" },
+          { icon: "whatsapp", title: "Chat on WhatsApp", line: `Delight Caterers · ${contact.phoneDisplay}`, href: whatsappHref, external: true },
+        ]}
       />
       <ContactDirectory />
     </>

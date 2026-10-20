@@ -2,27 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
 import { Arrow } from "@/components/ui/Arrow";
+import { Icon } from "@/components/ui/Icon";
 
 type Cta = { label: string; href: string; external?: boolean };
 
-/** A campaign shown on the hero: its photo becomes the background while it runs. */
-export type HeroSlide = { image: { src: string; alt: string }; kind: string; title: string; dates: string; cta: { label: string; href: string } };
-
-const SLIDE_MS = 7000;
-
 /**
- * The hero for every page — the full-bleed photograph of the original home
- * page, made richer: the plate eases in from a deep zoom, the headline rises
- * line by line in large editorial serif, a gold rule draws out under it with
- * the tagline, and on desktop the photo pushes in while the copy lifts away as
- * you scroll. A transparent dark shadow sits only behind the words.
+ * The outlet hero — the way the great hotel sites open: the photograph fills
+ * the screen, and the brand sits low and to the left (logo, name, its line,
+ * where it is, two actions), with the key facts on a glass card to the right.
+ * The plate eases in from a zoom and pushes in as you scroll.
  *
- * `inset` is for photographs too small or too tall to fill the screen: they
- * become a framed print on the right, over a soft, darkened wash of themselves.
- * `children` float at the foot of the hero (the home page's finder).
+ * `inset` is for photographs too small or too tall to fill the screen: a soft,
+ * darkened wash of the photo fills the stage and the photo itself stands on
+ * the right as a framed print (the facts then sit under the actions).
  */
 export function BrandHero({
   eyebrow,
@@ -34,12 +29,11 @@ export function BrandHero({
   primary,
   secondary,
   inset = false,
-  tall = false,
-  slides,
-  children,
+  facts = [],
 }: {
   eyebrow: string;
   lines: readonly [string, string?];
+  /** Where it is — shown with a pin. */
   tagline?: string;
   body?: string;
   image: { src: string; alt: string };
@@ -47,47 +41,28 @@ export function BrandHero({
   primary?: Cta;
   secondary?: Cta;
   inset?: boolean;
-  /** The home page: a full screen and a longer scroll-through. */
-  tall?: boolean;
-  /** Campaigns to run on the hero (home page): backgrounds crossfade, a glass card names the one showing. */
-  slides?: HeroSlide[];
-  children?: ReactNode;
+  facts?: { label: string; value: string }[];
 }) {
-  const [slide, setSlide] = useState(0);
-  const hasSlides = Boolean(slides?.length);
-  useEffect(() => {
-    if (!slides?.length || prefersReducedMotion()) return;
-    const t = window.setTimeout(() => setSlide((i) => (i + 1) % slides.length), SLIDE_MS);
-    return () => window.clearTimeout(t);
-  }, [slide, slides]);
   const track = useRef<HTMLDivElement>(null);
   const plate = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
+  const shownFacts = facts.slice(0, 4);
 
   useEffect(() => {
     initGsap();
     const el = track.current;
-    if (!el) return;
-    if (prefersReducedMotion()) {
-      gsap.set(el.querySelectorAll("[data-h-line] > span, [data-h-fade]"), { opacity: 1, yPercent: 0, y: 0, scaleX: 1 });
-      return;
-    }
+    if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap
-        .timeline({ defaults: { ease: "power4.out" } })
-        .fromTo(plate.current, { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4, ease: "power3.out" }, 0)
-        .fromTo("[data-h-fade='eyebrow']", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1 }, 0.2)
-        .fromTo("[data-h-line] > span", { yPercent: 115, opacity: 0, rotate: 2 }, { yPercent: 0, opacity: 1, rotate: 0, duration: 1.5, stagger: 0.12 }, 0.25)
-        .fromTo("[data-h-fade='rule']", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 1.3 }, 0.75)
-        .fromTo("[data-h-fade='sub']", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 0.85)
-        .fromTo("[data-h-fade='cta']", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 1)
-        .fromTo("[data-h-fade='foot']", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2 }, 1.1);
-
+        .timeline({ defaults: { ease: "power3.out" } })
+        .fromTo(plate.current, { scale: 1.14 }, { scale: 1, duration: 2.2 }, 0)
+        .from("[data-h]", { opacity: 0, y: 26, duration: 1.1, stagger: 0.08 }, 0.2)
+        .from("[data-h-card]", { opacity: 0, y: 34, duration: 1.2 }, 0.6);
       gsap.matchMedia().add("(min-width: 768px)", () => {
         gsap
-          .timeline({ scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 0.8 } })
-          .to(plate.current, { scale: 1.14, ease: "none" }, 0)
-          .to(copy.current, { yPercent: -22, opacity: 0, ease: "none" }, 0);
+          .timeline({ scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: 0.8 } })
+          .to(plate.current, { scale: 1.1, ease: "none" }, 0)
+          .to(copy.current, { y: -60, opacity: 0.2, ease: "none" }, 0);
       });
     }, el);
     return () => ctx.revert();
@@ -119,186 +94,92 @@ export function BrandHero({
     );
   };
 
-  const shadow =
-    "linear-gradient(to bottom, rgba(10,12,9,0.6) 0%, rgba(10,12,9,0) 22%), radial-gradient(70% 55% at 50% 52%, rgba(14,16,12,0.62) 0%, rgba(14,16,12,0.34) 50%, rgba(14,16,12,0) 80%), linear-gradient(to top, rgba(10,12,9,0.6) 0%, rgba(10,12,9,0) 34%)";
+  const factList = (cls: string) => (
+    <dl className={cls}>
+      {shownFacts.map((f) => (
+        <div key={f.label} className="min-w-0">
+          <dt className="text-[12px] text-white/60">{f.label}</dt>
+          <dd className="mt-0.5 text-[15px] font-medium leading-snug text-white">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
 
   return (
-    <div ref={track} className={`relative ${tall ? "md:h-[165vh]" : "md:h-[128vh]"}`}>
-      <section
-        className={`relative isolate flex flex-col overflow-hidden bg-onyx-ink md:sticky md:top-0 md:h-screen ${tall ? "min-h-[100svh]" : "min-h-[92svh]"}`}
-      >
+    <div ref={track} className="relative">
+      <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-onyx-ink md:min-h-[min(100vh,920px)]">
         <div className="absolute inset-0 -z-10">
           <div ref={plate} className="relative h-full w-full will-change-transform">
-            {hasSlides ? (
-              slides!.map((sl, i) => (
-                <div key={sl.image.src} aria-hidden={i !== slide} className={`absolute inset-0 transition-opacity duration-[1600ms] ease-out ${i === slide ? "opacity-100" : "opacity-0"}`}>
-                  <Image
-                    src={sl.image.src}
-                    alt={i === slide ? sl.image.alt : ""}
-                    fill
-                    preload={i === 0}
-                    sizes="100vw"
-                    quality={85}
-                    className={`object-cover transition-transform duration-[9000ms] ease-out motion-reduce:transition-none ${i === slide ? "scale-110" : "scale-100"}`}
-                  />
-                </div>
-              ))
-            ) : inset ? (
-              <Image src={image.src} alt="" fill preload sizes="40vw" className="scale-125 object-cover opacity-55 blur-2xl" />
+            {inset ? (
+              <Image src={image.src} alt="" fill preload sizes="40vw" className="scale-125 object-cover opacity-50 blur-2xl" />
             ) : (
               <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover" />
             )}
           </div>
-          <div aria-hidden className="absolute inset-0" style={{ background: shadow }} />
-          <div aria-hidden className="grain" />
+          {/* Light at the top for the nav, depth at the foot for the words */}
+          <div aria-hidden className="absolute inset-0 bg-linear-to-b from-black/45 via-black/5 to-transparent" />
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-[75%] bg-linear-to-t from-black/85 via-black/45 to-transparent" />
         </div>
 
-        <div
-          className={`relative flex flex-1 flex-col justify-center px-5 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+5vh)] sm:px-8 md:pb-20 lg:px-12 ${children || hasSlides ? "md:pb-52 lg:pb-40" : ""}`}
-        >
-          <div
-            ref={copy}
-            className={`mx-auto grid w-full max-w-[1280px] items-center gap-10 ${inset ? "lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]" : ""}`}
-          >
-            <div className={inset ? "text-center lg:text-left" : "text-center"}>
+        <div ref={copy} className="relative px-5 pb-10 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] sm:px-8 md:pb-14 lg:px-12">
+          <div className={`mx-auto grid w-full max-w-[1280px] items-end gap-10 ${inset ? "lg:grid-cols-[minmax(0,1fr)_380px]" : shownFacts.length ? "lg:grid-cols-[minmax(0,1fr)_320px]" : ""}`}>
+            <div className="max-w-[44rem]">
               {logo && (
-                <div data-h-fade="eyebrow" className={`mb-8 flex w-fit opacity-0 ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}>
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={logo.width}
-                    height={logo.height}
-                    sizes="320px"
-                    className="h-auto max-h-24 w-auto max-w-[min(300px,70vw)] object-contain [filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.55))_drop-shadow(0_10px_30px_rgba(0,0,0,0.45))]"
-                  />
-                </div>
+                <Image
+                  data-h
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={logo.width}
+                  height={logo.height}
+                  sizes="260px"
+                  className="mb-7 h-auto max-h-16 w-auto max-w-[min(240px,60vw)] object-contain object-left [filter:drop-shadow(0_2px_3px_rgba(0,0,0,0.55))_drop-shadow(0_10px_26px_rgba(0,0,0,0.45))]"
+                />
               )}
-              <p
-                data-h-fade="eyebrow"
-                className={`eyebrow on-dark opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_14px_rgba(0,0,0,0.6)] ${inset ? "justify-center lg:justify-start" : "justify-center"}`}
-              >
+              <p data-h className="text-[13px] font-medium text-gold-light md:text-[14px]">
                 {eyebrow}
               </p>
-
-              <h1
-                className={`display on-dark mt-4 text-[clamp(3rem,7.4vw,6.6rem)] leading-[1] [text-shadow:0_2px_30px_rgba(0,0,0,0.35)] ${inset ? "mx-auto lg:mx-0" : "mx-auto"} max-w-[18ch]`}
-              >
-                {lines.map((line, i) =>
-                  line ? (
-                    <span key={line} data-h-line className="block overflow-hidden pb-[0.08em]">
-                      <span
-                        className={`block origin-left will-change-transform ${i === 1 ? `display-italic mt-2 leading-[1.1] ${line.length > 16 ? "text-[0.46em]" : "text-[0.6em]"}` : ""}`}
-                        style={{ opacity: 0 }}
-                      >
-                        {line}
-                      </span>
-                    </span>
-                  ) : null,
-                )}
+              <h1 data-h className="display on-dark mt-3 text-[clamp(2.9rem,7vw,6rem)] leading-[0.98]">
+                {lines[0]}
               </h1>
-
-              {tagline && (
-                <div
-                  data-h-fade="rule"
-                  aria-hidden
-                  className={`mt-5 flex max-w-sm items-center gap-4 opacity-0 [filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.6))] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
-                >
-                  <span className="w-full text-[15px] text-cream/80">{tagline}</span>
-                </div>
+              {lines[1] && (
+                <p data-h className="display-italic mt-3 font-display text-[clamp(1.35rem,2.6vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.025em] [background-image:linear-gradient(100deg,#b8904a,#ecdcb8_45%,#d8b46f_70%,#c29a55)]">
+                  {lines[1]}
+                </p>
               )}
-
+              {tagline && (
+                <p data-h className="mt-5 flex items-center gap-2 text-[14px] text-white/75">
+                  <Icon name="pin" size={15} className="text-gold-light" /> {tagline}
+                </p>
+              )}
               {body && (
-                <p
-                  data-h-fade="sub"
-                  className={`mt-6 max-w-[52ch] text-[16px] leading-[1.55] text-cream opacity-0 [text-shadow:0_1px_2px_rgba(0,0,0,0.7),0_2px_16px_rgba(0,0,0,0.55)] sm:text-[18px] ${inset ? "mx-auto lg:mx-0" : "mx-auto"}`}
-                >
+                <p data-h className="mt-4 line-clamp-4 max-w-[38rem] text-[16px] leading-[1.6] text-white/80 md:line-clamp-none md:text-[17px]">
                   {body}
                 </p>
               )}
-
               {(primary || secondary) && (
-                <div
-                  data-h-fade="cta"
-                  className={`mt-9 flex flex-col items-stretch gap-3 opacity-0 min-[420px]:flex-row min-[420px]:items-center ${inset ? "justify-center lg:justify-start" : "justify-center"}`}
-                >
-                  {primary && button(primary, "group btn-gold shine !shadow-[0_2px_4px_rgba(0,0,0,0.25),0_18px_40px_-12px_rgba(0,0,0,0.7)]")}
-                  {secondary &&
-                    button(
-                      secondary,
-                      "group btn-ghost-dark",
-                    )}
+                <div data-h className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:items-center">
+                  {primary && button(primary, "group btn-gold shine")}
+                  {secondary && button(secondary, "group btn-ghost-dark")}
                 </div>
               )}
+              {inset && shownFacts.length > 0 && factList("mt-9 grid max-w-[36rem] grid-cols-2 gap-x-8 gap-y-4 border-t border-white/15 pt-6 sm:grid-cols-4")}
             </div>
 
-            {inset && (
-              <div className="relative mx-auto hidden aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[24px] shadow-[0_50px_90px_-40px_rgba(0,0,0,0.9)] ring-1 ring-white/15 lg:block">
-                <Image src={image.src} alt={image.alt} fill preload sizes="420px" className="object-cover" />
-                              </div>
+            {inset ? (
+              <div data-h-card className="relative hidden aspect-[4/5] w-full overflow-hidden rounded-[26px] shadow-[0_50px_90px_-40px_rgba(0,0,0,0.9)] ring-1 ring-white/15 lg:block">
+                <Image src={image.src} alt={image.alt} fill preload sizes="380px" className="object-cover" />
+              </div>
+            ) : (
+              shownFacts.length > 0 && (
+                <div data-h-card className="hidden rounded-[24px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-2xl backdrop-saturate-150 lg:block">
+                  <p className="text-[12px] font-semibold text-gold-light">At a glance</p>
+                  {factList("mt-4 grid gap-4")}
+                </div>
+              )
             )}
           </div>
         </div>
-
-        {(children || hasSlides) && (
-          <div data-h-fade="foot" className="relative px-5 pb-6 opacity-0 sm:px-8 md:absolute md:inset-x-0 md:bottom-0 md:pb-8 lg:px-12">
-            <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-3 lg:flex-row lg:items-end">
-              {hasSlides && <CampaignCard slides={slides!} active={slide} onPick={setSlide} />}
-              {children && <div className="min-w-0 flex-1">{children}</div>}
-            </div>
-          </div>
-        )}
-
-        {/* Scroll cue */}
-        <div aria-hidden className={`pointer-events-none absolute inset-x-0 bottom-5 hidden justify-center ${children ? "" : "md:flex"}`}>
-          <span className="relative block h-12 w-px overflow-hidden bg-cream/25">
-            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.2s_ease-in-out_infinite] bg-white" />
-          </span>
-        </div>
       </section>
-    </div>
-  );
-}
-
-/** The running campaign, on glass: kind and dates, title, its action, and a progress line per campaign. */
-function CampaignCard({ slides, active, onPick }: { slides: HeroSlide[]; active: number; onPick: (i: number) => void }) {
-  const c = slides[active];
-  const isPage = c.cta.href.startsWith("/");
-  return (
-    <div className="w-full shrink-0 rounded-[18px] border border-white/20 bg-white/10 p-4 text-white shadow-[0_24px_60px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl lg:w-[380px]" aria-live="polite">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">
-          {c.kind} · {c.dates}
-        </p>
-        <div className="flex gap-1.5" role="tablist" aria-label="Campaigns">
-          {slides.map((sl, i) => (
-            <button
-              key={sl.title}
-              type="button"
-              role="tab"
-              aria-selected={i === active}
-              aria-label={sl.title}
-              onClick={() => onPick(i)}
-              className="relative h-6 w-6"
-            >
-              <span className={`absolute left-1/2 top-1/2 h-[3px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full bg-white/30 transition-all duration-500 ${i === active ? "w-6" : "w-2.5"}`}>
-                {i === active && <span key={active} className="absolute inset-0 origin-left animate-[progress-fill_7s_linear_both] bg-gold-light motion-reduce:animate-none" />}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-      <p key={c.title} className="mt-2 font-display text-[1.6rem] leading-[1.02] tracking-[-0.02em] animate-[hub-in_0.7s_var(--ease-out-expo)_both]">
-        {c.title}
-      </p>
-      {isPage ? (
-        <Link href={c.cta.href} className="group mt-3 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90 hover:text-gold-light">
-          {c.cta.label} <Arrow />
-        </Link>
-      ) : (
-        <a href={c.cta.href} className="group mt-3 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/90 hover:text-gold-light">
-          {c.cta.label} <Arrow />
-        </a>
-      )}
     </div>
   );
 }

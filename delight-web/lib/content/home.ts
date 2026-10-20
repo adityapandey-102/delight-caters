@@ -14,7 +14,12 @@ export const homeHero = {
   title: "An",
   accent: "unforgettable",
   rest: "experience.",
-  body: "Three hotels by Bengaluru Airport, the city's favourite kulfi, an all-day restaurant and a catering house. One family, one standard of care.",
+  body: "Three hotels by the airport, the city's favourite kulfi, an all‑day restaurant and a catering house — one family, one standard of care.",
+  facts: [
+    { value: "3", label: "hotels by the airport" },
+    { value: "3", label: "food brands" },
+    { value: "4.8★", label: "guest rating, Sterling Inn" },
+  ],
   primary: { label: "Plan your event", href: "#enquiry" },
   secondary: { label: "Find a stay", href: "/hospitality" },
   image: { src: D("hotel-night"), alt: "A hotel lit up at dusk" },

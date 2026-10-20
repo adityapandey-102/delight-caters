@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { eatry } from "@/lib/content/eatry";
 import { offersFor } from "@/lib/content/offers";
 import { eatryListings } from "@/lib/content/showcase";
-import { BrandHero } from "@/modules/brand/components/BrandHero";
+import { CategoryHero } from "@/modules/showcase/components/CategoryHero";
 import { ListingCards } from "@/modules/brand/components/ListingCards";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
 import { OffersSection } from "@/modules/showcase/components/OffersSection";
@@ -19,15 +19,15 @@ export const metadata: Metadata = {
 export default function EatryPage() {
   return (
     <>
-      <BrandHero
-        eyebrow={eatry.name}
-        lines={eatry.title}
-        tagline={eatry.eyebrow}
+      <CategoryHero
+        kicker={eatry.name}
+        title={eatry.title[0]}
+        accent={`${eatry.title[1]}.`}
         body={eatry.intro[0]}
-        image={{ src: "/images/cuisine-north-indian.webp", alt: "A North Indian spread" }}
-        primary={{ label: "Our brands", href: "#brands" }}
-        secondary={{ label: "Plan Your Event", href: "#enquiry" }}
+        outlets={eatryListings.map((e) => ({ href: e.href, name: e.name, note: e.kind, image: e.image }))}
+        image={{ src: "/media/dummy/buffet.webp", alt: "A catered buffet laid out for guests" }}
       />
+      <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
       <section id="brands" className="relative scroll-mt-20 px-5 py-16 sm:px-8 md:py-24 lg:px-12">
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto w-full max-w-[1280px]">
@@ -38,7 +38,6 @@ export default function EatryPage() {
           </div>
         </div>
       </section>
-      <OffersSection title="Offers & events around the table." items={offersFor({ division: "eatry" })} />
       <ReelsSection eyebrow="Bombay Kulfi" title={["Watch &", "crave"]} reels={eatry.reels} />
       <CtaBand />
     </>
