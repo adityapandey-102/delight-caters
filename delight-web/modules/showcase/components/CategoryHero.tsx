@@ -45,7 +45,7 @@ export function CategoryHero({
           {kicker}
         </p>
         <div className="mt-3 grid items-end gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14">
-          <h1 data-c className="display text-[clamp(2.7rem,6vw,5rem)] font-medium tracking-[-0.04em] lg:text-[min(5rem,9.5vh)]">
+          <h1 data-c className="display text-[clamp(2.7rem,6vw,5rem)] font-medium tracking-[-0.01em] lg:text-[min(5rem,9.5vh)]">
             {title} <span className="display-italic">{accent}</span>
           </h1>
           <p data-c className="max-w-[34rem] pb-1 text-[17px] leading-[1.55] text-muted md:text-[19px]">
@@ -62,7 +62,7 @@ export function CategoryHero({
                 </span>
                 <span className="mt-4 flex items-start justify-between gap-4 px-1">
                   <span className="min-w-0">
-                    <span className="block font-display text-[21px] font-semibold tracking-[-0.025em] text-ink">{o.name}</span>
+                    <span className="block font-display text-[21px] font-semibold tracking-[-0.01em] text-ink">{o.name}</span>
                     <span className="mt-0.5 block truncate text-[14px] text-muted">{o.note}</span>
                   </span>
                   <span className="link-more mt-1 shrink-0 !text-[14px]">Explore</span>

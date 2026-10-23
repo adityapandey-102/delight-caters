@@ -20,7 +20,7 @@ export function VisionValues() {
             <Reveal key={c.title} delay={i * 0.08}>
               <div className="h-full rounded-[24px] border border-line bg-wall-lit p-6 md:p-8">
                 <p className="text-[13px] font-semibold text-gold-deep">{c.title}</p>
-                <p className="mt-3 font-display text-[clamp(1.45rem,2.3vw,1.9rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-ink">{c.lead}</p>
+                <p className="mt-3 font-display text-[clamp(1.45rem,2.3vw,1.9rem)] font-semibold leading-[1.15] tracking-[-0.01em] text-ink">{c.lead}</p>
                 <p className="mt-3 text-[15.5px] leading-[1.65] text-muted">{c.body}</p>
               </div>
             </Reveal>
@@ -31,7 +31,7 @@ export function VisionValues() {
           {group.values.map((v, i) => (
             <li key={v.title} className="rounded-[24px] border border-line bg-wall-lit p-6">
               <span className="display-italic font-display text-[15px] font-semibold lining-nums">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-[-0.025em] text-ink">{v.title}</h3>
+              <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-[-0.01em] text-ink">{v.title}</h3>
               <p className="mt-2 text-[14.5px] leading-[1.6] text-muted">{v.body}</p>
             </li>
           ))}

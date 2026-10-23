@@ -34,7 +34,8 @@ function TileLink({ link, dark }: { link: TileData["links"][number]; dark: boole
  * `size="half"` is the two-up grid version.
  */
 export function Tile({ tile, size = "full" }: { tile: TileData; size?: "full" | "half" }) {
-  const dark = tile.theme === "dark";
+  // Every tile is a photograph: copy sits on a dark fade so the picture shows clearly (theme kept for the data shape).
+  const dark = true;
   const full = size === "full";
   return (
     <article

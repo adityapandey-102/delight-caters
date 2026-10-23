@@ -42,9 +42,19 @@ export const group = {
   ],
 };
 
-/** Site navigation: two divisions with their brands, then the group pages. */
+/** Site navigation: two divisions with their brands (Eatry first — catering is the lead business), then the group pages. */
 export const nav = [
   { label: "Home", href: "/" },
+  {
+    label: "Eatry",
+    href: "/eatry",
+    blurb: "Food & celebration",
+    children: [
+      { label: "Delight Caterers", href: "/eatry/delight-caterers", note: "Catering for every occasion" },
+      { label: "Bombay Kulfi", href: "/eatry/bombay-kulfi", note: "Commercial Street" },
+      { label: "Aero Bites", href: "/eatry/aero-bites", note: "Restaurant" },
+    ],
+  },
   {
     label: "Hospitality",
     href: "/hospitality",
@@ -53,16 +63,6 @@ export const nav = [
       { label: "Sterling Inn", href: "/hospitality/sterling-inn", note: "3-star · Airport Road" },
       { label: "Sterling Plaza", href: "/hospitality/sterling-plaza", note: "4-star · Airport Road" },
       { label: "Olive", href: "/hospitality/olive", note: "Hotel · Near the airport" },
-    ],
-  },
-  {
-    label: "Eatry",
-    href: "/eatry",
-    blurb: "Food & celebration",
-    children: [
-      { label: "Bombay Kulfi", href: "/eatry/bombay-kulfi", note: "Commercial Street" },
-      { label: "Aero Bites", href: "/eatry/aero-bites", note: "Restaurant" },
-      { label: "Delight Caterers", href: "/eatry/delight-caterers", note: "Catering for every occasion" },
     ],
   },
   { label: "About", href: "/about" },

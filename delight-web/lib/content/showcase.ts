@@ -20,8 +20,8 @@ export const hotelListings: Listing[] = [
 ];
 
 export const eatryListings: Listing[] = [
-  { href: "/eatry/bombay-kulfi", name: bombayKulfi.name, kind: "Ice creams & street food", location: "Commercial Street, Bengaluru", image: { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "A cup of kulfi at Bombay Kulfi" }, specs: ["Kulfi with A2 milk", "Mojitos & boba", "Momos"], logo: bombayKulfi.logo },
   { href: "/eatry/delight-caterers", name: delightCaterersCard.name, kind: "Catering", location: "Bengaluru", image: { src: "/images/svc-wedding.webp", alt: "A wedding spread by Delight Caterers" }, specs: ["Weddings", "Corporate", "Events", "8 cuisines"], logo: { src: "/brand/logo-gold.png", width: 1200, height: 634 } },
+  { href: "/eatry/bombay-kulfi", name: bombayKulfi.name, kind: "Ice creams & street food", location: "Commercial Street, Bengaluru", image: { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "A cup of kulfi at Bombay Kulfi" }, specs: ["Kulfi with A2 milk", "Mojitos & boba", "Momos"], logo: bombayKulfi.logo },
   { href: "/eatry/aero-bites", name: aeroBites.name, kind: "Restaurant", location: "Bengaluru", image: { src: "/images/cuisine-continental.webp", alt: "A plated dish at Aero Bites" }, specs: ["All-day dining", "North Indian · Coastal", "Group tables"], logo: null },
 ];
 

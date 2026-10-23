@@ -22,7 +22,7 @@ export default function LoginPage() {
         <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-black/40" />
         <div className="absolute inset-x-0 bottom-0 p-12 text-white">
           <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="56px" className="h-14 w-auto" />
-          <p className="mt-5 font-display text-[clamp(2rem,3vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.035em]">{group.tagline}</p>
+          <p className="mt-5 font-display text-[clamp(2rem,3vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em]">{group.tagline}</p>
           <p className="mt-3 max-w-[30rem] text-[15.5px] leading-[1.6] text-white/75">
             One account for your stays, your tables and your celebrations across Delight Hospitality and Delight Eatry.
           </p>

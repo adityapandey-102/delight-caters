@@ -133,7 +133,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
                 <p className={`text-[13px] font-semibold text-gold-light md:text-[14px] ${riseCls}`} style={rise(150)}>
                   {h.kicker}
                 </p>
-                <h3 className={`mt-2 font-display text-[clamp(1.6rem,3vw,2.35rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-white ${riseCls}`} style={rise(260)}>
+                <h3 className={`mt-2 font-display text-[clamp(1.6rem,3vw,2.35rem)] font-semibold leading-[1.08] tracking-[-0.01em] text-white ${riseCls}`} style={rise(260)}>
                   {h.title}
                 </h3>
                 {h.body && (

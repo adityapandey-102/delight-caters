@@ -11,7 +11,7 @@ type Cta = { label: string; href: string; external?: boolean };
 
 /**
  * The hero for a brand with a portrait photograph (Bombay Kulfi): a clean,
- * two-column stage on deep warm black, lit softly in the brand's own orange —
+ * two-column stage on warm off-white, lit softly in the brand's own orange —
  * the logo, a badge for what sets the brand apart, the name and its line, two
  * actions and three facts in a tidy row on the left; the photograph standing
  * on the right with its location on a glass chip. One screen on desktop.
@@ -83,11 +83,10 @@ export function SpotlightHero({
   return (
     <section
       ref={root}
-      data-nav-dark
-      className="relative isolate overflow-hidden px-5 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+2.5rem)] text-cream sm:px-8 md:pb-20 lg:flex lg:h-screen lg:min-h-[680px] lg:items-center lg:px-12 lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]"
+      className="relative isolate overflow-hidden px-5 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+2.5rem)] text-ink sm:px-8 md:pb-20 lg:flex lg:h-screen lg:min-h-[680px] lg:items-center lg:px-12 lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]"
       style={{
         background:
-          "radial-gradient(55% 60% at 85% 45%, rgba(234,88,12,0.22), transparent 70%), radial-gradient(45% 50% at 0% 100%, rgba(216,180,111,0.12), transparent 70%), linear-gradient(180deg, #15100c, #0d0a08)",
+          "radial-gradient(55% 60% at 85% 45%, rgba(234,88,12,0.16), transparent 70%), radial-gradient(45% 50% at 0% 100%, rgba(216,180,111,0.22), transparent 70%), linear-gradient(180deg, #fbf6ee, #f6eee2)",
       }}
     >
       <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
@@ -101,14 +100,14 @@ export function SpotlightHero({
               height={logo.height}
               sizes="200px"
               preload
-              className="h-auto max-h-20 w-auto object-contain [filter:drop-shadow(0_6px_20px_rgba(0,0,0,0.6))] lg:max-h-[min(5.5rem,10vh)]"
+              className="h-auto max-h-20 w-auto object-contain [filter:drop-shadow(0_6px_16px_rgba(120,60,10,0.18))] lg:max-h-[min(5.5rem,10vh)]"
             />
           )}
 
           {badge && (
             <p
               data-s
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-linear-to-r from-gold-light/25 to-gold/10 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-gold-pale ring-1 ring-gold-light/40 lg:mt-[3.5vh]"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-linear-to-r from-gold-light/35 to-gold/10 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-gold-ink ring-1 ring-gold/45 lg:mt-[3.5vh]"
             >
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold-light text-onyx-ink">
                 <Icon name="star" size={13} />
@@ -117,36 +116,36 @@ export function SpotlightHero({
             </p>
           )}
 
-          <p data-s className="mt-6 text-[13.5px] font-medium text-white/60 lg:mt-[3vh]">
+          <p data-s className="mt-6 text-[13.5px] font-medium text-muted lg:mt-[3vh]">
             {eyebrow}
           </p>
-          <h1 data-s className="display on-dark mt-2 text-[clamp(3rem,7vw,6rem)] leading-[0.98] lg:text-[min(6rem,10.5vh)]">
+          <h1 data-s className="display mt-2 text-[clamp(3rem,7vw,6rem)] leading-[0.98] lg:text-[min(6rem,10.5vh)]">
             {name}
           </h1>
           {tagline && (
-            <p data-s className="display-italic mt-2 font-display text-[clamp(1.4rem,2.6vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.025em] [background-image:linear-gradient(100deg,#f59e0b,#fcd9a5_45%,#d8b46f_75%)]">
+            <p data-s className="display-italic mt-2 font-display text-[clamp(1.4rem,2.6vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.01em] [background-image:linear-gradient(100deg,#c2410c,#ea580c_45%,#b8904a_80%)]">
               {tagline}
             </p>
           )}
           {body && (
-            <p data-s className="mt-5 max-w-[36rem] text-[16px] leading-[1.6] text-white/75 md:text-[17px] lg:mt-[2.5vh]">
+            <p data-s className="mt-5 max-w-[36rem] text-[16px] leading-[1.6] text-body md:text-[17px] lg:mt-[2.5vh]">
               {body}
             </p>
           )}
 
           {(primary || secondary) && (
             <div data-s className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:items-center lg:mt-[4vh]">
-              {primary && button(primary, "group btn-gold shine")}
-              {secondary && button(secondary, "group btn-ghost-dark")}
+              {primary && button(primary, "group btn-onyx shine")}
+              {secondary && button(secondary, "group btn-ghost")}
             </div>
           )}
 
           {facts.length > 0 && (
-            <dl data-s className="mt-10 grid max-w-[38rem] grid-cols-1 divide-white/10 border-t border-white/10 sm:grid-cols-3 sm:divide-x lg:mt-[5vh]">
+            <dl data-s className="mt-10 grid max-w-[38rem] grid-cols-1 divide-black/10 border-t border-black/10 sm:grid-cols-3 sm:divide-x lg:mt-[5vh]">
               {facts.slice(0, 3).map((f, i) => (
                 <div key={f.label} className={`py-4 sm:py-5 ${i === 0 ? "sm:pr-5" : "sm:px-5"}`}>
-                  <dt className="text-[12px] text-white/50">{f.label}</dt>
-                  <dd className="mt-1 text-[14.5px] font-medium leading-snug text-white">{f.value}</dd>
+                  <dt className="text-[12px] text-muted">{f.label}</dt>
+                  <dd className="mt-1 text-[14.5px] font-medium leading-snug text-ink">{f.value}</dd>
                 </div>
               ))}
             </dl>
@@ -154,11 +153,10 @@ export function SpotlightHero({
         </div>
 
         <div data-s-photo className="relative mx-auto w-full max-w-[460px] lg:max-w-none">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[30px] shadow-[0_60px_100px_-50px_rgba(0,0,0,0.95)] ring-1 ring-white/10 lg:aspect-auto lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-12vh)] lg:max-h-[700px]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[30px] shadow-[0_60px_100px_-50px_rgba(120,60,10,0.45)] ring-1 ring-black/5 lg:aspect-auto lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-12vh)] lg:max-h-[700px]">
             <Image src={image.src} alt={image.alt} fill preload sizes="(min-width: 1024px) 520px, 90vw" className="object-cover" />
-            <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/50 to-transparent" />
             {location && (
-              <p className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-black/40 px-3.5 py-2 text-[13px] font-medium text-white ring-1 ring-white/20 backdrop-blur-xl">
+              <p className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2 text-[13px] font-medium text-white ring-1 ring-white/15 backdrop-blur-md">
                 <Icon name="pin" size={14} className="text-gold-light" />
                 {location}
               </p>

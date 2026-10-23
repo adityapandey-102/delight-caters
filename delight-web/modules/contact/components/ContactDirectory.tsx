@@ -29,16 +29,6 @@ const hotelEntries: Entry[] = hotels.map((v) => ({
 }));
 
 const eateryEntries: Entry[] = [
-  ...eateries.map((v) => ({
-    slug: v.slug,
-    href: `/eatry/${v.slug}`,
-    name: v.name,
-    kind: v.kind,
-    address: v.contact.address,
-    phone: v.contact.phone,
-    email: v.contact.email,
-    mapsUrl: v.contact.mapsUrl,
-  })),
   {
     slug: delightCaterersCard.slug,
     href: `/eatry/${delightCaterersCard.slug}`,
@@ -49,11 +39,21 @@ const eateryEntries: Entry[] = [
     email: delightCaterersCard.email,
     mapsUrl: undefined,
   },
+  ...eateries.map((v) => ({
+    slug: v.slug,
+    href: `/eatry/${v.slug}`,
+    name: v.name,
+    kind: v.kind,
+    address: v.contact.address,
+    phone: v.contact.phone,
+    email: v.contact.email,
+    mapsUrl: v.contact.mapsUrl,
+  })),
 ];
 
 const groups: { title: string; entries: Entry[] }[] = [
-  { title: "Delight Hospitality", entries: hotelEntries },
   { title: "Delight Eatry", entries: eateryEntries },
+  { title: "Delight Hospitality", entries: hotelEntries },
 ];
 
 function Card({ e }: { e: Entry }) {

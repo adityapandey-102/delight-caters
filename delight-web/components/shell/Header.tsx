@@ -17,12 +17,10 @@ const hasChildren = (item: NavItem): item is Parent => "children" in item;
 
 const desktopItems = nav.filter((i) => i.href !== "/");
 const divisions = nav.filter(hasChildren);
-/** Sections the bar should read as dark glass over. */
-const DARK_SURFACES = "[data-nav-dark], .bg-black, .bg-onyx-ink, .onyx-velvet";
 
 /**
- * Apple-style global nav: a slim glass bar (dark over the opening film, light
- * once the page moves), the logo as home, evenly spaced links, and a
+ * Apple-style global nav: a slim off-white glass bar (always light — the
+ * client wants no dark surfaces anywhere), the logo as home, evenly spaced links, and a
  * full-width flyout for each division — big links to its brands, then quick
  * actions — that blurs the page beneath. Under the bar runs the marketing
  * ribbon (offers for the section in view first); it shows at the top of every
@@ -31,8 +29,6 @@ const DARK_SURFACES = "[data-nav-dark], .bg-black, .bg-onyx-ink, .onyx-velvet";
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  /** True while the bar sits over a dark section (black films, photo heroes) — the bar turns dark glass there, as Apple's does. */
-  const [overDark, setOverDark] = useState(true);
   const [atTop, setAtTop] = useState(true);
   const [menu, setMenu] = useState<string | null>(null);
   const cta = enquiryLabel(pathname);
@@ -40,31 +36,21 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const promoItems = useMemo(() => offersForPath(pathname), [pathname]);
 
+  // The marketing ribbon shows at the top of the page and folds away once you scroll.
   useEffect(() => {
     let frame = 0;
     const probe = () => {
       frame = 0;
       setAtTop(window.scrollY < 120);
-      // Look just below the whole header (bar + ribbon) at what the page shows there.
-      const y = (headerRef.current?.getBoundingClientRect().bottom ?? 52) + 4;
-      const el = document.elementFromPoint(24, y);
-      if (!el || el.closest("dialog")) return; // an open popup: keep the tone of the page behind it
-      setOverDark(!!el.closest(DARK_SURFACES));
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(probe);
     };
     probe();
-    const settle = [300, 1200].map((ms) => window.setTimeout(probe, ms)); // after fonts and images settle
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    document.addEventListener("close", onScroll, true); // a dialog closing reveals the page again
     return () => {
-      document.removeEventListener("close", onScroll, true);
       cancelAnimationFrame(frame);
-      settle.forEach((t) => window.clearTimeout(t));
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, [pathname]);
 
@@ -104,7 +90,7 @@ export default function Header() {
     closeTimer.current = window.setTimeout(() => setMenu(null), 140);
   };
 
-  const light = !overDark || !!menu || open;
+  const light = true;
   const active = divisions.find((d) => d.label === menu);
 
   return (
@@ -218,13 +204,13 @@ export default function Header() {
                   <FlyoutColumn title={`Explore Delight ${active.label}`} delay={0}>
                     {active.children.map((c) => (
                       <li key={c.href}>
-                        <Link href={c.href} className="block py-1 font-display text-[24px] font-semibold tracking-[-0.025em] text-ink transition-colors hover:text-gold-deep">
+                        <Link href={c.href} className="block py-1 font-display text-[24px] font-semibold tracking-[-0.01em] text-ink transition-colors hover:text-gold-deep">
                           {c.label}
                         </Link>
                       </li>
                     ))}
                     <li>
-                      <Link href={active.href} className="mt-1 block py-1 font-display text-[24px] font-semibold tracking-[-0.025em] text-muted transition-colors hover:text-gold-deep">
+                      <Link href={active.href} className="mt-1 block py-1 font-display text-[24px] font-semibold tracking-[-0.01em] text-muted transition-colors hover:text-gold-deep">
                         {active.label === "Hospitality" ? "All hotels" : "All of Eatry"}
                       </Link>
                     </li>
@@ -280,7 +266,7 @@ export default function Header() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`block py-1.5 font-display text-[28px] font-semibold tracking-[-0.03em] ${isActive(item.href) ? "text-gold-deep" : "text-ink"}`}
+                  className={`block py-1.5 font-display text-[28px] font-semibold tracking-[-0.01em] ${isActive(item.href) ? "text-gold-deep" : "text-ink"}`}
                 >
                   {hasChildren(item) ? `Delight ${item.label}` : item.label}
                 </Link>

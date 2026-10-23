@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { hospitality } from "@/lib/content/hospitality";
 import { eatry } from "@/lib/content/eatry";
+import { reels as catererReels } from "@/lib/content/site";
 import { featureTiles, gridTiles, homeHero, storySteps } from "@/lib/content/home";
 import { asHighlights, offers } from "@/lib/content/offers";
 import { HeroFilm } from "@/modules/showcase/components/HeroFilm";
@@ -11,13 +12,14 @@ import { StickyStory } from "@/modules/showcase/components/StickyStory";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
 import { Reveal } from "@/components/ui/motion";
 
-const reels = [hospitality.reels[0], eatry.reels[0], hospitality.reels[1], eatry.reels[2]];
+const reels = [catererReels[0], eatry.reels[0], catererReels[1], hospitality.reels[0]];
 
 /**
- * Zyra Group home, told the Apple way: the opening film, then straight to
- * what's on now (the highlights — marketing gets the first scroll), full-width
- * tiles for the two divisions, the two-up brand grid, the four ways in as a
- * pinned story, the numbers, the films — and one clear invitation to close.
+ * Zyra Group home, told the Apple way and catering first: the opening film,
+ * then straight to what's on now (the highlights — marketing gets the first
+ * scroll), the films, full-width tiles for the two divisions, the brand grid
+ * (Caterers, Kulfi, Aero Bites, then the hotels), the four ways in as a pinned
+ * story — and one clear invitation to close. Off-white throughout.
  */
 export default function HomePage() {
   return (

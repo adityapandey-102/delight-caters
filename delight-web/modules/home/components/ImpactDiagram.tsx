@@ -51,9 +51,9 @@ type Quadrant = DiagramItem & {
 
 /** Lobe looks by position: charcoal and gold, alternating round the diamond. */
 const LOOK: Pick<Quadrant, "fill" | "ink" | "tint" | "corner">[] = [
-  { fill: "linear-gradient(135deg, #2a2d31 0%, #16181b 60%, #0b0c0e 100%)", ink: "#e3c77e", tint: "rgba(22,24,27,0.2)", corner: "tl" },
+  { fill: "linear-gradient(135deg, #fdfaf4 0%, #f1e8d6 60%, #e6d8bd 100%)", ink: "#8a6526", tint: "rgba(22,24,27,0.2)", corner: "tl" },
   { fill: "linear-gradient(135deg, #e3c77e 0%, #c49a45 55%, #8c6a2c 100%)", ink: "#16181b", tint: "rgba(140,106,44,0.18)", corner: "tr" },
-  { fill: "linear-gradient(135deg, #2a2d31 0%, #16181b 55%, #0b0c0e 100%)", ink: "#e3c77e", tint: "rgba(22,24,27,0.2)", corner: "br" },
+  { fill: "linear-gradient(135deg, #fdfaf4 0%, #f1e8d6 55%, #e6d8bd 100%)", ink: "#8a6526", tint: "rgba(22,24,27,0.2)", corner: "br" },
   { fill: "linear-gradient(135deg, #e8cf8a 0%, #c49a45 50%, #a9813a 100%)", ink: "#16181b", tint: "rgba(169,129,58,0.18)", corner: "bl" },
 ];
 

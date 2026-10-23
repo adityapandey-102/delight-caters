@@ -18,7 +18,7 @@ export function LocalNav({
   return (
     <div className="sticky top-[var(--header-h)] z-30 border-b border-black/[0.08] bg-[rgba(250,250,248,0.78)] backdrop-blur-2xl backdrop-saturate-[1.8]">
       <div className="mx-auto flex h-[52px] w-full max-w-[1080px] items-center justify-between gap-6 px-6">
-        <p className="font-display text-[19px] font-semibold tracking-[-0.025em] text-ink md:text-[21px]">{name}</p>
+        <p className="font-display text-[19px] font-semibold tracking-[-0.01em] text-ink md:text-[21px]">{name}</p>
         <nav aria-label={`${name} sections`} className="flex items-center gap-5">
           <ul className="hidden items-center gap-5 md:flex">
             {links.map((l) => (

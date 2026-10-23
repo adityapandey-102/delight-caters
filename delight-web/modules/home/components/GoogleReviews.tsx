@@ -97,13 +97,12 @@ export default function GoogleReviews({
   const run = [...reviews, ...reviews];
 
   return (
-    <section className="onyx-velvet overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-12">
-      <div aria-hidden className="grain" />
+    <section className="overflow-hidden bg-wall-cream px-5 py-16 sm:px-8 md:py-20 lg:px-12">
 
       <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-10 lg:grid-cols-[minmax(0,330px)_minmax(0,1fr)] lg:gap-12">
         <Reveal>
           <Eyebrow onDark>{eyebrow}</Eyebrow>
-          <h2 className="display on-dark mt-4 text-[clamp(2rem,4vw,3rem)]">
+          <h2 className="display mt-4 text-[clamp(2rem,4vw,3rem)]">
             <span className="block">{title[0]}</span>
             <span className="display-italic block">{title[1]}</span>
           </h2>
@@ -119,13 +118,13 @@ export default function GoogleReviews({
                 )}
                 <Stars rating={rating ?? undefined} size={16} gold="var(--color-gold-light)" />
               </div>
-              <p className="mt-1 text-[12.5px] text-cream-muted">{count !== null ? UI.count(count) : UI.panel}</p>
+              <p className="mt-1 text-[12.5px] text-muted">{count !== null ? UI.count(count) : UI.panel}</p>
             </div>
           </div>
 
           {isSample &&<p className="mt-4 text-[12px] italic leading-snug text-gold-pale/80">{UI.preview}</p>}
 
-          <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark group mt-6 !px-5 !py-2.5 !text-[12.5px]">
+          <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost group mt-6 !px-5 !py-2.5 !text-[12.5px]">
             {UI.seeAll}
             <span className="sr-only">{NEW_TAB}</span>
             <Arrow />
@@ -147,7 +146,7 @@ export default function GoogleReviews({
                     <figcaption className="mt-4 flex items-center gap-3 border-t border-line pt-3.5">
                       <span
                         aria-hidden
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-onyx font-display text-[0.95rem] font-semibold text-gold-light"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-light/25 font-display text-[0.95rem] font-semibold text-gold-deep"
                       >
                         {initials(r.name)}
                       </span>

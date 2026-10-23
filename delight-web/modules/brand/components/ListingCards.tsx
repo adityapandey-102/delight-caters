@@ -40,12 +40,12 @@ export function ListingCards({ items }: { items: Listing[] }) {
             <div className="mt-4 flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-gold-deep">{l.kind}</p>
-                <h3 className="mt-1.5 font-display text-[2.1rem] leading-none tracking-[-0.03em] text-ink">{l.name}</h3>
+                <h3 className="mt-1.5 font-display text-[2.1rem] leading-none tracking-[-0.01em] text-ink">{l.name}</h3>
                 <p className="mt-1.5 flex items-center gap-1.5 text-[13.5px] text-muted">
                   <Icon name="pin" size={14} /> {l.location}
                 </p>
               </div>
-              <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+              <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors group-hover:border-gold-light group-hover:bg-gold-light group-hover:text-ink group-hover:text-white">
                 <Arrow />
               </span>
             </div>

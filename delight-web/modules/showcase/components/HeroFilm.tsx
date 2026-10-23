@@ -14,6 +14,7 @@ type Action = { label: string; href: string };
  * to full bleed as you scroll into it.
  */
 export function HeroFilm({
+  kicker,
   title,
   accent,
   rest,
@@ -24,6 +25,8 @@ export function HeroFilm({
   caption,
   facts = [],
 }: {
+  /** A quiet line above the headline (what the group does, catering first). */
+  kicker?: string;
   /** Headline as three parts: lead, the gold accent word(s), and the rest. */
   title: string;
   accent: string;
@@ -67,41 +70,54 @@ export function HeroFilm({
   }, []);
 
   return (
-    <div ref={root} className="relative overflow-hidden bg-wall-lit text-ink">
+    <div ref={root} className="relative overflow-hidden bg-[#faf6ef] text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
-      <section className="mx-auto max-w-[920px] px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[7vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+6vh)]">
-        <h1 data-copy className="display text-[clamp(2.7rem,6.6vw,5.4rem)] font-medium lg:text-[min(5.4rem,10.5vh)] leading-[1.02] tracking-[-0.04em]">
-          {title} <span className="display-italic gold-shimmer">{accent}</span>
-          <br /> {rest}
-        </h1>
+      <section
+        className="relative isolate px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
+        style={{ background: "radial-gradient(55% 60% at 50% 0%, rgba(216,180,111,0.18), transparent 70%), linear-gradient(180deg, #fffdf9, #faf6ef)" }}
+      >
+        <div className="mx-auto max-w-[960px]">
+          {kicker && (
+            <p data-copy className="mx-auto flex max-w-max items-center gap-4 text-[12.5px] font-medium tracking-[0.14em] text-gold-deep md:text-[13px]">
+              <span aria-hidden className="h-px w-10 bg-linear-to-r from-transparent to-gold/70" />
+              {kicker}
+              <span aria-hidden className="h-px w-10 bg-linear-to-l from-transparent to-gold/70" />
+            </p>
+          )}
 
-        <p data-copy className="mx-auto mt-6 max-w-[34rem] text-balance lg:mt-[3vh] text-[17px] leading-[1.55] text-muted md:text-[19px]">
-          {body}
-        </p>
+          <h1 data-copy className="display mt-6 text-[clamp(3.1rem,8vw,6.6rem)] leading-[0.98] lg:mt-[2.5vh] lg:text-[min(6.4rem,10.5vh)]">
+            {title} <span className="display-italic gold-shimmer pr-[0.06em]">{accent}</span>
+            <br /> {rest}
+          </h1>
 
-        <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 lg:mt-[4vh]">
-          <a href={primary.href} className="btn-onyx shine !px-6">
-            {primary.label}
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="-mr-1">
-              <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-          <Link href={secondary.href} className="link-more">
-            {secondary.label}
-          </Link>
+          <p data-copy className="mx-auto mt-6 max-w-[36rem] text-balance text-[17px] leading-[1.6] text-body md:text-[19px] lg:mt-[2.5vh]">
+            {body}
+          </p>
+
+          <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 lg:mt-[3.5vh]">
+            <a href={primary.href} className="btn-onyx shine !px-7">
+              {primary.label}
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="-mr-1">
+                <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+            <Link href={secondary.href} className="link-more">
+              {secondary.label}
+            </Link>
+          </div>
+
+          {/* Proof, as three quiet columns */}
+          {facts.length > 0 && (
+            <dl data-copy className="mx-auto mt-12 grid max-w-[44rem] grid-cols-3 divide-x divide-gold/25 border-t border-gold/25 pt-7 lg:mt-[4vh] lg:pt-[2.5vh]">
+              {facts.map((f) => (
+                <div key={f.label} className="px-3 sm:px-6">
+                  <dd className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium leading-none text-gold-deep lining-nums">{f.value}</dd>
+                  <dt className="mt-2 text-[12.5px] leading-snug text-muted sm:text-[13.5px]">{f.label}</dt>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
-
-        {/* Quiet proof, under a hairline */}
-        <ul data-copy className="mx-auto mt-12 flex max-w-[40rem] lg:mt-[5vh] lg:pt-[2.5vh] flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-black/[0.07] pt-6 text-[13px] text-muted">
-          {facts.map((f, i) => (
-            <li key={f.label} className="flex items-center gap-6">
-              {i > 0 && <span aria-hidden className="hidden h-1 w-1 rounded-full bg-gold/60 sm:block" />}
-              <span>
-                <span className="font-semibold text-ink">{f.value}</span> {f.label}
-              </span>
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* Screen two: the photograph, opening to full bleed — one screen tall on desktop */}
@@ -109,9 +125,8 @@ export function HeroFilm({
         <div data-photo className="absolute inset-0 will-change-transform">
           <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover brightness-[1.12] saturate-[1.05]" />
         </div>
-        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
         {caption && (
-          <p className="absolute bottom-6 left-1/2 w-full max-w-[1080px] -translate-x-1/2 px-6 text-[13px] text-white/75 md:bottom-9">{caption}</p>
+          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/45 px-4 py-2 text-[13px] font-medium text-white ring-1 ring-white/15 backdrop-blur-md md:bottom-9">{caption}</p>
         )}
       </section>
     </div>

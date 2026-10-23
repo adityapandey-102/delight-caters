@@ -56,7 +56,7 @@ export default function FaqAccordion({
                   aria-hidden
                   className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-[rotate,background-color,border-color,color] duration-500 ease-out-expo ${
                     isOpen
-                      ? "rotate-45 border-onyx bg-onyx text-gold-light"
+                      ? "rotate-45 border-gold-light bg-gold-light text-onyx-ink"
                       : "border-gold/50 text-gold-deep group-hover:border-onyx group-hover:text-onyx"
                   }`}
                 >

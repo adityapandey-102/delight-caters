@@ -87,6 +87,13 @@ Old URLs `/about-us`, `/service`, `/contact-us` redirect (308) to `/about`, `/ea
   - Outlet heroes have no logos, except Bombay Kulfi (own SpotlightHero with the "Bengaluru's first & only
     master franchise" badge) and Delight Caterers. Category heroes use photo cards (no banner). Home: no
     badge, no numbers band, light closing card. About aligned to the shared grid.
+  - 2026-10-23: Next.js 16.4.0 → 16.4.3 (security advisory, `next upgrade --agent=security`). Fonts back to
+    Cormorant Garamond + DM Sans, self-hosted (app/fonts, OFL). Catering first everywhere (Eatry before
+    Hospitality; Caterers → Bombay Kulfi → Aero Bites: nav, footer, home tiles + grid, story, enquiry outlets,
+    contact, offers). No black backgrounds: sections/cards/components off-white; primary button is a flat gold
+    pill; overlays on photos stay dark so pictures read. Home: wedding-table hero photo, refined hero copy +
+    stat columns, "Banquets & events" → Delight Caterers tile at no. 1, client's brass-thali photo first in the
+    scroll story (`public/media/catering/thali-brass.webp`).
 - [ ] Next: client review; replace DUMMY content (offers, Aero Bites, team, Olive contacts) and SAMPLE reviews with real data
 
 ## Phase 2 backlog (recorded, not yet planned)

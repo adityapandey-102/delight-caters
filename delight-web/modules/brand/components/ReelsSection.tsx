@@ -8,7 +8,7 @@ const SLOTS = 4;
 type Photo = { src: string; alt: string };
 
 /**
- * The "watch" band — a dark film strip placed high on the page, right after
+ * The "watch" band — a warm off-white strip placed high on the page, right after
  * the offers: the heading on the left, "Follow @handle" on the right, then the
  * auto-playing reels (see ReelRow). The row always holds four tiles: where a
  * brand has fewer reels, the free slots become photographs of the place and,
@@ -57,19 +57,19 @@ export function ReelsSection({
   return (
     <section
       id={id}
-      className="relative isolate scroll-mt-[120px] overflow-hidden bg-black px-5 py-16 text-cream sm:px-8 md:py-24 lg:px-12 lg:py-[5vh] lg:[--reel-h:min(483px,calc(100vh-300px))]"
+      className="relative isolate scroll-mt-[120px] overflow-hidden bg-wall-cream px-5 py-16 text-ink sm:px-8 md:py-24 lg:px-12 lg:py-[5vh] lg:[--reel-h:min(483px,calc(100vh-300px))]"
     >
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_15%_0%,rgba(216,180,111,0.14),transparent_70%),radial-gradient(50%_50%_at_100%_100%,rgba(216,180,111,0.08),transparent_70%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_15%_0%,rgba(216,180,111,0.22),transparent_70%),radial-gradient(50%_50%_at_100%_100%,rgba(216,180,111,0.12),transparent_70%)]" />
       <div className="relative mx-auto w-full max-w-[1280px]">
         <Reveal className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="eyebrow on-dark">{eyebrow}</p>
-            <h2 className="display on-dark mt-2 text-[clamp(2.1rem,4.6vw,3.6rem)]">
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="display mt-2 text-[clamp(2.1rem,4.6vw,3.6rem)]">
               {title[0]} <span className="display-italic">{title[1]}</span>
             </h2>
           </div>
           {instagram && (
-            <a href={instagram.href} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark self-start !py-2.5 sm:self-auto">
+            <a href={instagram.href} target="_blank" rel="noopener noreferrer" className="btn-ghost self-start !py-2.5 sm:self-auto">
               <Icon name="instagram" size={16} />@{instagram.handle}
               <span className="sr-only"> (opens in a new tab)</span>
             </a>

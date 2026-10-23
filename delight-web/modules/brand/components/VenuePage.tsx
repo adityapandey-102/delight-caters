@@ -183,7 +183,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
                       <ImageReveal className="relative aspect-[4/5] overflow-hidden rounded-[16px] bg-wall-warm">
                         <Image src={s.image.src} alt={s.image.alt} fill sizes="(min-width: 640px) 280px, 100vw" className="object-cover" />
                       </ImageReveal>
-                      <h3 className="mt-4 font-display text-[1.7rem] leading-none tracking-[-0.02em] text-ink">{s.title}</h3>
+                      <h3 className="mt-4 font-display text-[1.7rem] leading-none tracking-[-0.01em] text-ink">{s.title}</h3>
                       <p className="mt-2 text-[14px] leading-[1.6] text-muted">{s.body}</p>
                     </li>
                   ))}
@@ -265,7 +265,7 @@ function VisitCard({ venue }: { venue: Venue }) {
   return (
     <div className="rounded-[20px] border border-line bg-wall-lit p-6 shadow-[0_30px_60px_-40px_rgba(18,20,16,0.45)]">
       <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold-deep">Plan your visit</p>
-      <p className="mt-3 font-display text-[2.1rem] leading-none tracking-[-0.03em] text-ink">{venue.name}</p>
+      <p className="mt-3 font-display text-[2.1rem] leading-none tracking-[-0.01em] text-ink">{venue.name}</p>
       <CtaButton venue={venue} className="mt-6 w-full" />
       <ul className="mt-6 space-y-4 border-t border-line pt-6 text-[14px] text-body">
         {contact.phone && (

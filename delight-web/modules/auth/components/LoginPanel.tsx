@@ -95,7 +95,7 @@ export function LoginPanel() {
 
         {sent ? (
           <div role="status" className="mt-8 rounded-[22px] border border-gold/30 bg-gold/[0.07] p-6">
-            <p className="flex items-center gap-2 font-display text-[19px] font-semibold tracking-[-0.02em] text-ink">
+            <p className="flex items-center gap-2 font-display text-[19px] font-semibold tracking-[-0.01em] text-ink">
               <Icon name="sparkle" size={17} className="text-gold-deep" />
               {who === "customer" ? "Customer accounts are coming soon" : "The team portal is coming soon"}
             </p>

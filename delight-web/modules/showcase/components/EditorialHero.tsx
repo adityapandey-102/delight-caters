@@ -58,7 +58,7 @@ export function EditorialHero({
         <p data-e className="eyebrow">
           {kicker}
         </p>
-        <h1 data-e className="display mt-4 max-w-[13ch] text-[clamp(3rem,8vw,7rem)] font-medium leading-[0.98] tracking-[-0.045em] lg:text-[min(6rem,9.5vh,5.4vw)]">
+        <h1 data-e className="display mt-4 max-w-[13ch] text-[clamp(3rem,8vw,7rem)] font-medium leading-[0.98] tracking-[-0.01em] lg:text-[min(6rem,9.5vh,5.4vw)]">
           {title} <span className="display-italic">{accent}</span>
         </h1>
 

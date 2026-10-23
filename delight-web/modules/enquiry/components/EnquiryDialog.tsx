@@ -126,7 +126,7 @@ export function EnquiryDialog() {
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
               <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="60px" className="h-14 w-auto" />
-              <p className="mt-4 font-display text-[2.2rem] leading-none tracking-[-0.03em] text-white">{group.tagline}</p>
+              <p className="mt-4 font-display text-[2.2rem] leading-none tracking-[-0.01em] text-white">{group.tagline}</p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.22em] text-white/75">{group.name} · Bengaluru</p>
             </div>
           </div>

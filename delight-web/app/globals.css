@@ -3,10 +3,11 @@
 /* ==========================================================================
    Zyra Group — design tokens (apple-design branch)
 
-   Apple's design sense in Zyra's colours: clean neutral surfaces, pure black
-   "film" sections, one tight sans (Inter Tight for display, Inter for text),
-   gold as the single accent — set as gradient words in headlines, the way
-   Apple lights a product name — and glass pill buttons.
+   Apple's design sense in Zyra's colours: off-white pages, sections and cards
+   (the client wants no black backgrounds), but anything laid over a
+   photograph — fades, captions, glass — is dark, so the pictures show
+   clearly. Cormorant Garamond for display with gold italic accents, DM Sans
+   for text, and glass pill buttons.
    ========================================================================== */
 
 @theme {
@@ -14,6 +15,7 @@
   --color-wall: #f5f5f3; /* page */
   --color-wall-lit: #ffffff; /* raised surfaces, tiles */
   --color-wall-warm: #ececea; /* alternating bands */
+  --color-wall-cream: #f8f3ea; /* warm off-white for emphasis bands (in place of dark ones) */
   --color-wall-shade: #d9d9d6;
   --color-line: #d6d6d3;
   --color-line-soft: #e8e8e5;
@@ -42,10 +44,10 @@
   --color-cream: #f5f5f7;
   --color-cream-muted: #a1a1a6;
 
-  --font-display: var(--font-inter-tight), "Inter Tight", "SF Pro Display", system-ui, sans-serif;
-  --font-sans: var(--font-inter), "Inter", "SF Pro Text", system-ui, sans-serif;
-  --font-serif: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
-  --font-script: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-script: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-apple: cubic-bezier(0.28, 0.11, 0.32, 1);
@@ -77,14 +79,12 @@ body {
   background-color: var(--color-wall);
   color: var(--color-body);
   font-family: var(--font-sans);
-  font-feature-settings: "cv11", "ss01";
-  letter-spacing: -0.011em;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--color-onyx);
-  color: var(--color-gold-light);
+  background: var(--color-gold-pale);
+  color: var(--color-ink);
 }
 
 :focus-visible {
@@ -141,12 +141,11 @@ html.lenis body {
   }
 
 
-  /* Onyx velvet: deep warm black with a lift in one corner and grain, so big
-     dark areas never look flat. */
+  /* Formerly the dark "velvet" band; now a warm off-white (no dark backgrounds anywhere). */
   .onyx-velvet {
     position: relative;
-    background-color: var(--color-onyx-ink);
-    color: var(--color-cream);
+    background-color: var(--color-wall-cream);
+    color: var(--color-ink);
   }
   .grain {
     display: none;
@@ -154,19 +153,19 @@ html.lenis body {
 
   /* ---------------------------------------------------------- type helpers */
 
-  /* Display headings: one tight sans, semibold. */
+  /* Display headings: Cormorant Garamond, medium, set close but not tight. */
   .display {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.028em;
-    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.02;
     color: var(--color-ink);
     text-wrap: balance;
   }
-  /* The accent words: lit in gold (Apple's gradient product names). */
+  /* The accent words: Cormorant italic, lit in gold. */
   .display-italic {
     font-family: var(--font-display);
-    font-style: normal;
+    font-style: italic;
     font-weight: inherit;
     letter-spacing: inherit;
     background: linear-gradient(100deg, #6a4d1c 0%, #a07a35 40%, #c29a55 70%, #8a6526 100%);
@@ -317,18 +316,19 @@ html.lenis body {
     color: var(--color-onyx-ink);
   }
 
-  /* Ink glass */
+  /* The primary pill: flat warm gold with ink type (no dark fills anywhere —
+     the class keeps its old name so every primary button follows). */
   .btn-onyx {
-    background: rgba(30, 33, 29, 0.9);
-    color: var(--color-cream);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #dcbd7d;
+    color: var(--color-ink);
+    border: 1px solid rgba(138, 101, 38, 0.35);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 12px 30px -16px rgba(18, 20, 16, 0.6);
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 12px 28px -16px rgba(138, 101, 38, 0.55);
   }
   .btn-onyx:hover {
-    background: rgba(44, 48, 42, 0.94);
-    border-color: rgba(216, 180, 111, 0.45);
+    background: #d0ab62;
+    border-color: rgba(138, 101, 38, 0.55);
   }
 
   /* Clear glass on paper */
@@ -341,23 +341,23 @@ html.lenis body {
       0 10px 26px -20px rgba(18, 20, 16, 0.5);
   }
   .btn-ghost:hover {
-    background: rgba(30, 33, 29, 0.82);
-    border-color: rgba(30, 33, 29, 0.82);
-    color: var(--color-cream);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(138, 101, 38, 0.55);
+    color: var(--color-gold-ink);
   }
 
-  /* Clear glass on photos and ink */
+  /* Dark glass, for buttons laid over photographs (keeps the picture visible) */
   .btn-ghost-dark {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.32);
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.36);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
       0 12px 30px -18px rgba(0, 0, 0, 0.6);
   }
   .btn-ghost-dark:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.75);
   }
 
   /* The buttons that need attention (forms, "Plan your event", the main call
@@ -414,20 +414,20 @@ html.lenis body {
       0 10px 24px -18px rgba(18, 20, 16, 0.55);
   }
   .glass-icon:hover {
-    background: rgba(30, 33, 29, 0.82);
-    border-color: rgba(30, 33, 29, 0.82);
-    color: var(--color-gold-light);
+    background: #dcbd7d;
+    border-color: rgba(138, 101, 38, 0.45);
+    color: var(--color-ink);
   }
   .glass-icon-dark {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.26);
-    color: var(--color-cream);
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
       0 12px 28px -18px rgba(0, 0, 0, 0.6);
   }
   .glass-icon-dark:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
     border-color: rgba(216, 180, 111, 0.7);
     color: var(--color-gold-light);
   }
@@ -614,8 +614,8 @@ html.lenis body {
     display: none;
   }
   .enquiry-dialog::backdrop {
-    background: rgba(10, 12, 9, 0.72);
-    backdrop-filter: blur(6px);
+    background: rgba(10, 12, 9, 0.62);
+    backdrop-filter: blur(4px);
   }
   html:has(.enquiry-dialog:modal) {
     overflow: hidden;

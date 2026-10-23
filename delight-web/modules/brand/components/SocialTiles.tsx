@@ -24,19 +24,19 @@ export function FollowTile({ account, brand, photos }: { account: InstagramAccou
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Follow ${brand} on Instagram (opens in a new tab)`}
-      className={`${TILE} group flex flex-col justify-between p-6 text-white ring-1 ring-gold-light/25 transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/60`}
+      className={`${TILE} group flex flex-col justify-between p-6 text-ink ring-1 ring-gold/30 transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/60`}
       style={{
         background:
-          "radial-gradient(90% 60% at 20% 0%, rgba(216,180,111,0.35), transparent 60%), radial-gradient(80% 60% at 100% 100%, rgba(194,154,85,0.22), transparent 60%), #0d0d0e",
+          "radial-gradient(90% 60% at 20% 0%, rgba(216,180,111,0.35), transparent 60%), radial-gradient(80% 60% at 100% 100%, rgba(194,154,85,0.18), transparent 60%), #fbf7ef",
       }}
     >
       <div>
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-gold-pale via-gold to-gold-deep text-onyx-ink shadow-[0_10px_30px_-10px_rgba(216,180,111,0.7)]">
           <Icon name="instagram" size={22} />
         </span>
-        <p className="mt-6 text-[13px] font-semibold text-gold-light">On Instagram</p>
-        <p className="mt-1 break-words font-display text-[clamp(1.4rem,2vw,1.75rem)] font-semibold leading-tight tracking-[-0.03em]">@{account.handle}</p>
-        <p className="mt-3 text-[14px] leading-[1.5] text-white/70">Reels, offers and the stories behind {brand} — first on Instagram.</p>
+        <p className="mt-6 text-[13px] font-semibold text-gold-deep">On Instagram</p>
+        <p className="mt-1 break-words font-display text-[clamp(1.4rem,2vw,1.75rem)] font-semibold leading-tight tracking-[-0.01em]">@{account.handle}</p>
+        <p className="mt-3 text-[14px] leading-[1.5] text-muted">Reels, offers and the stories behind {brand} — first on Instagram.</p>
       </div>
 
       {photos.length > 0 && (
@@ -63,7 +63,7 @@ export function PhotoTile({ photo, href, label, external }: { photo: Photo; href
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`${TILE} group bg-onyx-ink ring-1 ring-gold-light/15 transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/50`}
+      className={`${TILE} group bg-wall-warm ring-1 ring-gold-light/15 transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/50`}
     >
       <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 300px, 72vw" className="object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.06]" />
       <span aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/80 via-black/30 to-transparent" />

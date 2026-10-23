@@ -36,9 +36,9 @@ export function StickyStory({ title, accent, steps }: { title: string; accent: s
   }, []);
 
   return (
-    <section data-scroll-story className="bg-black text-cream">
+    <section data-scroll-story className="bg-wall-cream text-ink">
       <div className="mx-auto w-full max-w-[1080px] px-6 pt-24 md:pt-32">
-        <h2 className="display on-dark max-w-[14ch] text-[clamp(2.6rem,6.4vw,5rem)]">
+        <h2 className="display max-w-[14ch] text-[clamp(2.6rem,6.4vw,5rem)]">
           {title} <span className="display-italic">{accent}</span>
         </h2>
       </div>
@@ -57,10 +57,10 @@ export function StickyStory({ title, accent, steps }: { title: string; accent: s
               <div className="relative mb-7 aspect-[4/3] overflow-hidden rounded-[22px] lg:hidden">
                 <Image src={s.image.src} alt={s.image.alt} fill sizes="100vw" className="object-cover" />
               </div>
-              <p className="text-[15px] font-semibold text-gold-light">{s.kicker}</p>
-              <h3 className="mt-2 font-display text-[clamp(2rem,3.6vw,2.9rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">{s.title}</h3>
-              <p className="mt-4 max-w-[38ch] text-[17px] leading-[1.5] text-cream-muted md:text-[19px]">{s.body}</p>
-              <Link href={s.link.href} className="link-more on-dark mt-5">
+              <p className="text-[15px] font-semibold text-gold-deep">{s.kicker}</p>
+              <h3 className="mt-2 font-display text-[clamp(2rem,3.6vw,2.9rem)] font-semibold leading-[1.05] text-ink">{s.title}</h3>
+              <p className="mt-4 max-w-[38ch] text-[17px] leading-[1.5] text-muted md:text-[19px]">{s.body}</p>
+              <Link href={s.link.href} className="link-more mt-5">
                 {s.link.label}
               </Link>
             </div>
@@ -68,7 +68,7 @@ export function StickyStory({ title, accent, steps }: { title: string; accent: s
         </div>
 
         <div className="hidden lg:block">
-          <div className="sticky top-[calc(var(--header-h)+6vh)] aspect-[4/5] max-h-[calc(100vh-var(--header-h)-12vh)] w-full overflow-hidden rounded-[32px] bg-onyx-soft">
+          <div className="sticky top-[calc(var(--header-h)+6vh)] aspect-[4/5] max-h-[calc(100vh-var(--header-h)-12vh)] w-full overflow-hidden rounded-[32px] bg-wall-warm">
             {steps.map((s, i) => (
               <Image
                 key={s.image.src}

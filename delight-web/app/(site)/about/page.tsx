@@ -23,9 +23,9 @@ export default function AboutPage() {
         primary={{ label: "Meet the team", href: "#team" }}
         secondary={{ label: "Contact us", href: "/contact" }}
         photos={[
-          { src: "/media/sterling-plaza/lobby.webp", alt: "The lobby at Sterling Plaza" },
-          { src: "/media/dummy/banquet.webp", alt: "A banquet hall set for an evening" },
+          { src: "/images/svc-wedding.webp", alt: "A wedding spread by Delight Caterers" },
           { src: "/media/bombay-kulfi/storefront.webp", alt: "Bombay Kulfi on Commercial Street" },
+          { src: "/media/sterling-plaza/lobby.webp", alt: "The lobby at Sterling Plaza" },
         ]}
       />
       <VisionValues />

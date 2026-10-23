@@ -9,12 +9,12 @@
  */
 
 export const outlets = [
+  { slug: "delight-caterers", name: "Delight Caterers", note: "Catering & events", division: "Delight Eatry", action: "Book a consultation", heading: ["Book a", "consultation."], whatsapp: undefined },
+  { slug: "bombay-kulfi", name: "Bombay Kulfi", note: "Kulfi & street food", division: "Delight Eatry", action: "Send enquiry", heading: ["Say", "hello."], whatsapp: undefined },
+  { slug: "aero-bites", name: "Aero Bites", note: "Restaurant", division: "Delight Eatry", action: "Reserve a table", heading: ["Reserve a", "table."], whatsapp: undefined },
   { slug: "sterling-inn", name: "Sterling Inn", note: "Hotel", division: "Delight Hospitality", action: "Book a stay", heading: ["Book your", "stay."], whatsapp: undefined },
   { slug: "sterling-plaza", name: "Sterling Plaza", note: "Hotel", division: "Delight Hospitality", action: "Book a stay", heading: ["Book your", "stay."], whatsapp: undefined },
   { slug: "olive", name: "Olive", note: "Hotel & banquets", division: "Delight Hospitality", action: "Book a stay", heading: ["Book your", "stay."], whatsapp: undefined },
-  { slug: "bombay-kulfi", name: "Bombay Kulfi", note: "Kulfi & street food", division: "Delight Eatry", action: "Send enquiry", heading: ["Say", "hello."], whatsapp: undefined },
-  { slug: "aero-bites", name: "Aero Bites", note: "Restaurant", division: "Delight Eatry", action: "Reserve a table", heading: ["Reserve a", "table."], whatsapp: undefined },
-  { slug: "delight-caterers", name: "Delight Caterers", note: "Catering & events", division: "Delight Eatry", action: "Book a consultation", heading: ["Book a", "consultation."], whatsapp: undefined },
 ] as const satisfies readonly {
   slug: string;
   name: string;

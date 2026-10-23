@@ -6,37 +6,39 @@ import { group } from "@/lib/content/group";
 import { hotels } from "@/lib/content/hospitality";
 
 /*
- * Apple-style type: Inter Tight for display (SF Pro Display stand-in), Inter
- * for text. Self-hosted variable fonts (app/fonts, SIL Open Font License,
- * from Fontsource 5.3.0) rather than next/font/google: the build needs no
- * network, and can't break on the font URLs Google serves to some regions
- * (the Vercel build failed on those).
+ * Cormorant Garamond for display (upright and italic), DM Sans for text.
+ * Self-hosted variable fonts (app/fonts, SIL Open Font License, from
+ * Fontsource 5.3.0) rather than next/font/google: the build needs no network,
+ * and can't break on the font URLs Google serves to some regions (a Vercel
+ * build failed on those).
  */
-const interTight = localFont({
-  variable: "--font-inter-tight",
-  src: "./fonts/inter-tight-latin-wght.woff2",
-  weight: "100 900",
+const cormorant = localFont({
+  variable: "--font-cormorant",
+  src: [
+    { path: "./fonts/cormorant-garamond-latin-wght.woff2", weight: "300 700", style: "normal" },
+    { path: "./fonts/cormorant-garamond-latin-wght-italic.woff2", weight: "300 700", style: "italic" },
+  ],
   display: "swap",
 });
 
-const inter = localFont({
-  variable: "--font-inter",
-  src: "./fonts/inter-latin-wght.woff2",
-  weight: "100 900",
+const dmSans = localFont({
+  variable: "--font-dm-sans",
+  src: "./fonts/dm-sans-latin-wght.woff2",
+  weight: "100 1000",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(group.domain),
   title: {
-    default: `${group.name} — ${group.tagline} | Hotels, Kulfi, Dining & Catering in Bengaluru`,
+    default: `${group.name} — ${group.tagline} | Catering, Kulfi, Dining & Hotels in Bengaluru`,
     template: `%s — ${group.name}`,
   },
   description:
-    "Zyra Group brings together Delight Hospitality — Sterling Inn, Sterling Plaza and Olive near Bengaluru Airport — and Delight Eatry: Bombay Kulfi, Aero Bites and Delight Caterers.",
+    "Zyra Group brings together Delight Eatry — Delight Caterers, Bombay Kulfi and Aero Bites — and Delight Hospitality: Sterling Inn, Sterling Plaza and Olive near Bengaluru Airport.",
   openGraph: {
     title: `${group.name} — ${group.tagline}`,
-    description: "Hotels near Bengaluru Airport, Bombay Kulfi, Aero Bites and Delight Caterers — one family of businesses.",
+    description: "Delight Caterers, Bombay Kulfi, Aero Bites and hotels near Bengaluru Airport — one family of businesses.",
     type: "website",
     locale: "en_IN",
     images: ["/media/olive/lobby.webp"],
@@ -65,7 +67,7 @@ const GROUP_JSON_LD = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${interTight.variable} ${inter.variable} h-full antialiased`}>
+    <html lang="en-IN" className={`${cormorant.variable} ${dmSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col text-body">
         <script
           type="application/ld+json"
