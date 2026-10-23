@@ -20,6 +20,10 @@ function lanIPv4s(): string[] {
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  experimental: {
+    /** Set by `next upgrade --agent=security` (16.4.0 → 16.4.3, security advisory). */
+    agentUpgrade: "security",
+  },
   partialPrefetching: true,
   allowedDevOrigins: ["localhost", "127.0.0.1", ...lanIPv4s()],
   images: {
