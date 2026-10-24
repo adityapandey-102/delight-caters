@@ -76,7 +76,7 @@ export function HeroFilm({
   }, []);
 
   return (
-    <div ref={root} className="--texture-plaster relative overflow-hidden bg-wall-- bg-white text-ink">
+    <div ref={root} className="texture-plaster relative overflow-hidden bg-wall  text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
       <section
         className="relative isolate px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
