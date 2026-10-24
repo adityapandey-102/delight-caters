@@ -39,14 +39,9 @@ export default function HomePage() {
 
       <StickyStory title="One family." accent="Four ways in." steps={storySteps} />
 
-      {/* The close: a warm, light card between the black story and the footer */}
+      {/* The close: a light card with the old site's plaster, above the footer */}
       <section className="bg-wall-lit px-3 pb-16 pt-3 md:pb-24 lg:py-[5vh]">
-        <Reveal className="relative isolate mx-auto w-full max-w-[1280px] overflow-hidden rounded-[32px] px-6 py-20 text-center ring-1 ring-gold/25 md:py-28 lg:py-[8vh]">
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10"
-            style={{ background: "radial-gradient(60% 70% at 50% 0%, rgba(216,180,111,0.35), transparent 70%), radial-gradient(50% 60% at 100% 100%, rgba(194,154,85,0.16), transparent 70%), linear-gradient(180deg, #fbf7ef, #f4ecdc)" }}
-          />
+        <Reveal className="relative isolate mx-auto w-full max-w-[1280px] texture-plaster overflow-hidden rounded-[32px] bg-wall-lit px-6 py-20 text-center ring-1 ring-line md:py-28 lg:py-[8vh]">
           <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="44px" className="mx-auto h-11 w-auto" />
           <p className="eyebrow mt-6 justify-center">Stays · Tables · Celebrations</p>
           <h2 className="display mx-auto mt-3 max-w-[16ch] text-[clamp(2.6rem,6.4vw,5.2rem)]">

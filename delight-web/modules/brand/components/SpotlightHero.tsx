@@ -86,7 +86,7 @@ export function SpotlightHero({
       className="relative isolate overflow-hidden px-5 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+2.5rem)] text-ink sm:px-8 md:pb-20 lg:flex lg:h-screen lg:min-h-[680px] lg:items-center lg:px-12 lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]"
       style={{
         background:
-          "radial-gradient(55% 60% at 85% 45%, rgba(234,88,12,0.16), transparent 70%), radial-gradient(45% 50% at 0% 100%, rgba(216,180,111,0.22), transparent 70%), linear-gradient(180deg, #fbf6ee, #f6eee2)",
+          "radial-gradient(45% 55% at 85% 45%, rgba(234,88,12,0.07), transparent 70%), linear-gradient(180deg, #f8f6f2, #f1eee8)",
       }}
     >
       <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
@@ -107,9 +107,9 @@ export function SpotlightHero({
           {badge && (
             <p
               data-s
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-linear-to-r from-gold-light/35 to-gold/10 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-gold-ink ring-1 ring-gold/45 lg:mt-[3.5vh]"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-wall-lit py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-ink ring-1 ring-line lg:mt-[3.5vh]"
             >
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold-light text-onyx-ink">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-wall-warm text-gold-deep">
                 <Icon name="star" size={13} />
               </span>
               {badge}
@@ -123,7 +123,7 @@ export function SpotlightHero({
             {name}
           </h1>
           {tagline && (
-            <p data-s className="display-italic mt-2 font-display text-[clamp(1.4rem,2.6vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.01em] [background-image:linear-gradient(100deg,#c2410c,#ea580c_45%,#b8904a_80%)]">
+            <p data-s className="display-italic mt-2 font-display text-[clamp(1.4rem,2.6vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.01em] !text-[#b4440f]">
               {tagline}
             </p>
           )}

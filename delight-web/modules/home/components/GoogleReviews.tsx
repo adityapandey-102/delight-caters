@@ -146,7 +146,7 @@ export default function GoogleReviews({
                     <figcaption className="mt-4 flex items-center gap-3 border-t border-line pt-3.5">
                       <span
                         aria-hidden
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-light/25 font-display text-[0.95rem] font-semibold text-gold-deep"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-wall-warm font-display text-[0.95rem] font-semibold text-gold-deep"
                       >
                         {initials(r.name)}
                       </span>

@@ -40,7 +40,7 @@ export default function Nutrition() {
           {/* The dietitian */}
           <div className="relative z-10 mx-4 -mt-16 rounded-[10px] border border-gold/45 bg-wall-lit p-6 text-ink shadow-[0_34px_70px_-30px_rgba(0,0,0,0.65)] sm:mx-10 md:mx-0 md:-mt-12 lg:absolute lg:-bottom-10 lg:-right-14 lg:mt-0 lg:w-[300px]">
             <div className="flex items-center gap-4">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold-light/25 text-gold-deep ring-1 ring-gold/60 ring-offset-2 ring-offset-wall-lit">
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-wall-warm text-gold-deep ring-1 ring-line ring-offset-2 ring-offset-wall-lit">
                 <Icon name="leaf" size={22} />
               </span>
               <div className="min-w-0">

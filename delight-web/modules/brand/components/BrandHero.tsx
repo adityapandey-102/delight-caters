@@ -133,7 +133,7 @@ export function BrandHero({
                 {lines[0]}
               </h1>
               {lines[1] && (
-                <p data-h className="display-italic mt-3 font-display text-[clamp(1.35rem,2.6vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.01em] [background-image:linear-gradient(100deg,#b8904a,#ecdcb8_45%,#d8b46f_70%,#c29a55)]">
+                <p data-h className="display-italic mt-3 font-display text-[clamp(1.35rem,2.6vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.01em] !text-[#e3d3b4]">
                   {lines[1]}
                 </p>
               )}

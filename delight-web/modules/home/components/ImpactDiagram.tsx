@@ -51,10 +51,10 @@ type Quadrant = DiagramItem & {
 
 /** Lobe looks by position: charcoal and gold, alternating round the diamond. */
 const LOOK: Pick<Quadrant, "fill" | "ink" | "tint" | "corner">[] = [
-  { fill: "linear-gradient(135deg, #fdfaf4 0%, #f1e8d6 60%, #e6d8bd 100%)", ink: "#8a6526", tint: "rgba(22,24,27,0.2)", corner: "tl" },
-  { fill: "linear-gradient(135deg, #e3c77e 0%, #c49a45 55%, #8c6a2c 100%)", ink: "#16181b", tint: "rgba(140,106,44,0.18)", corner: "tr" },
-  { fill: "linear-gradient(135deg, #fdfaf4 0%, #f1e8d6 55%, #e6d8bd 100%)", ink: "#8a6526", tint: "rgba(22,24,27,0.2)", corner: "br" },
-  { fill: "linear-gradient(135deg, #e8cf8a 0%, #c49a45 50%, #a9813a 100%)", ink: "#16181b", tint: "rgba(169,129,58,0.18)", corner: "bl" },
+  { fill: "linear-gradient(135deg, #fdfcfa 0%, #f3f0ea 60%, #e9e5de 100%)", ink: "#7d6240", tint: "rgba(22,24,27,0.2)", corner: "tl" },
+  { fill: "linear-gradient(135deg, #ebe7e0 0%, #ddd6ca 55%, #cfc6b7 100%)", ink: "#46433e", tint: "rgba(140,106,44,0.18)", corner: "tr" },
+  { fill: "linear-gradient(135deg, #fdfcfa 0%, #f3f0ea 55%, #e9e5de 100%)", ink: "#7d6240", tint: "rgba(22,24,27,0.2)", corner: "br" },
+  { fill: "linear-gradient(135deg, #ebe7e0 0%, #ddd6ca 50%, #cfc6b7 100%)", ink: "#46433e", tint: "rgba(169,129,58,0.18)", corner: "bl" },
 ];
 
 const CATERING_ICONS: Record<Service["key"], IconName> = { corporate: "briefcase", event: "glass", wedding: "rings", casual: "party" };
@@ -374,7 +374,7 @@ export default function ImpactDiagram({
                       <span
                         aria-hidden
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-500 ${
-                          on ? "bg-gold-light text-onyx-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
+                          on ? "bg-white text-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
                         }`}
                       >
                         <Icon name={q.icon} size={18} />

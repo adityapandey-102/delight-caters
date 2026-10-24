@@ -70,11 +70,10 @@ export function HeroFilm({
   }, []);
 
   return (
-    <div ref={root} className="relative overflow-hidden bg-[#faf6ef] text-ink">
+    <div ref={root} className="relative overflow-hidden bg-wall text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
       <section
-        className="relative isolate px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
-        style={{ background: "radial-gradient(55% 60% at 50% 0%, rgba(216,180,111,0.18), transparent 70%), linear-gradient(180deg, #fffdf9, #faf6ef)" }}
+        className="texture-plaster relative isolate bg-wall px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
       >
         <div className="mx-auto max-w-[960px]">
           {kicker && (
@@ -86,7 +85,7 @@ export function HeroFilm({
           )}
 
           <h1 data-copy className="display mt-6 text-[clamp(3.1rem,8vw,6.6rem)] leading-[0.98] lg:mt-[2.5vh] lg:text-[min(6.4rem,10.5vh)]">
-            {title} <span className="display-italic gold-shimmer pr-[0.06em]">{accent}</span>
+            {title} <span className="display-italic pr-[0.06em]">{accent}</span>
             <br /> {rest}
           </h1>
 
@@ -108,10 +107,10 @@ export function HeroFilm({
 
           {/* Proof, as three quiet columns */}
           {facts.length > 0 && (
-            <dl data-copy className="mx-auto mt-12 grid max-w-[44rem] grid-cols-3 divide-x divide-gold/25 border-t border-gold/25 pt-7 lg:mt-[4vh] lg:pt-[2.5vh]">
+            <dl data-copy className="mx-auto mt-12 grid max-w-[44rem] grid-cols-3 divide-x divide-line border-t border-line pt-7 lg:mt-[4vh] lg:pt-[2.5vh]">
               {facts.map((f) => (
                 <div key={f.label} className="px-3 sm:px-6">
-                  <dd className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium leading-none text-gold-deep lining-nums">{f.value}</dd>
+                  <dd className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium leading-none text-ink lining-nums">{f.value}</dd>
                   <dt className="mt-2 text-[12.5px] leading-snug text-muted sm:text-[13.5px]">{f.label}</dt>
                 </div>
               ))}

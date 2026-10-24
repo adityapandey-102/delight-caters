@@ -28,7 +28,7 @@ export function ContactHero({ kicker, title, accent, body, ways }: { kicker: str
                 {...(w.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="group flex h-full flex-col rounded-[24px] border border-black/[0.06] bg-wall p-6 transition-[background-color,box-shadow,transform] duration-500 ease-[cubic-bezier(0.28,0.11,0.32,1)] hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_24px_50px_-28px_rgba(18,20,16,0.35)]"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-light/30 text-gold-deep">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-wall-warm text-gold-deep ring-1 ring-line">
                   <Icon name={w.icon} size={19} />
                 </span>
                 <span className="mt-6 block font-display text-[21px] lg:mt-[2.5vh] font-semibold tracking-[-0.01em] text-ink">{w.title}</span>

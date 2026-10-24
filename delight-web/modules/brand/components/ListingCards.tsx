@@ -45,7 +45,7 @@ export function ListingCards({ items }: { items: Listing[] }) {
                   <Icon name="pin" size={14} /> {l.location}
                 </p>
               </div>
-              <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors group-hover:border-gold-light group-hover:bg-gold-light group-hover:text-ink group-hover:text-white">
+              <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors group-hover:border-ink group-hover:bg-wall-warm group-hover:text-ink group-hover:text-white">
                 <Arrow />
               </span>
             </div>

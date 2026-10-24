@@ -24,14 +24,10 @@ export function FollowTile({ account, brand, photos }: { account: InstagramAccou
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Follow ${brand} on Instagram (opens in a new tab)`}
-      className={`${TILE} group flex flex-col justify-between p-6 text-ink ring-1 ring-gold/30 transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/60`}
-      style={{
-        background:
-          "radial-gradient(90% 60% at 20% 0%, rgba(216,180,111,0.35), transparent 60%), radial-gradient(80% 60% at 100% 100%, rgba(194,154,85,0.18), transparent 60%), #fbf7ef",
-      }}
+      className={`${TILE} group flex flex-col justify-between bg-wall-cream p-6 text-ink ring-1 ring-line transition-[box-shadow,transform] duration-700 ease-out-expo hover:-translate-y-1 hover:ring-gold-light/60`}
     >
       <div>
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-gold-pale via-gold to-gold-deep text-onyx-ink shadow-[0_10px_30px_-10px_rgba(216,180,111,0.7)]">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-wall-warm text-gold-deep ring-1 ring-line">
           <Icon name="instagram" size={22} />
         </span>
         <p className="mt-6 text-[13px] font-semibold text-gold-deep">On Instagram</p>

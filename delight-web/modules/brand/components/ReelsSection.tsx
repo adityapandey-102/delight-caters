@@ -59,7 +59,6 @@ export function ReelsSection({
       id={id}
       className="relative isolate scroll-mt-[120px] overflow-hidden bg-wall-cream px-5 py-16 text-ink sm:px-8 md:py-24 lg:px-12 lg:py-[5vh] lg:[--reel-h:min(483px,calc(100vh-300px))]"
     >
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_15%_0%,rgba(216,180,111,0.22),transparent_70%),radial-gradient(50%_50%_at_100%_100%,rgba(216,180,111,0.12),transparent_70%)]" />
       <div className="relative mx-auto w-full max-w-[1280px]">
         <Reveal className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>

@@ -63,7 +63,7 @@ export function PromoRibbon({ items, tone = "dark" }: { items: Offer[]; tone?: "
               >
                 <span
                   className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ring-1 ${
-                    light ? "bg-gold/10 text-gold-deep ring-gold/35" : "bg-gold-light/15 text-gold-light ring-gold-light/30"
+                    light ? "bg-wall-warm text-gold-deep ring-line" : "bg-gold-light/15 text-gold-light ring-gold-light/30"
                   }`}
                 >
                   {p.kind}
