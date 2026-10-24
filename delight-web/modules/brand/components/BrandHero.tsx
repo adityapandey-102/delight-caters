@@ -12,8 +12,7 @@ type Cta = { label: string; href: string; external?: boolean };
 /**
  * The outlet hero — the way the great hotel sites open: the photograph fills
  * the screen, and the brand sits low and to the left (logo, name, its line,
- * where it is, two actions), with the key facts on a glass card to the right.
- * The plate eases in from a zoom and pushes in as you scroll.
+ * where it is, two actions). The plate eases in from a zoom and pushes in as you scroll.
  * (Portrait photographs use SpotlightHero instead.)
  */
 export function BrandHero({
@@ -25,7 +24,6 @@ export function BrandHero({
   logo,
   primary,
   secondary,
-  facts = [],
 }: {
   eyebrow: string;
   lines: readonly [string, string?];
@@ -36,12 +34,12 @@ export function BrandHero({
   logo?: { src: string; width: number; height: number; alt: string } | null;
   primary?: Cta;
   secondary?: Cta;
+  /** Accepted for older callers; the hero no longer shows a facts card. */
   facts?: { label: string; value: string }[];
 }) {
   const track = useRef<HTMLDivElement>(null);
   const plate = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
-  const shownFacts = facts.slice(0, 4);
 
   useEffect(() => {
     initGsap();
@@ -51,8 +49,7 @@ export function BrandHero({
       gsap
         .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(plate.current, { scale: 1.14 }, { scale: 1, duration: 2.2 }, 0)
-        .from("[data-h]", { opacity: 0, y: 26, duration: 1.1, stagger: 0.08 }, 0.2)
-        .from("[data-h-card]", { opacity: 0, y: 34, duration: 1.2 }, 0.6);
+        .from("[data-h]", { opacity: 0, y: 26, duration: 1.1, stagger: 0.08 }, 0.2);
       gsap.matchMedia().add("(min-width: 768px)", () => {
         gsap
           .timeline({ scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: 0.8 } })
@@ -89,17 +86,6 @@ export function BrandHero({
     );
   };
 
-  const factList = (cls: string) => (
-    <dl className={cls}>
-      {shownFacts.map((f) => (
-        <div key={f.label} className="min-w-0">
-          <dt className="text-[12px] text-white/60">{f.label}</dt>
-          <dd className="mt-0.5 text-[15px] font-medium leading-snug text-white">{f.value}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-
   return (
     <div ref={track} className="relative">
       <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-onyx-ink md:min-h-[min(100vh,920px)]">
@@ -107,13 +93,14 @@ export function BrandHero({
           <div ref={plate} className="relative h-full w-full will-change-transform">
             <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover" />
           </div>
-          {/* Light at the top for the nav, depth at the foot for the words */}
+          {/* Light at the top for the nav, depth at the foot and down the left for the words */}
           <div aria-hidden className="absolute inset-0 bg-linear-to-b from-black/45 via-black/5 to-transparent" />
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-[75%] bg-linear-to-t from-black/85 via-black/45 to-transparent" />
+          <div aria-hidden className="absolute inset-y-0 left-0 hidden w-[65%] bg-linear-to-r from-black/50 via-black/20 to-transparent md:block" />
         </div>
 
         <div ref={copy} className="relative px-5 pb-10 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] sm:px-8 md:pb-14 lg:px-12 lg:pb-[6vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+3vh)]">
-          <div className={`mx-auto grid w-full max-w-[1280px] items-end gap-10 ${shownFacts.length ? "lg:grid-cols-[minmax(0,1fr)_320px]" : ""}`}>
+          <div className="mx-auto w-full max-w-[1280px]">
             <div className="max-w-[44rem]">
               {logo && (
                 <Image
@@ -154,13 +141,6 @@ export function BrandHero({
                 </div>
               )}
             </div>
-
-            {shownFacts.length > 0 && (
-              <div data-h-card className="hidden rounded-[24px] bg-white/10 p-6 ring-1 ring-white/20 backdrop-blur-2xl backdrop-saturate-150 lg:block">
-                <p className="text-[12px] font-semibold text-gold-light">At a glance</p>
-                {factList("mt-4 grid gap-4")}
-              </div>
-            )}
           </div>
         </div>
       </section>

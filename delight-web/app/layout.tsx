@@ -4,6 +4,7 @@ import "./globals.css";
 import { company, contact, social } from "@/lib/content/site";
 import { group } from "@/lib/content/group";
 import { hotels } from "@/lib/content/hospitality";
+import { bombayKulfi } from "@/lib/content/eatry";
 
 /*
  * Cormorant Garamond for display (upright and italic), DM Sans for text.
@@ -59,7 +60,7 @@ const GROUP_JSON_LD = {
   logo: `${group.domain}/brand/zyra-mark.png`,
   subOrganization: [
     ...hotels.map((h) => ({ "@type": "Hotel", name: h.name, address: h.contact.address, telephone: h.contact.phone?.display })),
-    { "@type": "IceCreamShop", name: "Bombay Kulfi", address: "Commercial Street, Bengaluru" },
+    ...(bombayKulfi.contact.locations ?? []).map((o) => ({ "@type": "IceCreamShop", name: `Bombay Kulfi, ${o.name}`, address: `${o.name}, ${o.area}, Bengaluru` })),
     { "@type": "Restaurant", name: "Aero Bites", address: "Bengaluru" },
     { "@type": "FoodEstablishment", name: company.name, telephone: "+91-9187918179", email: contact.email, address: contact.address.full, sameAs: [social.instagram.href, social.linkedin.href] },
   ],

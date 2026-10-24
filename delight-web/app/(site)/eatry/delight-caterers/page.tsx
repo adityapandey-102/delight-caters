@@ -39,12 +39,6 @@ export default function DelightCaterersPage() {
         body={hero.body}
         image={{ src: hero.image, alt: hero.imageAlt }}
         logo={{ src: "/brand/logo-gold.png", width: 1200, height: 634, alt: company.name }}
-        facts={[
-          { label: "Cuisines", value: "Eight, cooked fresh" },
-          { label: "Occasions", value: "Weddings, corporate, events" },
-          { label: "Menus", value: "Veg & non-veg" },
-          { label: "Nutrition", value: "Dietitian-planned options" },
-        ]}
         primary={{ label: hero.primaryCta, href: "#enquiry" }}
         secondary={{ label: hero.secondaryCta, href: "/contact" }}
       />

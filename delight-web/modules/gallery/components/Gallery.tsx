@@ -357,7 +357,6 @@ export function Gallery({
                   alt={current.alt}
                   fill
                   sizes="100vw"
-                  priority
                   draggable={false}
                   className="select-none object-contain"
                 />

@@ -54,11 +54,11 @@ export function CategoryHero({
         </div>
 
         <ul className="no-scrollbar -mx-6 mt-10 flex snap-x gap-4 overflow-x-auto px-6 md:mx-0 md:mt-12 md:grid md:grid-cols-3 md:overflow-visible md:px-0 lg:mt-[5vh]">
-          {outlets.map((o) => (
+          {outlets.map((o, i) => (
             <li key={o.href} data-c-card className="w-[80%] shrink-0 snap-start sm:w-[46%] md:w-auto">
               <Link href={o.href} className="group block">
                 <span className="relative block aspect-[4/3] overflow-hidden rounded-[24px] bg-wall-warm shadow-[0_24px_50px_-34px_rgba(18,20,16,0.5)] lg:aspect-auto lg:h-[clamp(180px,calc(100vh-560px),360px)]">
-                  <Image src={o.image.src} alt={o.image.alt} fill preload sizes="(min-width: 768px) 380px, 80vw" className="object-cover transition-transform duration-[1.1s] ease-out-expo group-hover:scale-[1.05]" />
+                  <Image src={o.image.src} alt={o.image.alt} fill preload={i === 0} sizes="(min-width: 768px) 380px, 80vw" className="object-cover transition-transform duration-[1.1s] ease-out-expo group-hover:scale-[1.05]" />
                 </span>
                 <span className="mt-4 flex items-start justify-between gap-4 px-1">
                   <span className="min-w-0">

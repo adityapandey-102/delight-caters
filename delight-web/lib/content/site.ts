@@ -71,8 +71,8 @@ export const hero = {
   body: "Recipes passed down through generations. Spices ground in-house. Flavours that stay with your guests long after the celebration is over. We take care of every part of your catering, so you can truly be present at your own event.",
   primaryCta: "Book a consultation",
   secondaryCta: "Get in Touch",
-  image: "/images/hero-buffet.webp",
-  imageAlt: "Delight Caters setup",
+  image: "/media/refined/caterers-hero.webp",
+  imageAlt: "A server plating a dish at a long table laid with flowers, candles and glassware",
 } as const;
 
 export const marqueeWords = [

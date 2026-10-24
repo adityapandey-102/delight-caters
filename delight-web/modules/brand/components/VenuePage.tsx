@@ -42,7 +42,8 @@ function Chapter({ n, label }: { n: number; label: string }) {
  */
 export function VenuePage({ venue }: { venue: Venue }) {
   const division = DIVISION[venue.division];
-  const location = venue.contact.address?.split(",").slice(-3, -1).join(",").trim() || venue.kind;
+  const outlets = venue.contact.locations && venue.contact.locations.length > 1 ? venue.contact.locations : undefined;
+  const location = outlets ? `${outlets.length} outlets in Bengaluru` : venue.contact.address?.split(",").slice(-3, -1).join(",").trim() || venue.kind;
   const isHotel = venue.division === "hospitality";
   const logo = venue.logoOnDark ?? venue.logo;
   const reviews = reviewsBySlug[venue.slug];
@@ -57,19 +58,32 @@ export function VenuePage({ venue }: { venue: Venue }) {
         : { label: venue.slug === "aero-bites" ? "Reserve a table" : "Send an enquiry", href: "#enquiry" };
   const photos = [venue.hero, ...venue.spaces.map((s) => s.image), ...venue.gallery].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
 
+  // Which chapters show (a venue can switch some off), numbered in order from what's left.
+  const showHighlights = !venue.hide?.highlights;
+  const showSpaces = venue.spaces.length > 0 && !venue.hide?.spaces;
+  const showGallery = photos.length > 1 && !venue.hide?.gallery;
+  const chapters = [
+    "overview",
+    showHighlights && "offer",
+    showSpaces && "spaces",
+    showGallery && "gallery",
+    "location",
+    venue.faqs?.length && "faqs",
+  ].filter(Boolean);
+  const num = (id: string) => chapters.indexOf(id) + 1;
+
   return (
     <>
       {venue.heroInset ? (
         <SpotlightHero
-          eyebrow={`${division.name} · ${venue.kind}`}
           name={venue.name}
           tagline={venue.tagline}
           body={venue.heroBody ?? venue.intro[0]}
           badge={venue.heroBadge}
           logo={logo ? { ...logo, alt: venue.name } : null}
           image={venue.hero}
+          cutouts={venue.heroCutouts}
           location={location}
-          facts={venue.facts}
           primary={venue.cta}
           secondary={secondary}
         />
@@ -93,10 +107,10 @@ export function VenuePage({ venue }: { venue: Venue }) {
           ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
           ...(hasWatch ? [{ label: "Watch", href: "#watch" }] : []),
           { label: "Overview", href: "#overview" },
-          { label: isHotel ? "Amenities" : "Highlights", href: "#offer" },
-          ...(venue.spaces.length ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
-          ...(photos.length > 1 ? [{ label: "Gallery", href: "#gallery" }] : []),
-          { label: "Location", href: "#location" },
+          ...(showHighlights ? [{ label: isHotel ? "Amenities" : "Highlights", href: "#offer" }] : []),
+          ...(showSpaces ? [{ label: isHotel ? "Rooms & spaces" : "Spaces", href: "#spaces" }] : []),
+          ...(showGallery ? [{ label: "Gallery", href: "#gallery" }] : []),
+          { label: outlets ? "Outlets" : "Location", href: "#location" },
           ...(reviews ? [{ label: "Reviews", href: "#reviews" }] : []),
         ]}
       />
@@ -131,13 +145,13 @@ export function VenuePage({ venue }: { venue: Venue }) {
       />
       )}
 
-      {/* 01–03: the story, on offer, spaces — three sections, each one screen, beside the visit card */}
+      {/* The story, what's on offer and the spaces — each one screen, beside the visit card */}
       <div className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">
         <div aria-hidden className="wall-sun" />
         <div className="relative mx-auto grid w-full max-w-[1280px] gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
           <div className="min-w-0 space-y-16">
             <section id="overview" className="scroll-mt-[120px]">
-              <Chapter n={1} label={isHotel ? "The stay" : "The place"} />
+              <Chapter n={num("overview")} label={isHotel ? "The stay" : "The place"} />
               <LineReveal lines={isHotel ? ["Arrive easy.", "Stay a while."] : ["Come hungry.", "Leave happy."]} italicFrom={1} className="display mt-6 text-[clamp(2.8rem,6vw,5.2rem)]" />
               <Reveal className="mt-7 max-w-[62ch] space-y-4 text-[16px] leading-[1.8] text-body">
                 {(venue.intro.length > 1 ? venue.intro.slice(1) : venue.intro).map((p) => (
@@ -154,26 +168,28 @@ export function VenuePage({ venue }: { venue: Venue }) {
               </dl>
             </section>
 
-            <section id="offer" className="scroll-mt-[120px]">
-              <Chapter n={2} label="On offer" />
-              <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
-                Everything <span className="display-italic">you need.</span>
-              </h2>
-              <Reveal as="ul" stagger className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3">
-                {venue.highlights.map((h) => (
-                  <li key={h.label} className="flex items-center gap-3 text-[14.5px] text-body">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold-deep">
-                      <Icon name={h.icon} size={18} />
-                    </span>
-                    {h.label}
-                  </li>
-                ))}
-              </Reveal>
-            </section>
+            {showHighlights && (
+              <section id="offer" className="scroll-mt-[120px]">
+                <Chapter n={num("offer")} label="On offer" />
+                <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
+                  Everything <span className="display-italic">you need.</span>
+                </h2>
+                <Reveal as="ul" stagger className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3">
+                  {venue.highlights.map((h) => (
+                    <li key={h.label} className="flex items-center gap-3 text-[14.5px] text-body">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold-deep">
+                        <Icon name={h.icon} size={18} />
+                      </span>
+                      {h.label}
+                    </li>
+                  ))}
+                </Reveal>
+              </section>
+            )}
 
-            {venue.spaces.length > 0 && (
+            {showSpaces && (
               <section id="spaces" className="scroll-mt-[120px]">
-                <Chapter n={3} label="Spaces" />
+                <Chapter n={num("spaces")} label="Spaces" />
                 <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                   Room <span className="display-italic">to breathe.</span>
                 </h2>
@@ -193,25 +209,25 @@ export function VenuePage({ venue }: { venue: Venue }) {
           </div>
 
           <aside className="lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
-            <VisitCard venue={venue} />
+            <VisitCard venue={venue} outlets={outlets} />
           </aside>
         </div>
       </div>
 
-      {/* 04 — gallery */}
-      {photos.length > 1 && (
+      {/* Gallery */}
+      {showGallery && (
         <section id="gallery" className="relative scroll-mt-[120px] overflow-hidden px-5 pb-16 sm:px-8 md:pb-24 lg:px-12">
           <div className="mx-auto w-full max-w-[1280px]">
             <div className="mb-8">
-              <Chapter n={4} label="Gallery" />
+              <Chapter n={num("gallery")} label="Gallery" />
             </div>
             <Gallery photos={photos} title="Look around." eyebrow={venue.name} />
           </div>
         </section>
       )}
 
-      {/* 05 — location */}
-      <Location n={5} name={venue.name} address={venue.contact.address} mapsUrl={venue.contact.mapsUrl} phone={venue.contact.phone} query={venue.contact.mapQuery} />
+      {/* Location — or the outlets, for a brand with several */}
+      <Location n={num("location")} name={venue.name} address={venue.contact.address} mapsUrl={venue.contact.mapsUrl} phone={venue.contact.phone} query={venue.contact.mapQuery} locations={outlets} />
 
       {reviews && (
         <div id="reviews" className="scroll-mt-[104px]">
@@ -223,7 +239,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
         <section className="relative px-5 py-16 sm:px-8 md:py-24 lg:px-12 lg:py-[5vh]">
           <div className="mx-auto grid w-full max-w-[1280px] gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
             <div>
-              <Chapter n={6} label="Good to know" />
+              <Chapter n={num("faqs")} label="Good to know" />
               <h2 className="display mt-6 text-[clamp(2.4rem,4.6vw,3.8rem)]">
                 Before <span className="display-italic">you arrive.</span>
               </h2>
@@ -259,8 +275,8 @@ function CtaButton({ venue, className = "" }: { venue: Venue; className?: string
   );
 }
 
-/** The sticky side card: the main action, then phone, email, address and Instagram. */
-function VisitCard({ venue }: { venue: Venue }) {
+/** The sticky side card: the main action, then phone, email, address (or outlets) and Instagram. */
+function VisitCard({ venue, outlets }: { venue: Venue; outlets?: NonNullable<Venue["contact"]["locations"]> }) {
   const { contact } = venue;
   return (
     <div className="rounded-[20px] border border-line bg-wall-lit p-6 shadow-[0_30px_60px_-40px_rgba(18,20,16,0.45)]">
@@ -282,11 +298,21 @@ function VisitCard({ venue }: { venue: Venue }) {
             </a>
           </li>
         )}
-        {contact.address && (
+        {outlets ? (
           <li className="flex items-start gap-3">
             <Icon name="pin" size={17} className="mt-0.5 shrink-0 text-gold-deep" />
-            <span className="leading-[1.6]">{contact.address}</span>
+            <span className="leading-[1.6]">
+              {outlets.length} outlets
+              <span className="block text-[13px] text-muted">{outlets.map((o) => o.name).join(" · ")}</span>
+            </span>
           </li>
+        ) : (
+          contact.address && (
+            <li className="flex items-start gap-3">
+              <Icon name="pin" size={17} className="mt-0.5 shrink-0 text-gold-deep" />
+              <span className="leading-[1.6]">{contact.address}</span>
+            </li>
+          )
         )}
       </ul>
       {contact.instagram && (

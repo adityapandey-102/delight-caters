@@ -56,14 +56,14 @@ export const reviewsBySlug: Record<string, ReviewSet> = {
   "bombay-kulfi": {
     rating: null,
     count: null,
-    profileUrl: maps("Bombay+Kulfi+Commercial+Street+Bengaluru"),
+    profileUrl: maps("Bombay+Kulfi+Bengaluru"),
     isSample: true,
     items: [
       { name: "Rahul M.", meta: "Dessert lover · Sep 2026", text: "The kulfi is made with A2 milk and you can taste the difference. Creamy, rich and not overly sweet." },
-      { name: "Shruti A.", meta: "Shopping stop · Aug 2026", text: "A perfect break while shopping on Commercial Street. The mojitos were cold and refreshing." },
+      { name: "Shruti A.", meta: "Shopping stop · Aug 2026", text: "A perfect break in the middle of a shopping day. The mojitos were cold and refreshing." },
       { name: "Imran Q.", meta: "With friends · Oct 2026", text: "The momos were hot and juicy, and the kulfi to finish was the best part of the evening." },
       { name: "Priya D.", meta: "With family · Jul 2026", text: "Kids loved the kulfi flavours. Friendly counter staff and quick service even on a busy weekend." },
-      { name: "Gaurav T.", meta: "Dessert lover · Sep 2026", text: "Tried the mango and pista kulfi. Smooth texture, real flavour, and an easy stop on the street." },
+      { name: "Gaurav T.", meta: "Dessert lover · Sep 2026", text: "Tried the mango and pista kulfi. Smooth texture, real flavour, and an easy stop on the way home." },
     ],
   },
   "aero-bites": {

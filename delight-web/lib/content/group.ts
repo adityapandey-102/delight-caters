@@ -51,7 +51,7 @@ export const nav = [
     blurb: "Food & celebration",
     children: [
       { label: "Delight Caterers", href: "/eatry/delight-caterers", note: "Catering for every occasion" },
-      { label: "Bombay Kulfi", href: "/eatry/bombay-kulfi", note: "Commercial Street" },
+      { label: "Bombay Kulfi", href: "/eatry/bombay-kulfi", note: "5 outlets in Bengaluru" },
       { label: "Aero Bites", href: "/eatry/aero-bites", note: "Restaurant" },
     ],
   },

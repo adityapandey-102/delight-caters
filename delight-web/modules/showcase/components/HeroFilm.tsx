@@ -11,7 +11,8 @@ type Action = { label: string; href: string };
  * The opening film (after Apple's product heroes) on a clean white stage: the
  * name and a short line centred under the nav and its marketing ribbon, two
  * pills — then a photograph that starts inset with rounded corners and opens
- * to full bleed as you scroll into it.
+ * to full bleed as you scroll into it, with the group's
+ * motto set large across its centre, rising in as the photograph opens.
  */
 export function HeroFilm({
   kicker,
@@ -22,8 +23,8 @@ export function HeroFilm({
   primary,
   secondary,
   image,
-  caption,
-  facts = [],
+  motto,
+  promises = [],
 }: {
   /** A quiet line above the headline (what the group does, catering first). */
   kicker?: string;
@@ -35,9 +36,10 @@ export function HeroFilm({
   primary: Action;
   secondary: Action;
   image: { src: string; alt: string };
-  caption?: string;
-  /** A few short proof points under the buttons. */
-  facts?: { value: string; label: string }[];
+  /** The motto set on the photograph, signed by whoever it belongs to. */
+  motto?: { line: string; by: string };
+  /** The house's promises, set like the fine print on a menu card under the buttons. */
+  promises?: string[];
 }) {
   const root = useRef<HTMLDivElement>(null);
 
@@ -48,6 +50,7 @@ export function HeroFilm({
     const frame = el.querySelector<HTMLElement>("[data-frame]");
     const photo = el.querySelector<HTMLElement>("[data-photo]");
     const copy = el.querySelectorAll<HTMLElement>("[data-copy]");
+    const sign = el.querySelectorAll<HTMLElement>("[data-motto]");
     if (!frame || !photo) return;
     if (prefersReducedMotion()) return;
 
@@ -64,13 +67,16 @@ export function HeroFilm({
           scrollTrigger: { trigger: frame, start: "top 85%", end: "top 8%", scrub: 0.6 },
         },
       );
+      if (sign.length) {
+        gsap.from(sign, { opacity: 0, y: 36, duration: 1.2, ease: "power3.out", stagger: 0.12, scrollTrigger: { trigger: frame, start: "top 45%" } });
+      }
       gsap.fromTo(photo, { scale: 1.18 }, { scale: 1, ease: "none", scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.6 } });
     }, el);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={root} className="texture-plaster relative overflow-hidden bg-wall text-ink">
+    <div ref={root} className="--texture-plaster relative overflow-hidden bg-wall-- bg-white text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
       <section
         className="relative isolate px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
@@ -84,7 +90,7 @@ export function HeroFilm({
             </p>
           )}
 
-          <h1 data-copy className="display mt-6 text-[clamp(3.1rem,8vw,6.6rem)] leading-[0.98] lg:mt-[2.5vh] lg:text-[min(6.4rem,10.5vh)]">
+          <h1 data-copy className="display mt-6 text-[clamp(3.3rem,8.6vw,7.4rem)] leading-[0.96] lg:mt-[3vh] lg:text-[min(7.2rem,11.5vh)]">
             {title} <span className="display-italic gold-accent pr-[0.06em]">{accent}</span>
             {rest && (
               <>
@@ -109,16 +115,19 @@ export function HeroFilm({
             </Link>
           </div>
 
-          {/* Proof, as three quiet columns */}
-          {facts.length > 0 && (
-            <dl data-copy className="mx-auto mt-12 grid max-w-[44rem] grid-cols-3 divide-x divide-line border-t border-line pt-7 lg:mt-[4vh] lg:pt-[2.5vh]">
-              {facts.map((f) => (
-                <div key={f.label} className="px-3 sm:px-6">
-                  <dd className="font-display text-[clamp(2rem,4vw,2.8rem)] font-medium leading-none text-ink lining-nums">{f.value}</dd>
-                  <dt className="mt-2 text-[12.5px] leading-snug text-muted sm:text-[13.5px]">{f.label}</dt>
-                </div>
-              ))}
-            </dl>
+          {/* The house's promises, like the fine print on a menu card, each marked with the gold leaf */}
+          {promises.length > 0 && (
+            <div data-copy className="mt-12 lg:mt-[5vh]">
+              <span aria-hidden className="mx-auto block h-px w-48 bg-linear-to-r from-transparent via-gold/55 to-transparent" />
+              <ul className="mx-auto mt-7 flex max-w-[60rem] flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-10 lg:mt-[3vh]">
+                {promises.map((p) => (
+                  <li key={p} className="flex items-center gap-2.5 font-display text-[1.2rem] italic leading-tight text-ink/85 md:text-[1.35rem]">
+                    <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="16px" className="h-4 w-auto shrink-0" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       </section>
@@ -128,8 +137,22 @@ export function HeroFilm({
         <div data-photo className="absolute inset-0 will-change-transform">
           <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover brightness-[1.12] saturate-[1.05]" />
         </div>
-        {caption && (
-          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/45 px-4 py-2 text-[13px] font-medium text-white ring-1 ring-white/15 backdrop-blur-md md:bottom-9">{caption}</p>
+        {motto && (
+          <>
+            <div aria-hidden className="absolute inset-0 bg-black/25" />
+            <div aria-hidden className="absolute inset-0 bg-[radial-gradient(65%_55%_at_50%_48%,rgba(0,0,0,0.45),transparent)]" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pb-[4vh] text-center">
+              <Image data-motto src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="64px" className="h-12 w-auto md:h-16" />
+              <p data-motto className="display-italic mt-5 max-w-[12ch] text-[clamp(3.4rem,10vw,9rem)] leading-[0.95] text-cream md:mt-7">
+                {motto.line}
+              </p>
+              <p data-motto className="mt-6 flex items-center gap-4 text-[14px] font-medium tracking-[0.12em] text-cream/85 md:mt-8 md:text-[15px]">
+                <span aria-hidden className="h-px w-12 bg-linear-to-r from-transparent to-cream/60" />
+                {motto.by}
+                <span aria-hidden className="h-px w-12 bg-linear-to-l from-transparent to-cream/60" />
+              </p>
+            </div>
+          </>
         )}
       </section>
     </div>
