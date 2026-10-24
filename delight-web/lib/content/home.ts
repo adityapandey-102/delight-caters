@@ -13,9 +13,9 @@ const D = (name: string) => `/media/dummy/${name}.webp`;
 
 export const homeHero = {
   kicker: "Catering · Kulfi · Dining · Stays",
-  title: "An",
-  accent: "unforgettable",
-  rest: "experience.",
+  title: "Feasts that",
+  accent: "people remember.",
+  rest: "",
   body: "A catering house trusted with Bengaluru's biggest days, the city's favourite kulfi, an all‑day restaurant and three hotels by the airport — one family, one standard of care.",
   facts: [
     { value: "8", label: "cuisines, catered fresh" },
@@ -32,8 +32,8 @@ export const featureTiles: TileData[] = [
   {
     theme: "light",
     kicker: "Delight Caterers",
-    title: "Feasts that",
-    accent: "people remember.",
+    title: "Every occasion,",
+    accent: "beautifully served.",
     body: "Weddings, corporate days and house parties — eight cuisines, cooked fresh and served with care.",
     links: [
       { label: "Book a consultation", href: "#enquiry", primary: true },

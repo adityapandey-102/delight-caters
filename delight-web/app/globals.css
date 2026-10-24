@@ -702,3 +702,45 @@ li {
   background-size: 220px 220px, 768px 768px;
   opacity: 1;
 }
+
+/* Home hero: the accent word in metallic gold, with a slow light passing through it. */
+.gold-accent {
+  background-image: linear-gradient(100deg, #6a4d1c 0%, #9a7330 22%, #c29a55 40%, #e6cf9c 50%, #c29a55 60%, #9a7330 78%, #6a4d1c 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em;
+  animation: gold-accent 8s ease-in-out infinite;
+}
+@keyframes gold-accent {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+}
+
+/* The gold-leaf button that pairs with it: the same golds, white type. */
+.btn-goldleaf {
+  background: linear-gradient(120deg, #6f5021 0%, #9a7330 40%, #b48d4a 62%, #8a6526 100%);
+  color: #fff;
+  border: 1px solid rgba(106, 77, 28, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 210, 0.35),
+    0 14px 30px -16px rgba(106, 77, 28, 0.7);
+}
+.btn-goldleaf:hover {
+  background: linear-gradient(120deg, #634718 0%, #8c6829 40%, #a7803f 62%, #7d5a20 100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-accent {
+    animation: none;
+  }
+}
+.btn-goldleaf.shine::after {
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 244, 220, 0.35) 50%, transparent);
+}

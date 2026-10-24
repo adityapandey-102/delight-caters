@@ -70,10 +70,10 @@ export function HeroFilm({
   }, []);
 
   return (
-    <div ref={root} className="relative overflow-hidden bg-wall text-ink">
+    <div ref={root} className="texture-plaster relative overflow-hidden bg-wall text-ink">
       {/* Screen one: the words (on desktop the spacing follows the screen height, so it always fits) */}
       <section
-        className="texture-plaster relative isolate bg-wall px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
+        className="relative isolate px-6 pb-14 pt-[calc(var(--header-h)+var(--ribbon-h)+3rem)] text-center md:pb-20 md:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5rem)] lg:pb-[5vh] lg:pt-[calc(var(--header-h)+var(--ribbon-h)+4.5vh)]"
       >
         <div className="mx-auto max-w-[960px]">
           {kicker && (
@@ -85,8 +85,12 @@ export function HeroFilm({
           )}
 
           <h1 data-copy className="display mt-6 text-[clamp(3.1rem,8vw,6.6rem)] leading-[0.98] lg:mt-[2.5vh] lg:text-[min(6.4rem,10.5vh)]">
-            {title} <span className="display-italic pr-[0.06em]">{accent}</span>
-            <br /> {rest}
+            {title} <span className="display-italic gold-accent pr-[0.06em]">{accent}</span>
+            {rest && (
+              <>
+                <br /> {rest}
+              </>
+            )}
           </h1>
 
           <p data-copy className="mx-auto mt-6 max-w-[36rem] text-balance text-[17px] leading-[1.6] text-body md:text-[19px] lg:mt-[2.5vh]">
@@ -94,7 +98,7 @@ export function HeroFilm({
           </p>
 
           <div data-copy className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 lg:mt-[3.5vh]">
-            <a href={primary.href} className="btn-onyx shine !px-7">
+            <a href={primary.href} className="btn-onyx btn-goldleaf shine !px-7">
               {primary.label}
               <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden className="-mr-1">
                 <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
