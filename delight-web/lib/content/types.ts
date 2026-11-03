@@ -33,6 +33,8 @@ export type Venue = {
   gallery: Photo[];
   /** Chapters to leave off the page for now; the data stays in the record so they can be switched back on. */
   hide?: { highlights?: boolean; spaces?: boolean; gallery?: boolean };
+  /** A row of signature products, shown after the reels (Bombay Kulfi). */
+  favourites?: { name: string; line: string; image: { src: string; alt: string } }[];
   reels?: { caption: string; poster: string; video: string; href: string }[];
   faqs?: { q: string; a: string }[];
   contact: {

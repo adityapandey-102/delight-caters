@@ -5,7 +5,7 @@ import { Arrow } from "@/components/ui/Arrow";
 export type InstagramAccount = { handle: string; href: string };
 type Photo = { src: string; alt: string };
 
-/** "@sterling_inn" from https://www.instagram.com/sterling_inn/ */
+/** "@delight.hospitality_stays" from https://www.instagram.com/delight.hospitality_stays/ */
 export const instagramAccount = (href?: string): InstagramAccount | undefined => {
   const handle = href?.match(/instagram\.com\/([^/?#]+)/)?.[1];
   return href && handle ? { handle, href } : undefined;
@@ -64,7 +64,7 @@ export function PhotoTile({ photo, href, label, external }: { photo: Photo; href
       <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 300px, 72vw" className="object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.06]" />
       <span aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
       {external && (
-        <span aria-hidden className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white ring-1 ring-white/25 backdrop-blur-sm">
+        <span aria-hidden className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/45 text-white ring-1 ring-white/25 no-blur-mobile backdrop-blur-sm">
           <Icon name="instagram" size={16} />
         </span>
       )}

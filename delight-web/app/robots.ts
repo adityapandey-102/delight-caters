@@ -3,7 +3,7 @@ import { group } from "@/lib/content/group";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: { userAgent: "*", allow: "/", disallow: "/login" },
     sitemap: `${group.domain}/sitemap.xml`,
   };
 }

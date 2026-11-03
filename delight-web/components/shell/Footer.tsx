@@ -13,7 +13,7 @@ export default function Footer() {
     <footer className="bg-wall text-[12px] leading-[1.5] text-muted">
       <div className="mx-auto w-full max-w-[1080px] px-6 pb-28 pt-6 sm:pb-8">
         <p className="border-b border-line pb-4">
-          {group.name} — {group.tagline}. Hospitality, food and celebration in Bengaluru: Delight Hospitality and Delight Eatry, one family of businesses.
+          {group.name} — {group.tagline}. Hospitality, food and celebration in Bengaluru: Zyra Hospitality and Zyra Food & Beverages, one family of businesses.
         </p>
 
         <div className="grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:grid-cols-4">
@@ -21,7 +21,7 @@ export default function Footer() {
             <div key={d.href}>
               <h3 className="font-semibold text-ink">
                 <Link href={d.href} className="hover:underline">
-                  Delight {d.label}
+                  Zyra {d.label}
                 </Link>
               </h3>
               <ul className="mt-2.5 space-y-2">
@@ -43,6 +43,11 @@ export default function Footer() {
               <li>
                 <Link href="/about" className="hover:text-ink hover:underline">
                   About us
+                </Link>
+              </li>
+              <li>
+                <Link href="/team" className="hover:text-ink hover:underline">
+                  Our team
                 </Link>
               </li>
               <li>
@@ -69,7 +74,7 @@ export default function Footer() {
               {sterlingInn.contact.phone && (
                 <li>
                   <a href={sterlingInn.contact.phone.href} className="hover:text-ink hover:underline">
-                    {sterlingInn.contact.phone.display} · Sterling hotels
+                    {sterlingInn.contact.phone.display} · Zyra Hospitality
                   </a>
                 </li>
               )}

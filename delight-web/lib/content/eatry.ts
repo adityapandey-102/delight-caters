@@ -2,7 +2,7 @@ import type { Venue } from "./types";
 import { contact as caterers, company as catering } from "./site";
 
 /**
- * Delight Eatry — the group's food businesses. Bombay Kulfi copy is drawn from
+ * Zyra Food & Beverages — the group's food businesses. Bombay Kulfi copy is drawn from
  * the outlets' own posts and reels (A2-milk kulfi, five branches in Bengaluru); its
  * menu shots are used without the priced posts. Aero Bites has no public
  * listing yet: its page carries DUMMY content (story, dishes, timings, address)
@@ -10,14 +10,14 @@ import { contact as caterers, company as catering } from "./site";
  */
 
 export const eatry = {
-  name: "Delight Eatry",
+  name: "Zyra Food & Beverages",
   slug: "eatry",
   eyebrow: "Food & celebration",
   title: ["Flavours worth", "coming back for"] as const,
   intro: [
-    "Delight Eatry brings the group's love of food to the city — from the creamy kulfi of Bombay Kulfi across Bengaluru to the plates of Aero Bites and the celebrations catered by Delight Caterers.",
+    "Zyra Food & Beverages brings the group's love of food to the city — from the creamy kulfi of Bombay Kulfi across Bengaluru to the plates of Aero Bites and the celebrations catered by Delight Caterers.",
   ],
-  hero: { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "Kulfi at Bombay Kulfi" },
+  hero: { src: "/media/real/kulfi-kesar-pista.webp", alt: "A tub of Kesar Pista kulfi beside squares of paan ice cream" },
   reels: [
     { caption: "Serving cool vibes and creamy bites", poster: "/media/eatry/kulfi-drive.webp", video: "/media/eatry/kulfi-drive.mp4", href: "/eatry/bombay-kulfi" },
     { caption: "One bite? That's not happening", poster: "/media/eatry/kulfi-bite.webp", video: "/media/eatry/kulfi-bite.mp4", href: "/eatry/bombay-kulfi" },
@@ -81,6 +81,11 @@ export const bombayKulfi: Venue = {
   ],
   // Highlights are removed and spaces/gallery hidden temporarily at the client's request; the data stays so they can be switched back on.
   hide: { highlights: true, spaces: true, gallery: true },
+  favourites: [
+    { name: "Kesar Pista Kulfi", line: "Saffron and pistachio, the timeless classic — beside cool squares of paan ice cream.", image: { src: "/media/real/kulfi-kesar-pista.webp", alt: "A tub of Kesar Pista kulfi beside squares of paan ice cream" } },
+    { name: "Mango Shake", line: "Thick, cold and bright with ripe mango.", image: { src: "/media/real/kulfi-mango-shake.webp", alt: "A mango shake splashing out of its glass" } },
+    { name: "Sitaphal", line: "Custard apple, as ice cream in a cup or blended into a shake.", image: { src: "/media/real/kulfi-sitaphal.webp", alt: "Sitaphal ice cream in a cup and a sitaphal shake on custard apples" } },
+  ],
   gallery: [
     { src: "/media/bombay-kulfi/storefront.webp", alt: "The Bombay Kulfi sign on Commercial Street" },
     { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "A cup of kulfi" },
@@ -129,22 +134,20 @@ export const aeroBites: Venue = {
     { icon: "car", label: "Parking" },
     { icon: "clock", label: "Quick lunch menu" },
   ],
-  // Spaces and gallery hidden for now at the client's request; the data stays so they can be switched back on.
-  hide: { spaces: true, gallery: true },
+  // Spaces hidden for now at the client's request (stock photographs); the gallery shows the restaurant's own photos.
+  hide: { spaces: true },
   spaces: [
     { title: "Signature plates", body: "Tandoor favourites, rich curries and coastal specials.", image: { src: "/images/cuisine-north-indian-alt.webp", alt: "North Indian dishes" } },
     { title: "From the wok", body: "Noodles, dim sum and Indo-Chinese plates, made to order.", image: { src: "/images/cuisine-asian.webp", alt: "Momos and wok dishes" } },
     { title: "Something sweet", body: "Classic mithai and plated desserts to finish.", image: { src: "/images/cuisine-desserts.webp", alt: "Desserts" } },
   ],
   gallery: [
-    { src: "/images/cuisine-coastal.webp", alt: "Coastal seafood" },
-    { src: "/images/cuisine-north-indian.webp", alt: "A North Indian spread" },
-    { src: "/images/cuisine-mediterranean.webp", alt: "A Mediterranean plate" },
-    { src: "/images/hero-buffet.webp", alt: "A buffet spread" },
-    { src: "/images/cuisine-asian.webp", alt: "Momos and wok dishes" },
-    { src: "/images/cuisine-continental.webp", alt: "Pasta and bread" },
-    { src: "/images/cuisine-desserts.webp", alt: "Desserts" },
-    { src: "/images/svc-corporate.webp", alt: "A table set for a team lunch" },
+    { src: "/media/real/aero-dining-room.webp", alt: "The dining room at Aero Bites, under woven bamboo pendant lamps" },
+    { src: "/media/real/aero-spread.webp", alt: "Dal, chicken biryani, butter chicken, naan, paratha and raita at Aero Bites" },
+    { src: "/media/real/aero-dining-corner.webp", alt: "Tables set by the wall at Aero Bites, with a brass globe lamp" },
+    { src: "/media/real/aero-table.webp", alt: "A table laid with plates and green glasses at Aero Bites" },
+    { src: "/media/real/aero-spread-2.webp", alt: "Naan, paratha, dal, biryani and a curry, seen from above" },
+    { src: "/media/real/aero-evening.webp", alt: "Aero Bites in the evening, lit by a single lamp" },
   ],
   contact: {
     address: "KIA Road, Hunasamaranahalli, Bengaluru, Karnataka 562157",

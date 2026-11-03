@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { eatry } from "@/lib/content/eatry";
+import { pageMetadata } from "@/lib/seo";
 import { offersFor } from "@/lib/content/offers";
 import { eatryListings } from "@/lib/content/showcase";
 import { CategoryHero } from "@/modules/showcase/components/CategoryHero";
@@ -10,12 +11,14 @@ import CtaBand from "@/modules/home/components/CtaBand";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { LineReveal } from "@/components/ui/motion";
 
-export const metadata: Metadata = {
-  title: "Delight Eatry — Bombay Kulfi, Aero Bites & Delight Caterers",
-  description: eatry.intro[0],
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Catering, kulfi and dining in Bengaluru",
+  description: "Zyra Food & Beverages: Delight Caterers for weddings and events, Bombay Kulfi across five Bengaluru outlets, and the Aero Bites restaurant on the airport road.",
+  path: "/eatry",
+  image: eatry.hero,
+});
 
-/** Delight Eatry: the division, its three food businesses, its offers and events, and the reels. */
+/** Zyra Food & Beverages: the division, its three food businesses, its offers and events, and the reels. */
 export default function EatryPage() {
   return (
     <>

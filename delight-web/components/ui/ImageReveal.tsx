@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 /**
  * A photograph that opens up as it arrives: the frame widens from a slight
@@ -17,6 +17,11 @@ export function ImageReveal({ children, className = "" }: { children: ReactNode;
     const el = frame.current;
     if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
+      // Phones: no animated clip-path (it repaints the whole frame every tick), just the gentle zoom.
+      if (isTouchOrSmall()) {
+        gsap.fromTo(inner.current, { scale: 1.08 }, { scale: 1, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+        return;
+      }
       gsap
         .timeline({ scrollTrigger: { trigger: el, start: "top 88%", once: true } })
         .fromTo(el, { clipPath: "inset(7% 5% 7% 5% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 22px)", duration: 1.6, ease: "power4.out" }, 0)
@@ -27,7 +32,7 @@ export function ImageReveal({ children, className = "" }: { children: ReactNode;
 
   return (
     <div ref={frame} className={className}>
-      <div ref={inner} className="absolute inset-0 will-change-transform">
+      <div ref={inner} className="absolute inset-0">
         {children}
       </div>
     </div>

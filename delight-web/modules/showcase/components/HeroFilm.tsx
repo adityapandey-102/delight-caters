@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 type Action = { label: string; href: string };
 
@@ -54,23 +54,26 @@ export function HeroFilm({
     if (!frame || !photo) return;
     if (prefersReducedMotion()) return;
 
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const mobile = isTouchOrSmall();
     const ctx = gsap.context(() => {
       gsap.from(copy, { opacity: 0, y: 28, duration: 1.2, ease: "power3.out", stagger: 0.09, delay: 0.25 });
       gsap.from(frame, { opacity: 0, y: 60, duration: 1.4, ease: "power3.out", delay: 0.5 });
+      // Phones: the photograph opens once, as it arrives, instead of tracking the finger (a scrubbed
+      // clip-path and zoom repaint a screen-sized layer on every scroll frame).
       gsap.fromTo(
         frame,
         { clipPath: `inset(0% ${mobile ? 4 : 10}% 0% ${mobile ? 4 : 10}% round ${mobile ? 22 : 36}px)` },
         {
           clipPath: "inset(0% 0% 0% 0% round 0px)",
-          ease: "none",
-          scrollTrigger: { trigger: frame, start: "top 85%", end: "top 8%", scrub: 0.6 },
+          ...(mobile
+            ? { duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: frame, start: "top 80%", once: true } }
+            : { ease: "none", scrollTrigger: { trigger: frame, start: "top 85%", end: "top 8%", scrub: 0.6 } }),
         },
       );
       if (sign.length) {
         gsap.from(sign, { opacity: 0, y: 36, duration: 1.2, ease: "power3.out", stagger: 0.12, scrollTrigger: { trigger: frame, start: "top 45%" } });
       }
-      gsap.fromTo(photo, { scale: 1.18 }, { scale: 1, ease: "none", scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.6 } });
+      if (!mobile) gsap.fromTo(photo, { scale: 1.18 }, { scale: 1, ease: "none", scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.6 } });
     }, el);
     return () => ctx.revert();
   }, []);
@@ -133,8 +136,8 @@ export function HeroFilm({
       </section>
 
       {/* Screen two: the photograph, opening to full bleed — one screen tall on desktop */}
-      <section aria-label={image.alt} data-frame className="relative h-[min(78vh,820px)] min-h-[420px] overflow-hidden will-change-[clip-path] lg:h-[calc(100vh-var(--header-h))]">
-        <div data-photo className="absolute inset-0 will-change-transform">
+      <section aria-label={image.alt} data-frame className="relative h-[min(78vh,820px)] min-h-[420px] overflow-hidden md:will-change-[clip-path] lg:h-[calc(100vh-var(--header-h))]">
+        <div data-photo className="absolute inset-0 md:will-change-transform">
           <Image src={image.src} alt={image.alt} fill preload sizes="100vw" quality={85} className="object-cover brightness-[1.12] saturate-[1.05]" />
         </div>
         {motto && (

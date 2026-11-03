@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { hospitality } from "@/lib/content/hospitality";
+import { pageMetadata } from "@/lib/seo";
 import { offersFor } from "@/lib/content/offers";
 import { hotelIndex, hotelListings } from "@/lib/content/showcase";
 import { CategoryHero } from "@/modules/showcase/components/CategoryHero";
@@ -9,12 +10,14 @@ import Cuisines from "@/modules/home/components/Cuisines";
 import CtaBand from "@/modules/home/components/CtaBand";
 import { Icon } from "@/components/ui/Icon";
 
-export const metadata: Metadata = {
-  title: "Delight Hospitality — Hotels near Bengaluru Airport",
-  description: hospitality.intro[1],
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Hotels near Bengaluru Airport",
+  description: "Zyra Hospitality: Sterling Inn, Sterling Plaza and Olive, hotels near Kempegowda International Airport, Bengaluru, with suites, banquet halls, conference rooms and free Wi-Fi.",
+  path: "/hospitality",
+  image: hospitality.hero,
+});
 
-/** Delight Hospitality: the division, its hotels (an index beside a large photograph), its offers and events, and its reels. */
+/** Zyra Hospitality: the division, its hotels (an index beside a large photograph), its offers and events, and its reels. */
 export default function HospitalityPage() {
   return (
     <>

@@ -122,7 +122,7 @@ export function EnquiryDialog() {
             exactly the form's height, so the popup is only as tall as the form. */}
         <div aria-hidden className="relative hidden overflow-hidden rounded-l-[24px] md:block">
           <div className="absolute inset-0">
-            <Image src="/media/sterling-plaza/lobby.webp" alt="" fill sizes="(min-width: 768px) 620px, 1px" className="object-cover" />
+            <Image src="/media/refined/caterers-hero.webp" alt="" fill sizes="(min-width: 768px) 620px, 1px" className="object-cover object-[60%_50%]" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
               <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="60px" className="h-14 w-auto" />

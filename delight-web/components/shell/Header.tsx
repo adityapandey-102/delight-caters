@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { group, nav } from "@/lib/content/group";
-import { offersForPath } from "@/lib/content/offers";
+import { accountsVisible, group, nav } from "@/lib/content/group";
+import { marketingVisible, offersForPath } from "@/lib/content/offers";
 import { PromoRibbon } from "@/modules/showcase/components/PromoRibbon";
 import { enquiryLabel } from "@/lib/content/outlets";
 import { lockScroll, unlockScroll } from "./SmoothScroll";
@@ -107,9 +107,9 @@ export default function Header() {
         <div
           className={`relative transition-colors duration-500 ${
             light
-              ? "bg-[rgba(250,250,248,0.8)] text-ink shadow-[0_1px_0_rgba(0,0,0,0.06)]"
-              : "bg-[rgba(18,18,19,0.42)] text-white shadow-[0_1px_0_rgba(255,255,255,0.08)]"
-          } backdrop-blur-2xl backdrop-saturate-[1.8]`}
+              ? "bg-[rgba(250,250,248,0.8)] text-ink shadow-[0_1px_0_rgba(0,0,0,0.06)] max-md:bg-[rgba(250,250,248,0.95)]"
+              : "bg-[rgba(18,18,19,0.42)] text-white shadow-[0_1px_0_rgba(255,255,255,0.08)] max-md:bg-[rgba(18,18,19,0.72)]"
+          } no-blur-mobile backdrop-blur-2xl backdrop-saturate-[1.8]`}
         >
           <div className="mx-auto flex h-[var(--header-h)] w-full max-w-[1080px] items-center justify-between gap-6 px-5">
             <Link href="/" aria-label={`${group.name} — home`} className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80" onPointerEnter={closeMenuSoon}>
@@ -159,7 +159,7 @@ export default function Header() {
             </nav>
 
             <div className="flex items-center gap-2" onPointerEnter={closeMenuSoon}>
-              <SignInLink light={light} current={pathname === "/login"} />
+              {accountsVisible && <SignInLink light={light} current={pathname === "/login"} />}
               <a href="#enquiry" className="btn-gold shine hidden !px-3.5 !py-1.5 !text-[12.5px] sm:inline-flex">
                 {cta}
               </a>
@@ -180,15 +180,17 @@ export default function Header() {
           </div>
 
           {/* The marketing ribbon: shown at the top of the page, folded away on scroll */}
-          <div
-            className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.28,0.11,0.32,1)] ${
-              atTop && !menu && !open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-            }`}
-          >
-            <div className="min-h-0 overflow-hidden">
-              <PromoRibbon items={promoItems} tone={light ? "light" : "dark"} />
+          {marketingVisible && (
+            <div
+              className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.28,0.11,0.32,1)] ${
+                atTop && !menu && !open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="min-h-0 overflow-hidden">
+                <PromoRibbon items={promoItems} tone={light ? "light" : "dark"} />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Flyout: one panel that grows open under the bar */}
           <div
@@ -201,7 +203,7 @@ export default function Header() {
             <div className="min-h-0">
               {active && (
                 <div key={active.label} className="mx-auto grid w-full max-w-[1080px] grid-cols-[1.4fr_1fr_1fr] gap-10 px-5 pb-14 pt-8">
-                  <FlyoutColumn title={`Explore Delight ${active.label}`} delay={0}>
+                  <FlyoutColumn title={`Explore Zyra ${active.label}`} delay={0}>
                     {active.children.map((c) => (
                       <li key={c.href}>
                         <Link href={c.href} className="block py-1 font-display text-[24px] font-semibold tracking-[-0.01em] text-ink transition-colors hover:text-gold-deep">
@@ -211,7 +213,7 @@ export default function Header() {
                     ))}
                     <li>
                       <Link href={active.href} className="mt-1 block py-1 font-display text-[24px] font-semibold tracking-[-0.01em] text-muted transition-colors hover:text-gold-deep">
-                        {active.label === "Hospitality" ? "All hotels" : "All of Eatry"}
+                        {active.label === "Hospitality" ? "All hotels" : "All of Food & Beverages"}
                       </Link>
                     </li>
                   </FlyoutColumn>
@@ -251,7 +253,7 @@ export default function Header() {
       {/* Phones: a light full-screen sheet */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-40 overflow-y-auto bg-[rgba(250,250,248,0.97)] backdrop-blur-2xl transition-opacity duration-500 lg:hidden ${
+        className={`fixed inset-0 z-40 overflow-y-auto bg-[rgba(250,250,248,0.98)] transition-opacity duration-500 lg:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
       >
@@ -268,7 +270,7 @@ export default function Header() {
                   onClick={() => setOpen(false)}
                   className={`block py-1.5 font-display text-[28px] font-semibold tracking-[-0.01em] ${isActive(item.href) ? "text-gold-deep" : "text-ink"}`}
                 >
-                  {hasChildren(item) ? `Delight ${item.label}` : item.label}
+                  {hasChildren(item) ? `Zyra ${item.label}` : item.label}
                 </Link>
                 {hasChildren(item) && (
                   <ul className="mb-3 mt-1 grid gap-0.5">
@@ -292,9 +294,11 @@ export default function Header() {
 
           <div className="mt-auto pt-8">
             {/* DUMMY sign-in (phase 2 preview) */}
-            <Link href="/login#customer" onClick={() => setOpen(false)} className="btn-ghost mb-3 w-full">
-              <PersonIcon size={16} /> Sign in
-            </Link>
+            {accountsVisible && (
+              <Link href="/login#customer" onClick={() => setOpen(false)} className="btn-ghost mb-3 w-full">
+                <PersonIcon size={16} /> Sign in
+              </Link>
+            )}
             <a href="#enquiry" onClick={() => setOpen(false)} className="btn-onyx shine w-full">
               {cta}
             </a>

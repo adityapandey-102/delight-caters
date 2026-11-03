@@ -15,12 +15,13 @@ import { ReelsSection } from "./ReelsSection";
 import { Location } from "./Location";
 import { LocalNav } from "./LocalNav";
 import { instagramAccount } from "./SocialTiles";
-import { offersFor } from "@/lib/content/offers";
+import { Favourites } from "./Favourites";
+import { marketingVisible, offersFor } from "@/lib/content/offers";
 import { OffersSection } from "@/modules/showcase/components/OffersSection";
 
 const DIVISION = {
-  hospitality: { name: "Delight Hospitality", href: "/hospitality" },
-  eatry: { name: "Delight Eatry", href: "/eatry" },
+  hospitality: { name: "Zyra Hospitality", href: "/hospitality" },
+  eatry: { name: "Zyra Food & Beverages", href: "/eatry" },
 } as const;
 
 /** "01 / The stay" — the numbered chapter label used through the page (after Loam House). */
@@ -56,7 +57,8 @@ export function VenuePage({ venue }: { venue: Venue }) {
       : venue.contact.mapsUrl && venue.cta.href !== venue.contact.mapsUrl
         ? { label: "Get directions", href: venue.contact.mapsUrl, external: true }
         : { label: venue.slug === "aero-bites" ? "Reserve a table" : "Send an enquiry", href: "#enquiry" };
-  const photos = [venue.hero, ...venue.spaces.map((s) => s.image), ...venue.gallery].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
+  // The gallery leads (it holds the newest, real photographs), then the spaces — unless those are hidden.
+  const photos = [venue.hero, ...venue.gallery, ...(venue.hide?.spaces ? [] : venue.spaces.map((s) => s.image))].filter((p, i, a) => a.findIndex((q) => q.src === p.src) === i);
 
   // Which chapters show (a venue can switch some off), numbered in order from what's left.
   const showHighlights = !venue.hide?.highlights;
@@ -104,7 +106,7 @@ export function VenuePage({ venue }: { venue: Venue }) {
         name={venue.name}
         cta={{ label: isHotel ? "Book" : venue.cta.label, href: venue.cta.href, external: venue.cta.external }}
         links={[
-          ...(venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
+          ...(marketingVisible && venueOffers.length ? [{ label: "Offers", href: "#offers" }] : []),
           ...(hasWatch ? [{ label: "Watch", href: "#watch" }] : []),
           { label: "Overview", href: "#overview" },
           ...(showHighlights ? [{ label: isHotel ? "Amenities" : "Highlights", href: "#offer" }] : []),
@@ -144,6 +146,8 @@ export function VenuePage({ venue }: { venue: Venue }) {
         photoHref="#gallery"
       />
       )}
+
+      {venue.favourites && <Favourites brand={venue.name} items={venue.favourites} />}
 
       {/* The story, what's on offer and the spaces — each one screen, beside the visit card */}
       <div className="relative px-5 py-14 sm:px-8 md:py-20 lg:px-12">

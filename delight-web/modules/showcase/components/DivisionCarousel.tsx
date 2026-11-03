@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "@/lib/gsap";
+import { CUTOUT_STAGE } from "@/modules/brand/components/SpotlightHero";
 
 type Action = { label: string; href: string };
 
@@ -14,6 +15,11 @@ export type DivisionBrand = {
   accent: string;
   body: string;
   image: { src: string; alt: string };
+  /**
+   * Product cut-outs to stand on a coloured backdrop instead of the photograph
+   * (Bombay Kulfi): shown whole, tilted and bouncing, never cropped.
+   */
+  stage?: { backdrop: string; cutouts: { src: string; alt: string; width: number; height: number }[] };
   primary: Action;
   secondary: Action;
 };
@@ -108,15 +114,48 @@ export function DivisionCarousel({ division }: { division: Division }) {
               inert={!on}
               className="relative isolate h-full w-full shrink-0 overflow-hidden"
             >
-              <Image
-                src={b.image.src}
-                alt={b.image.alt}
-                fill
-                sizes="100vw"
-                className={`-z-20 object-cover ${on ? "scale-100" : "scale-[1.08]"}`}
-                style={{ transition: `transform ${on ? HOLD_S + 1.5 : 1.1}s ${EASE}` }}
-              />
-              <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[70%] bg-linear-to-b from-black/85 via-black/50 to-transparent" />
+              {b.stage ? (
+                <div className="absolute inset-0 -z-20" style={{ background: b.stage.backdrop }}>
+                  {/* Depth: a dark vignette over the colour, then a warm pool of light where the products stand */}
+                  <div aria-hidden className="absolute inset-0 bg-[radial-gradient(85%_75%_at_50%_45%,transparent_35%,rgba(0,0,0,0.5)_100%)]" />
+                  <div aria-hidden className="absolute inset-x-0 top-0 h-[45%] bg-linear-to-b from-black/45 to-transparent" />
+                  <div aria-hidden className="absolute bottom-[8%] left-1/2 h-[55%] w-[90%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(255,232,190,0.42),rgba(255,214,150,0.12)_55%,transparent)] md:bottom-[4%] md:h-[62%] md:w-[70%]" />
+                  {/* The products in the Bombay Kulfi hero's own arrangement (back-left, front-centre, back-right), sized by width so nothing stretches */}
+                  <div className="absolute bottom-[212px] left-1/2 h-[clamp(170px,26vh,210px)] w-[92%] -translate-x-1/2 md:bottom-[92px] md:h-[clamp(240px,44vh,340px)] md:w-[min(720px,70%)]">
+                    {b.stage.cutouts.slice(0, 3).map((c, k) => {
+                      const p = CUTOUT_STAGE[k];
+                      return (
+                        <div key={c.src} className={`cutout absolute ${p.box} ${p.z}`} style={{ "--tilt": p.tilt } as React.CSSProperties}>
+                          <div className="cutout-float" style={{ "--float": p.float, "--delay": p.delay } as React.CSSProperties}>
+                            <Image
+                              src={c.src}
+                              alt={c.alt}
+                              width={c.width}
+                              height={c.height}
+                              sizes="(min-width: 768px) 320px, 45vw"
+                              className="h-auto w-full [filter:drop-shadow(0_26px_28px_rgba(0,0,0,0.45))]"
+                            />
+                          </div>
+                          {/* A soft contact shadow on the floor, shrinking as the product lifts */}
+                          <div aria-hidden className="cutout-shadow mx-auto mt-[4%] h-4 w-[64%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(0,0,0,0.45),transparent)]" style={{ "--float": p.float, "--delay": p.delay } as React.CSSProperties} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Image
+                    src={b.image.src}
+                    alt={b.image.alt}
+                    fill
+                    sizes="100vw"
+                    className={`-z-20 object-cover ${on ? "scale-100" : "scale-[1.08]"}`}
+                    style={{ transition: `transform ${on ? HOLD_S + 1.5 : 1.1}s ${EASE}` }}
+                  />
+                  <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[70%] bg-linear-to-b from-black/85 via-black/50 to-transparent" />
+                </>
+              )}
 
               <div className="relative mx-auto max-w-[820px] px-6 pt-14 text-center md:pt-16">
                 <p className="eyebrow on-dark justify-center">{b.name}</p>
@@ -137,7 +176,7 @@ export function DivisionCarousel({ division }: { division: Division }) {
       {/* Every brand by name (the active one carries the timer); pause, and the way into the whole division */}
       <div className="absolute inset-x-0 bottom-24 flex flex-col-reverse items-center justify-center gap-3 px-3 md:bottom-8 md:flex-row md:px-4">
         {count > 1 && (
-          <div role="tablist" aria-label={`${division.name} brands`} className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-black/35 p-1 ring-1 ring-white/15 backdrop-blur-md">
+          <div role="tablist" aria-label={`${division.name} brands`} className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-black/35 p-1 ring-1 ring-white/15 backdrop-blur-md no-blur-mobile max-md:bg-black/55">
             {division.brands.map((b, i) => {
               const on = i === active;
               return (
@@ -173,7 +212,7 @@ export function DivisionCarousel({ division }: { division: Division }) {
               type="button"
               onClick={() => setPaused((p) => !p)}
               aria-label={paused ? `Play ${division.name} slideshow` : `Pause ${division.name} slideshow`}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-black/50"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/15 backdrop-blur-md no-blur-mobile transition-colors hover:bg-black/50 max-md:bg-black/55"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden fill="currentColor">
                 {paused ? <path d="M4 2.5v9l7.5-4.5z" /> : <path d="M3.5 2.5h2.5v9H3.5zM8 2.5h2.5v9H8z" />}

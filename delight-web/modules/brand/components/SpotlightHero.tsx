@@ -15,7 +15,7 @@ type Cta = { label: string; href: string; external?: boolean };
  * sentence, two actions and, quietly underneath, what sets the brand apart. On
  * the right, either the photograph with its location on a glass chip, or —
  * when `cutouts` are given — three product cut-outs floating on the page
- * itself, each set at its own angle and bobbing and swaying on a loop out of
+ * itself, each set at its own angle and bouncing gently on a loop out of
  * step with the others, over a contact shadow that shrinks as it lifts, and
  * leaning toward the pointer. On phones the products come first, right under
  * the header. One screen on desktop.
@@ -23,11 +23,11 @@ type Cta = { label: string; href: string; external?: boolean };
 
 type Cutout = { src: string; alt: string; width: number; height: number };
 
-/** Where each of the three cut-outs floats: back-left, front-centre, back-right. */
-const STAGE = [
-  { box: "left-[2%] bottom-[24%] w-[38%]", z: "z-10", tilt: "-12deg", sway: "-3deg", depth: "10px", float: "4.6s", delay: "-1.6s" },
-  { box: "left-1/2 bottom-[8%] w-[44%] -translate-x-1/2", z: "z-20", tilt: "5deg", sway: "2.5deg", depth: "22px", float: "4.2s", delay: "0s" },
-  { box: "right-[3%] bottom-[22%] w-[30%]", z: "z-10", tilt: "13deg", sway: "3deg", depth: "14px", float: "5s", delay: "-3s" },
+/** Where each of the three cut-outs floats: back-left, front-centre, back-right (shared with the home carousel's Kulfi slide). */
+export const CUTOUT_STAGE = [
+  { box: "left-[2%] bottom-[24%] w-[38%]", z: "z-10", tilt: "-12deg", depth: "10px", float: "4.6s", delay: "-1.6s" },
+  { box: "left-1/2 bottom-[8%] w-[44%] -translate-x-1/2", z: "z-20", tilt: "5deg", depth: "22px", float: "4.2s", delay: "0s" },
+  { box: "right-[3%] bottom-[22%] w-[30%]", z: "z-10", tilt: "13deg", depth: "14px", float: "5s", delay: "-3s" },
 ] as const;
 export function SpotlightHero({
   name,
@@ -176,7 +176,7 @@ export function SpotlightHero({
           <div className="relative order-first mx-auto w-full max-w-[460px] lg:order-none lg:max-w-none">
             <div ref={stage} className="relative aspect-[5/4] w-full lg:aspect-auto lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-14vh)] lg:max-h-[680px]">
               {trio.map((c, i) => {
-                const p = STAGE[i];
+                const p = CUTOUT_STAGE[i];
                 return (
                   <div
                     key={c.src}
@@ -184,7 +184,7 @@ export function SpotlightHero({
                     style={{ "--tilt": p.tilt, "--depth": p.depth } as React.CSSProperties}
                   >
                     <div data-s-cut>
-                      <div className="cutout-float" style={{ "--float": p.float, "--delay": p.delay, "--sway": p.sway } as React.CSSProperties}>
+                      <div className="cutout-float" style={{ "--float": p.float, "--delay": p.delay } as React.CSSProperties}>
                         <Image
                           src={c.src}
                           alt={c.alt}
@@ -212,7 +212,7 @@ export function SpotlightHero({
           <div className="relative aspect-[4/5] overflow-hidden rounded-[30px] shadow-[0_60px_100px_-50px_rgba(120,60,10,0.45)] ring-1 ring-black/5 lg:aspect-auto lg:h-[calc(100vh-var(--header-h)-var(--ribbon-h)-12vh)] lg:max-h-[700px]">
             <Image src={image.src} alt={image.alt} fill preload sizes="(min-width: 1024px) 520px, 90vw" className="object-cover" />
             {location && (
-              <p className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2 text-[13px] font-medium text-white ring-1 ring-white/15 backdrop-blur-md">
+              <p className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-black/45 max-md:bg-black/60 no-blur-mobile px-3.5 py-2 text-[13px] font-medium text-white ring-1 ring-white/15 backdrop-blur-md">
                 <Icon name="pin" size={14} className="text-gold-light" />
                 {location}
               </p>

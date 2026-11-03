@@ -15,6 +15,8 @@ import { OffersSection } from "@/modules/showcase/components/OffersSection";
 import { contact, cuisines, reels, services, social } from "@/lib/content/site";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
 import { instagramAccount } from "@/modules/brand/components/SocialTiles";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { abs, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const photos = [
   ...services.map((s) => ({ src: s.image, alt: s.imageAlt })),
@@ -22,18 +24,52 @@ const photos = [
   { src: "/images/nutrition.webp", alt: "Fresh, healthy bowls" },
 ];
 
-export const metadata: Metadata = {
-  title: "Delight Caterers — Catering for every occasion in Bengaluru",
-  description: welcome.paragraphs[0],
-  openGraph: { images: [hero.image] },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Delight Caterers — wedding and event catering in Bengaluru",
+  description:
+    "Bengaluru catering for weddings, corporate and institutional events: curated menus, consistent quality and professional service from Delight Caterers.",
+  path: "/eatry/delight-caterers",
+  image: { src: hero.image, alt: hero.imageAlt },
+});
+
+/** Delight Caterers for search engines, from the same facts the page prints. */
+const CATERER_JSON_LD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    name: company.name,
+    slogan: company.tagline,
+    description: welcome.paragraphs[0],
+    url: abs("/eatry/delight-caterers"),
+    image: abs(hero.image),
+    logo: abs("/brand/logo-gold.png"),
+    telephone: contact.phoneDisplay,
+    email: contact.email,
+    address: { "@type": "PostalAddress", streetAddress: `${contact.address.street}, ${contact.address.road}`, addressLocality: contact.address.locality, addressRegion: contact.address.region, postalCode: contact.address.postalCode, addressCountry: "IN" },
+    hasMap: contact.mapsUrl,
+    areaServed: { "@type": "City", name: company.city },
+    sameAs: [social.instagram.href, social.linkedin.href],
+    parentOrganization: { "@type": "Organization", name: "Zyra Group", url: abs("/") },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Catering services",
+      itemListElement: services.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.title, description: s.body } })),
+    },
+  },
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Zyra Food & Beverages", path: "/eatry" },
+    { name: company.name, path: "/eatry/delight-caterers" },
+  ]),
+];
 
 /** Delight Caterers, condensed from its own site into one page of the group. */
 export default function DelightCaterersPage() {
   return (
     <>
+      <JsonLd data={CATERER_JSON_LD} />
       <BrandHero
-        eyebrow={`Delight Eatry · ${company.name} · ${company.tagline}`}
+        eyebrow={`Zyra Food & Beverages · ${company.name} · ${company.tagline}`}
         lines={hero.lines}
         tagline="Hunasamaranahalli, Bengaluru"
         body={hero.body}

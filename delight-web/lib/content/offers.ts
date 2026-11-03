@@ -9,6 +9,9 @@
  * backlog"); keep pages reading it only through offersFor() / offersForPath().
  */
 
+/** Marketing on/off: the offers ribbon under the nav and every offers/highlights section. Hidden for now at the client's request — set true to bring them all back (and set --ribbon-h back to 44px in app/globals.css). */
+export const marketingVisible = false;
+
 export type OfferKind = "Offer" | "Event" | "Collaboration" | "Season" | "Launch";
 export type Division = "hospitality" | "eatry";
 
@@ -97,7 +100,7 @@ export const offers: Offer[] = [
     line: "Launch evening with guest chefs from the city.",
     summary: "Chef-led tasting plates and signature bites, made for travellers and neighbours alike.",
     dates: "Nov 2026",
-    image: { src: D("fine-dining"), alt: "A plated dish at a restaurant table" },
+    image: { src: "/media/real/aero-spread.webp", alt: "Dal, chicken biryani, butter chicken, naan and raita at Aero Bites" },
     cta: { label: "Reserve a table", href: "#enquiry" },
     featured: true,
   },

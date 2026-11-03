@@ -22,7 +22,7 @@ export function Finder({ tabs }: { tabs: FinderTab[] }) {
   const tab = tabs[active];
 
   return (
-    <div className="flex flex-col gap-2 rounded-[18px] border border-white/20 bg-white/10 p-2 text-white shadow-[0_24px_60px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl md:flex-row md:items-center">
+    <div className="flex flex-col gap-2 rounded-[18px] border border-white/20 bg-white/10 max-md:bg-black/45 no-blur-mobile p-2 text-white shadow-[0_24px_60px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl md:flex-row md:items-center">
       <div role="tablist" aria-label="What are you looking for?" className="grid shrink-0 grid-cols-4 gap-1 rounded-[13px] bg-black/25 p-1 md:flex">
         {tabs.map((t, i) => (
           <button

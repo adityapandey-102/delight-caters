@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, ScrollTrigger, DESKTOP_QUERY } from "@/lib/gsap";
 import { services, servicesTitle, type Service } from "@/lib/content/site";
 import { Eyebrow } from "@/components/ui/SectionHead";
 import { Icon, type IconName } from "@/components/ui/Icon";
@@ -188,15 +188,17 @@ export default function ImpactDiagram({
       tl.fromTo("[data-hub]", { opacity: 0, scale: 0.45, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 1, ease: "back.out(2)" }, 0.4);
       tl.fromTo("[data-block]", { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.08 }, 0.5);
 
-      // Slow counter-rotation of the diamond as the section passes (tablets and up).
-      gsap.matchMedia().add("(min-width: 768px)", () => {
+      // Slow counter-rotation of the diamond as the section passes (mouse-driven desktops only).
+      gsap.matchMedia().add(DESKTOP_QUERY, () => {
         gsap.fromTo(
           "[data-diamond]",
           { rotate: -4 },
           { rotate: 4, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1.1 } },
         );
       });
-      gsap.to("[data-hub-ring]", { scale: 1.12, opacity: 0.2, duration: 2.6, ease: "sine.inOut", repeat: -1, yoyo: true });
+      // The hub's pulse only runs while the section is on screen.
+      const pulse = gsap.to("[data-hub-ring]", { scale: 1.12, opacity: 0.2, duration: 2.6, ease: "sine.inOut", repeat: -1, yoyo: true, paused: true });
+      ScrollTrigger.create({ trigger: el, start: "top bottom", end: "bottom top", onToggle: (self) => (self.isActive ? pulse.play() : pulse.pause()) });
     }, el);
 
     return () => ctx.revert();
@@ -374,7 +376,7 @@ export default function ImpactDiagram({
                       <span
                         aria-hidden
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-500 ${
-                          on ? "bg-white text-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/35 text-gold-light ring-1 ring-gold-light/50 backdrop-blur-sm"
+                          on ? "bg-white text-ink shadow-[0_6px_18px_-6px_rgba(0,0,0,0.6)]" : "bg-black/50 text-gold-light ring-1 ring-gold-light/50 no-blur-mobile backdrop-blur-sm"
                         }`}
                       >
                         <Icon name={q.icon} size={18} />

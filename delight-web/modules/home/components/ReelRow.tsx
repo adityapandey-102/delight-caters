@@ -207,7 +207,7 @@ export default function ReelRow({ reels, extras = [] }: { reels: Reel[]; /** Til
               {/* resting cards show a play mark */}
               <span
                 aria-hidden
-                className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 lg:hidden pl-0.5 text-white ring-1 ring-gold-light/90 backdrop-blur-sm transition-[opacity,scale] duration-500 ease-out-expo ${
+                className={`absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 no-blur-mobile lg:hidden pl-0.5 text-white ring-1 ring-gold-light/90 backdrop-blur-sm transition-[opacity,scale] duration-500 ease-out-expo ${
                   on ? "scale-75 opacity-0" : "opacity-100"
                 }`}
               >

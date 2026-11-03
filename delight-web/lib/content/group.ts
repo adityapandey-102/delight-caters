@@ -1,8 +1,7 @@
 /**
  * Zyra Group — the parent brand. The group story, values, vision and mission
  * are adapted from delighthospitality.in's company profile (the closest source
- * the group has published); team names and photos are placeholders until the
- * client shares them (see the DUMMY note on `team`).
+ * the group has published); the vision, mission and team are the client's own.
  */
 
 export const group = {
@@ -26,13 +25,11 @@ export const group = {
   },
   vision: {
     title: "Our Vision",
-    lead: "To be a trusted name in hospitality, known for quality and care.",
-    body: "We aim to grow a portfolio of businesses that stand for consistent standards and genuine service.",
+    lead: "To become a distinguished name in hospitality and catering, recognised for exceptional quality, thoughtful service and unforgettable experiences.",
   },
   mission: {
     title: "Our Mission",
-    lead: "To create experiences and value that last.",
-    body: "By investing in our people, our properties and our partnerships, we deliver excellence across every business we run.",
+    lead: "To create exceptional experiences through quality, passion and the art of hospitality.",
   },
   values: [
     { title: "Integrity", body: "We do business with honesty, transparency and respect in every relationship." },
@@ -42,11 +39,11 @@ export const group = {
   ],
 };
 
-/** Site navigation: two divisions with their brands (Eatry first — catering is the lead business), then the group pages. */
+/** Site navigation: two divisions with their brands (Food & Beverages first — catering is the lead business), then the group pages. */
 export const nav = [
   { label: "Home", href: "/" },
   {
-    label: "Eatry",
+    label: "Food & Beverages",
     href: "/eatry",
     blurb: "Food & celebration",
     children: [
@@ -66,23 +63,56 @@ export const nav = [
     ],
   },
   { label: "About", href: "/about" },
+  { label: "Our Team", href: "/team" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
-/**
- * DUMMY team — the roles reflect the group's structure; names are stand-ins
- * (except Dt. Radhika Rani, from the Delight Caterers site) until the client
- * shares the real team and photographs.
- */
-export const team = [
-  { name: "Rajesh Menon", role: "Founder & Chairman", unit: "Zyra Group", placeholder: false },
-  { name: "Ananya Rao", role: "Managing Director", unit: "Zyra Group", placeholder: false },
-  { name: "Vikram Shetty", role: "Head of Hospitality", unit: "Delight Hospitality", placeholder: false },
-  { name: "Priya Nair", role: "Head of Food & Beverage", unit: "Delight Eatry", placeholder: false },
-  { name: "Arjun Gowda", role: "General Manager", unit: "Sterling Hotels", placeholder: false },
-  { name: "Chef Imran Qureshi", role: "Executive Chef", unit: "Delight Caterers", placeholder: false },
-  { name: "Dt. Radhika Rani", role: "Registered Dietitian", unit: "Delight Caterers", placeholder: false },
-  { name: "Kavya Iyer", role: "Outlet Manager", unit: "Bombay Kulfi", placeholder: false },
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  /** Portrait under /media/real; `focus` is the CSS object-position that keeps the face in frame. */
+  photo: { src: string; focus: string };
+};
+
+/** The team, in the order the client set: co-founder first, then operations, sales, the kitchen's experts and marketing. */
+export const team: TeamMember[] = [
+  {
+    name: "Mustaqeem",
+    role: "Co-founder",
+    bio: "A visionary hospitality entrepreneur dedicated to building exceptional experiences through strategic leadership, innovation, and a passion for service excellence.",
+    photo: { src: "/media/real/team-mustaqeem.webp", focus: "50% 45%" },
+  },
+  {
+    name: "Mahendra Ramu K",
+    role: "General Manager",
+    bio: "An accomplished hospitality professional with 10–15 years of experience in strategic operations, team leadership, guest relations, and delivering exceptional service standards while driving business growth and operational excellence.",
+    photo: { src: "/media/real/team-mahendra.webp", focus: "50% 0%" },
+  },
+  {
+    name: "Nivas Bhojan",
+    role: "Director of Sales",
+    bio: "A seasoned hospitality sales leader with 10–15 years of experience in driving revenue growth, building strategic partnerships, and delivering exceptional business performance.",
+    photo: { src: "/media/real/team-nivas.webp", focus: "50% 20%" },
+  },
+  {
+    name: "Dt. Radhika Rani",
+    role: "Nutritionist",
+    bio: "A dedicated nutrition professional focused on crafting balanced, nourishing menus that elevate guest well-being while maintaining the highest standards of hospitality dining.",
+    photo: { src: "/media/real/team-radhika.webp", focus: "50% 12%" },
+  },
+  {
+    name: "Surjeet Kumar",
+    role: "Executive Chef",
+    bio: "Accomplished Executive Chef with 14+ years of progressive experience leading culinary operations across luxury hotels, ultra-luxury resorts, destination wedding venues, banquet facilities, and pre-opening hospitality projects. Expertise in multi-cuisine food production, menu engineering, food cost optimization, budgeting, inventory management, HACCP & FSSAI compliance, and team leadership.",
+    photo: { src: "/media/real/team-surjeet.webp", focus: "50% 0%" },
+  },
+  {
+    name: "Nida Fathima",
+    role: "Marketing Head",
+    bio: "A strategic hospitality marketing leader with expertise in brand positioning, market development, and creating impactful campaigns that drive growth and strengthen brand presence.",
+    photo: { src: "/media/real/team-nida.webp", focus: "50% 8%" },
+  },
 ];
 
 /** Real, sourced figures for the group's at-a-glance band (no invented numbers). */
@@ -92,3 +122,6 @@ export const groupFacts = [
   { value: "4.8", label: "Guest rating · Sterling Inn (269 reviews)" },
   { value: "6", label: "Businesses, one family" },
 ];
+
+/** Customer and partner logins. Hidden for now at the client's request — set true to bring back the /login page and the account icon in the nav. */
+export const accountsVisible = false;

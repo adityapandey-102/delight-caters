@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { group } from "@/lib/content/group";
+import { notFound } from "next/navigation";
+import { accountsVisible, group } from "@/lib/content/group";
 import { LoginPanel } from "@/modules/auth/components/LoginPanel";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
  * and /login#team pick the form.
  */
 export default function LoginPage() {
+  if (!accountsVisible) notFound();
   return (
     <section className="bg-wall-lit lg:grid lg:min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <div data-nav-dark className="relative hidden overflow-hidden bg-black lg:block">
@@ -24,7 +26,7 @@ export default function LoginPage() {
           <Image src="/brand/zyra-mark.png" alt="" width={291} height={363} sizes="56px" className="h-14 w-auto" />
           <p className="mt-5 font-display text-[clamp(2rem,3vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em]">{group.tagline}</p>
           <p className="mt-3 max-w-[30rem] text-[15.5px] leading-[1.6] text-white/75">
-            One account for your stays, your tables and your celebrations across Delight Hospitality and Delight Eatry.
+            One account for your stays, your tables and your celebrations across Zyra Hospitality and Zyra Food & Beverages.
           </p>
         </div>
       </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, DESKTOP_QUERY } from "@/lib/gsap";
 import { Arrow } from "@/components/ui/Arrow";
 import { Icon } from "@/components/ui/Icon";
 
@@ -50,7 +50,7 @@ export function BrandHero({
         .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(plate.current, { scale: 1.14 }, { scale: 1, duration: 2.2 }, 0)
         .from("[data-h]", { opacity: 0, y: 26, duration: 1.1, stagger: 0.08 }, 0.2);
-      gsap.matchMedia().add("(min-width: 768px)", () => {
+      gsap.matchMedia().add(DESKTOP_QUERY, () => {
         gsap
           .timeline({ scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: 0.8 } })
           .to(plate.current, { scale: 1.1, ease: "none" }, 0)

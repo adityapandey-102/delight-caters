@@ -163,7 +163,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
       {/* Control pill: dots (the active one is a timer) + play / pause */}
       {many && (
         <div className="mt-8 flex items-center justify-center gap-3 lg:mt-[3vh]">
-          <div className={`flex h-14 items-center gap-2.5 rounded-full px-6 backdrop-blur-xl ${dark ? "bg-white/12" : "bg-black/[0.06]"}`}>
+          <div className={`flex h-14 items-center gap-2.5 rounded-full px-6 no-blur-mobile backdrop-blur-xl ${dark ? "bg-white/12 max-md:bg-white/20" : "bg-black/[0.06] max-md:bg-black/10"}`}>
             {items.map((h, i) => (
               <button
                 key={h.title}
@@ -190,7 +190,7 @@ export function Highlights({ title, eyebrow, items, theme = "light" }: { title: 
             type="button"
             onClick={() => setPlaying((p) => !p)}
             aria-label={playing ? "Pause" : "Play"}
-            className={`flex h-14 w-14 items-center justify-center rounded-full backdrop-blur-xl transition-colors ${dark ? "bg-white/12 text-white hover:bg-white/20" : "bg-black/[0.06] text-ink hover:bg-black/10"}`}
+            className={`flex h-14 w-14 items-center justify-center rounded-full no-blur-mobile backdrop-blur-xl transition-colors ${dark ? "bg-white/12 text-white hover:bg-white/20" : "bg-black/[0.06] text-ink hover:bg-black/10"}`}
           >
             {playing ? (
               <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>

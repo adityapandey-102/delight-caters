@@ -55,7 +55,7 @@
 
 :root {
   --header-h: 52px;
-  --ribbon-h: 44px; /* the marketing ribbon under the nav */
+  --ribbon-h: 0px; /* the marketing ribbon under the nav: 44px when the ribbon is shown (marketingVisible in lib/content/offers.ts) */
 
   /* The plaster: a fine grain plus a broad, uneven mottle, both tinted the
      wall's own shadow brown. Tiled SVG noise — rendered once, no image file. */
@@ -352,13 +352,15 @@ html.lenis body {
   .shine:hover::after {
     animation-duration: 1.4s;
   }
+  /* Moves by transform (not left) so the sweep never touches layout; --shine-travel is the
+     distance, in the sweep's own widths, from just off the left edge to just off the right. */
   @keyframes shine {
     0%,
     55% {
-      left: -60%;
+      transform: translate3d(0, 0, 0) skewX(-20deg);
     }
     100% {
-      left: 130%;
+      transform: translate3d(var(--shine-travel, 422%), 0, 0) skewX(-20deg);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -462,7 +464,6 @@ html.lenis body {
 
   .rv {
     opacity: 0;
-    will-change: transform, opacity;
   }
 
   /* A thin gold frame set just inside a photograph. */
@@ -492,12 +493,12 @@ html.lenis body {
     opacity: 0.28;
     color: var(--color-faint);
     transition: none;
-    will-change: filter, opacity, color;
+    will-change: filter, opacity;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 767px), (pointer: coarse) {
     .word {
       filter: none;
-      will-change: opacity, color;
+      will-change: auto;
     }
   }
 
@@ -682,6 +683,7 @@ li {
 .btn-onyx.shine::after,
 .btn-ghost.shine::after {
   width: 30%;
+  --shine-travel: 633%;
   background: linear-gradient(100deg, transparent, rgba(28, 27, 25, 0.06) 50%, transparent);
 }
 
@@ -735,13 +737,15 @@ li {
 .btn-goldleaf:hover {
   background: linear-gradient(120deg, #634718 0%, #8c6829 40%, #a7803f 62%, #7d5a20 100%);
 }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px), (pointer: coarse) {
   .gold-accent {
     animation: none;
+    background-position: 35% 0;
   }
 }
 .btn-goldleaf.shine::after {
   width: 30%;
+  --shine-travel: 633%;
   background: linear-gradient(100deg, transparent, rgba(255, 244, 220, 0.35) 50%, transparent);
 }
 
@@ -751,30 +755,23 @@ li {
   transform: translate(calc(var(--px, 0) * var(--depth, 0px)), calc(var(--py, 0) * var(--depth, 0px))) rotate(var(--tilt, 0deg));
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* Each product bobs and sways on its own loop, forever: up and over to one
-   side, down, up and over to the other. Reduced motion keeps a slow, shallow
-   drift so the products still feel alive without travelling far. */
+/* Each product bounces on its own loop, forever: a slow lift and a soft
+   settle, eased like a sine wave so it never jolts. Reduced motion keeps a
+   shallower, slower bounce so the products still feel alive. */
 .cutout-float {
-  --lift: 26px;
-  animation: cutout-float var(--float, 4.5s) ease-in-out var(--delay, 0s) infinite;
-  will-change: transform;
+  --lift: 22px;
+  animation: cutout-float var(--float, 4.5s) cubic-bezier(0.45, 0, 0.55, 1) var(--delay, 0s) infinite;
 }
 .cutout-shadow {
-  animation: cutout-shadow var(--float, 4.5s) ease-in-out var(--delay, 0s) infinite;
+  animation: cutout-shadow var(--float, 4.5s) cubic-bezier(0.45, 0, 0.55, 1) var(--delay, 0s) infinite;
 }
 @keyframes cutout-float {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(calc(var(--lift) * -0.6)) rotate(var(--sway, 2.5deg));
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(calc(var(--lift) * -1)) rotate(0deg);
-  }
-  75% {
-    transform: translateY(calc(var(--lift) * -0.6)) rotate(calc(var(--sway, 2.5deg) * -1));
+    transform: translateY(calc(var(--lift) * -1));
   }
 }
 @keyframes cutout-shadow {
@@ -791,7 +788,6 @@ li {
 @media (prefers-reduced-motion: reduce) {
   .cutout-float {
     --lift: 8px;
-    --sway: 0deg;
     animation-duration: 7s;
   }
   .cutout {
@@ -799,3 +795,33 @@ li {
   }
 }
 
+
+
+/* Infinite loops stop while off-screen: SmoothScroll toggles .is-offscreen from an IntersectionObserver. */
+.is-offscreen,
+.is-offscreen::before,
+.is-offscreen::after {
+  animation-play-state: paused !important;
+}
+
+/* Phones: backdrop-filter re-blurs everything behind it on every frame of a scroll. Surfaces that
+   sit over moving content drop it (.no-blur-mobile) and take a more opaque tint instead. */
+@media (max-width: 767px), (pointer: coarse) {
+  .no-blur-mobile,
+  .glass-icon,
+  .glass-icon-dark,
+  .btn-ghost-dark,
+  .enquiry-dialog::backdrop {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .glass-icon {
+    background: rgba(255, 255, 255, 0.82);
+  }
+  .glass-icon-dark {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .btn-ghost-dark {
+    background: rgba(0, 0, 0, 0.45);
+  }
+}

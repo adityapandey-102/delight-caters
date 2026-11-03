@@ -41,8 +41,9 @@ export function EditorialHero({
     if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.from("[data-e]", { opacity: 0, y: 28, duration: 1.15, ease: "power3.out", stagger: 0.08, delay: 0.1 });
-      // The drift belongs to the stacked layout; the desktop collage holds still inside its screen.
-      gsap.matchMedia().add("(max-width: 1023px)", () => {
+      // The drift belongs to the stacked layout of narrow mouse-driven windows; the desktop collage holds
+      // still inside its screen, and phones and tablets skip the scrubbed drift for smoother scrolling.
+      gsap.matchMedia().add("(min-width: 768px) and (max-width: 1023px) and (pointer: fine)", () => {
         gsap.utils.toArray<HTMLElement>("[data-e-drift]").forEach((p) => {
           gsap.fromTo(p, { y: Number(p.dataset.eDrift) }, { y: -Number(p.dataset.eDrift), ease: "none", scrollTrigger: { trigger: p, start: "top bottom", end: "bottom top", scrub: 0.6 } });
         });

@@ -4,7 +4,8 @@ import "./globals.css";
 import { company, contact, social } from "@/lib/content/site";
 import { group } from "@/lib/content/group";
 import { hotels } from "@/lib/content/hospitality";
-import { bombayKulfi } from "@/lib/content/eatry";
+import { aeroBites, bombayKulfi } from "@/lib/content/eatry";
+import { abs, defaultOgImage, venuePath } from "@/lib/seo";
 
 /*
  * Cormorant Garamond for display (upright and italic), DM Sans for text.
@@ -29,28 +30,45 @@ const dmSans = localFont({
   display: "swap",
 });
 
+const SITE_TITLE = `${group.name} — Catering, Kulfi, Dining & Hotels in Bengaluru`;
+const SITE_DESCRIPTION =
+  "Zyra Group brings together Zyra Food & Beverages — Delight Caterers, Bombay Kulfi and Aero Bites — and Zyra Hospitality: Sterling Inn, Sterling Plaza and Olive, hotels near Bengaluru Airport.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(group.domain),
-  title: {
-    default: `${group.name} — ${group.tagline} | Catering, Kulfi, Dining & Hotels in Bengaluru`,
-    template: `%s — ${group.name}`,
-  },
-  description:
-    "Zyra Group brings together Delight Eatry — Delight Caterers, Bombay Kulfi and Aero Bites — and Delight Hospitality: Sterling Inn, Sterling Plaza and Olive near Bengaluru Airport.",
+  title: { default: SITE_TITLE, template: `%s · ${group.name}` },
+  description: SITE_DESCRIPTION,
+  applicationName: group.name,
+  keywords: [
+    "catering in Bengaluru",
+    "wedding catering Bengaluru",
+    "corporate catering Bengaluru",
+    "Delight Caterers",
+    "Bombay Kulfi Bengaluru",
+    "Aero Bites",
+    "hotels near Bengaluru airport",
+    "Sterling Inn",
+    "Sterling Plaza",
+    "Olive hotel",
+    "Zyra Group",
+  ],
   openGraph: {
-    title: `${group.name} — ${group.tagline}`,
-    description: "Delight Caterers, Bombay Kulfi, Aero Bites and hotels near Bengaluru Airport — one family of businesses.",
     type: "website",
+    siteName: group.name,
     locale: "en_IN",
-    images: ["/media/olive/lobby.webp"],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [{ url: defaultOgImage.src, alt: defaultOgImage.alt }],
   },
+  twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION, images: [{ url: defaultOgImage.src, alt: defaultOgImage.alt }] },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
 export const viewport: Viewport = {
   themeColor: "#000000",
 };
 
-/** The group and its businesses, for search engines. */
+/** The group and its businesses, for search engines. Each brand's own page adds the full record (address, amenities, outlets). */
 const GROUP_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -59,10 +77,10 @@ const GROUP_JSON_LD = {
   url: group.domain,
   logo: `${group.domain}/brand/zyra-mark.png`,
   subOrganization: [
-    ...hotels.map((h) => ({ "@type": "Hotel", name: h.name, address: h.contact.address, telephone: h.contact.phone?.display })),
-    ...(bombayKulfi.contact.locations ?? []).map((o) => ({ "@type": "IceCreamShop", name: `Bombay Kulfi, ${o.name}`, address: `${o.name}, ${o.area}, Bengaluru` })),
-    { "@type": "Restaurant", name: "Aero Bites", address: "Bengaluru" },
-    { "@type": "FoodEstablishment", name: company.name, telephone: "+91-9187918179", email: contact.email, address: contact.address.full, sameAs: [social.instagram.href, social.linkedin.href] },
+    ...hotels.map((h) => ({ "@type": "Hotel", name: h.name, url: abs(venuePath(h)), address: h.contact.address, telephone: h.contact.phone?.display })),
+    ...(bombayKulfi.contact.locations ?? []).map((o) => ({ "@type": "IceCreamShop", name: `Bombay Kulfi, ${o.name}`, url: abs(venuePath(bombayKulfi)), address: `${o.name}, ${o.area}, Bengaluru` })),
+    { "@type": "Restaurant", name: "Aero Bites", url: abs(venuePath(aeroBites)), address: aeroBites.contact.address },
+    { "@type": "FoodEstablishment", name: company.name, url: abs("/eatry/delight-caterers"), telephone: "+91-9187918179", email: contact.email, address: contact.address.full, sameAs: [social.instagram.href, social.linkedin.href] },
   ],
 };
 

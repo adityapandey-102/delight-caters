@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useRef, type ElementType, type ReactNode } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 /* ------------------------------------------------------------------ Reveal */
 
@@ -122,7 +122,7 @@ export function LineReveal({
       {lines.map((line, i) => (
         <span key={line + i} data-line className="block overflow-hidden pb-[0.06em]">
           <span
-            className={`block will-change-transform ${italicFrom !== undefined && i >= italicFrom ? "display-italic" : ""}`}
+            className={`block ${italicFrom !== undefined && i >= italicFrom ? "display-italic" : ""}`}
             style={{ opacity: 0 }}
           >
             {line}
@@ -162,8 +162,8 @@ export function WordReveal({ lines, className = "" }: { lines: StatementWord[][]
       return;
     }
 
-    // Phones: no blur (an animated filter on every word is costly on mobile GPUs) — words fade and darken only.
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    // Phones: no blur and no scrub (a per-word filter and a scrubbed colour are costly on mobile GPUs) — the words fade and darken in once, as a quick ripple.
+    const mobile = isTouchOrSmall();
     if (mobile) words.forEach((w) => (w.style.filter = "none"));
 
     const ctx = gsap.context(() => {
@@ -171,9 +171,9 @@ export function WordReveal({ lines, className = "" }: { lines: StatementWord[][]
         ...(mobile ? {} : { filter: "blur(0px)" }),
         opacity: 1,
         color: (i: number) => words[i].dataset.target ?? "var(--color-ink)",
-        ease: "none",
-        stagger: 0.5,
-        scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 60%", scrub: 0.6 },
+        ...(mobile
+          ? { duration: 0.7, ease: "power2.out", stagger: 0.03, scrollTrigger: { trigger: el, start: "top 82%", once: true } }
+          : { ease: "none", stagger: 0.5, scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 60%", scrub: 0.6 } }),
       });
     }, el);
 

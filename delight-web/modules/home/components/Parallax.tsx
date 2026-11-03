@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 /**
  * A photograph drifting slowly inside its frame as the page scrolls. Fills the
@@ -16,8 +16,8 @@ export default function Parallax({ children, amount = 6 }: { children: ReactNode
     const el = ref.current;
     if (!el || prefersReducedMotion()) return;
 
-    // Tablets and up only: on phones the photo simply sits still (smoother scrolling).
-    if (!window.matchMedia("(min-width: 768px)").matches) return;
+    // Mouse-driven desktops only: on phones and tablets the photo simply sits still (smoother scrolling).
+    if (isTouchOrSmall()) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -35,7 +35,7 @@ export default function Parallax({ children, amount = 6 }: { children: ReactNode
   }, [amount]);
 
   return (
-    <div ref={ref} className="absolute inset-x-0 -top-[10%] -bottom-[10%] will-change-transform">
+    <div ref={ref} className="absolute inset-x-0 -top-[10%] -bottom-[10%] md:will-change-transform">
       {children}
     </div>
   );

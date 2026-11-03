@@ -1,16 +1,34 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { hospitality } from "@/lib/content/hospitality";
 import { eatry } from "@/lib/content/eatry";
 import { reels as catererReels } from "@/lib/content/site";
 import { divisions, homeHero, storySteps } from "@/lib/content/home";
-import { asHighlights, offers } from "@/lib/content/offers";
+import { asHighlights, marketingVisible, offers } from "@/lib/content/offers";
 import { HeroFilm } from "@/modules/showcase/components/HeroFilm";
 import { DivisionCarousel } from "@/modules/showcase/components/DivisionCarousel";
 import { Highlights } from "@/modules/showcase/components/Highlights";
 import { StickyStory } from "@/modules/showcase/components/StickyStory";
 import { ReelsSection } from "@/modules/brand/components/ReelsSection";
 import { CtaCard } from "@/modules/home/components/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { group } from "@/lib/content/group";
+import { abs, pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: `${group.name} — Catering, Kulfi, Dining & Hotels in Bengaluru`,
+    description:
+      "Delight Caterers for weddings and events, Bombay Kulfi across five Bengaluru outlets, the Aero Bites restaurant, and Sterling Inn, Sterling Plaza and Olive hotels near Bengaluru Airport.",
+    path: "/",
+    image: homeHero.image,
+  }),
+  // The root template would add the group name a second time.
+  title: { absolute: `${group.name} — Catering, Kulfi, Dining & Hotels in Bengaluru` },
+};
+
+const WEBSITE_JSON_LD = { "@context": "https://schema.org", "@type": "WebSite", name: group.name, url: abs("/"), inLanguage: "en-IN", publisher: { "@type": "Organization", name: group.name, url: abs("/") } };
 
 const reels = [catererReels[0], eatry.reels[0], catererReels[1], hospitality.reels[0]];
 
@@ -18,15 +36,16 @@ const reels = [catererReels[0], eatry.reels[0], catererReels[1], hospitality.ree
  * Zyra Group home, told the Apple way and catering first: the opening film,
  * then straight to what's on now (the highlights — marketing gets the first
  * scroll), the films, the two divisions as full-width photo tiles that carry
- * their brands in turn (Eatry first: Caterers, Kulfi, Aero Bites; then the hotels),
+ * their brands in turn (Food & Beverages first: Caterers, Kulfi, Aero Bites; then the hotels),
  * the four ways in as a pinned story — and the home's own invitation on the
  * closing card the brand pages use, set compact. Off-white throughout.
  */
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={WEBSITE_JSON_LD} />
       <HeroFilm {...homeHero} />
-      <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />
+      {marketingVisible && <Highlights title="Get the highlights." items={asHighlights(offers.filter((o) => o.featured))} />}
       <ReelsSection eyebrow="Watch" title={["Inside the", "group."]} reels={reels} />
 
       <div className="space-y-3 bg-wall-lit px-3 pt-3">

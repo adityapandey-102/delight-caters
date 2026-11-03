@@ -13,7 +13,7 @@ export const company = {
   name: "Delight Caterers",
   /** As the old site's copy and copyright line write it. */
   shortName: "Delight Caters",
-  parent: "Delight Hospitality",
+  parent: "Zyra Hospitality",
   tagline: "Taste of Tradition",
   city: "Bengaluru",
   domain: "https://delightcaters.in",
@@ -91,7 +91,7 @@ export const marqueeWords = [
 export const welcome = {
   title: "Welcome to Delight Caterers",
   paragraphs: [
-    "Delight Caterers is a Bengaluru-based catering company under Delight Hospitality, delivering exceptional food and hospitality experiences across corporate, institutional, wedding, and special events.",
+    "Delight Caterers is a Bengaluru-based catering company under Zyra Hospitality, delivering exceptional food and hospitality experiences across corporate, institutional, wedding, and special events.",
     "From everyday institutional requirements to large-scale corporate engagements and celebrations, we offer thoughtfully curated menus, consistent quality, and professional service tailored to every occasion.",
     "With a commitment to excellence in food, presentation, and service, we strive to make every gathering a truly memorable experience.",
   ],
@@ -316,17 +316,17 @@ export const missionVision = {
 export const eventExperience = {
   title: "A Complete Event Experience",
   paragraphs: [
-    "At Delight Hospitality, we make it easy to plan your event your way. Choose a venue that suits your occasion, and our catering team will take care of the food and service. If you don't have a venue yet, we can help with that too.",
+    "At Zyra Hospitality, we make it easy to plan your event your way. Choose a venue that suits your occasion, and our catering team will take care of the food and service. If you don't have a venue yet, we can help with that too.",
     "We have three hospitality venues near Bangalore Airport — Hofen Sterling Plaza, Echo Sterling Inn, and Olive — giving you convenient options for stays, meetings, celebrations, and events. With our own banquet hall, you can bring your stay, conference, seminar, and catering together under one roof, making event planning simple, seamless, and hassle-free.",
   ],
   venues: ["Hofen Sterling Plaza", "Echo Sterling Inn", "Olive"],
   images: [
-    { src: "/images/venue-1.webp", alt: "Delight Hospitality venue" },
-    { src: "/images/venue-2.webp", alt: "Delight Hospitality venue" },
-    { src: "/images/venue-3.webp", alt: "Delight Hospitality venue" },
-    { src: "/images/venue-4.webp", alt: "Delight Hospitality venue" },
-    { src: "/images/venue-5.webp", alt: "Delight Hospitality venue" },
-    { src: "/images/venue-6.webp", alt: "Delight Hospitality venue" },
+    { src: "/images/venue-1.webp", alt: "Zyra Hospitality venue" },
+    { src: "/images/venue-2.webp", alt: "Zyra Hospitality venue" },
+    { src: "/images/venue-3.webp", alt: "Zyra Hospitality venue" },
+    { src: "/images/venue-4.webp", alt: "Zyra Hospitality venue" },
+    { src: "/images/venue-5.webp", alt: "Zyra Hospitality venue" },
+    { src: "/images/venue-6.webp", alt: "Zyra Hospitality venue" },
   ],
 } as const;
 

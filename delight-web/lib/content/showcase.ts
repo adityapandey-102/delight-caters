@@ -21,16 +21,16 @@ export const hotelListings: Listing[] = [
 
 export const eatryListings: Listing[] = [
   { href: "/eatry/delight-caterers", name: delightCaterersCard.name, kind: "Catering", location: "Bengaluru", image: { src: "/images/svc-wedding.webp", alt: "A wedding spread by Delight Caterers" }, specs: ["Weddings", "Corporate", "Events", "8 cuisines"], logo: { src: "/brand/logo-gold.png", width: 1200, height: 634 } },
-  { href: "/eatry/bombay-kulfi", name: bombayKulfi.name, kind: "Ice creams & street food", location: "5 outlets in Bengaluru", image: { src: "/media/bombay-kulfi/kulfi-cup.webp", alt: "A cup of kulfi at Bombay Kulfi" }, specs: ["Kulfi with A2 milk", "Mojitos & boba", "Momos"], logo: bombayKulfi.logo },
-  { href: "/eatry/aero-bites", name: aeroBites.name, kind: "Restaurant", location: "Bengaluru", image: { src: "/images/cuisine-continental.webp", alt: "A plated dish at Aero Bites" }, specs: ["All-day dining", "North Indian · Coastal", "Group tables"], logo: null },
+  { href: "/eatry/bombay-kulfi", name: bombayKulfi.name, kind: "Ice creams & street food", location: "5 outlets in Bengaluru", image: { src: "/media/real/kulfi-kesar-pista.webp", alt: "Kesar pista kulfi and paan ice cream from Bombay Kulfi" }, specs: ["Kulfi with A2 milk", "Mojitos & boba", "Momos"], logo: bombayKulfi.logo },
+  { href: "/eatry/aero-bites", name: aeroBites.name, kind: "Restaurant", location: "Bengaluru", image: { src: "/media/real/aero-dining-room.webp", alt: "The dining room at Aero Bites" }, specs: ["All-day dining", "North Indian · Coastal", "Group tables"], logo: null },
 ];
 
 /** The home page's "four ways to experience Zyra" diamond. */
 export const experiences: DiagramItem[] = [
   { key: "stay", title: "Stay", short: "Stay", icon: "bed", body: "Three hotels near Kempegowda International Airport, for business and leisure.", items: ["Sterling Plaza", "Sterling Inn", "Olive", "Near the airport"], image: "/media/sterling-plaza/room.webp", imageAlt: "A room at Sterling Plaza", href: "/hospitality", cta: "Explore our hotels" },
   { key: "celebrate", title: "Celebrate", short: "Celebrate", icon: "rings", body: "Delight Caterers — weddings, corporate events and every occasion in between.", items: ["Weddings", "Corporate", "Events", "House parties"], image: "/images/svc-wedding.webp", imageAlt: "A wedding spread", href: "/eatry/delight-caterers", cta: "Plan a celebration" },
-  { key: "dine", title: "Dine", short: "Dine", icon: "cutlery", body: "Aero Bites — an all-day restaurant on the airport road, for travellers, families and teams.", items: ["All-day dining", "North Indian", "Coastal plates", "Group tables"], image: "/images/cuisine-continental.webp", imageAlt: "A plated dish", href: "/eatry/aero-bites", cta: "See Aero Bites" },
-  { key: "treats", title: "Treats", short: "Treats", icon: "icecream", body: `Bombay Kulfi — kulfi made with A2 milk, drinks and bites at ${kulfiOutletNames}.`, items: ["Kulfi", "Mojitos & boba", "Momos", "5 outlets"], image: "/media/bombay-kulfi/kulfi-cup.webp", imageAlt: "A cup of kulfi", href: "/eatry/bombay-kulfi", cta: "Visit Bombay Kulfi" },
+  { key: "dine", title: "Dine", short: "Dine", icon: "cutlery", body: "Aero Bites — an all-day restaurant on the airport road, for travellers, families and teams.", items: ["All-day dining", "North Indian", "Coastal plates", "Group tables"], image: "/media/real/aero-spread.webp", imageAlt: "A spread of dal, biryani, curry and naan at Aero Bites", href: "/eatry/aero-bites", cta: "See Aero Bites" },
+  { key: "treats", title: "Treats", short: "Treats", icon: "icecream", body: `Bombay Kulfi — kulfi made with A2 milk, drinks and bites at ${kulfiOutletNames}.`, items: ["Kulfi", "Mojitos & boba", "Momos", "5 outlets"], image: "/media/real/kulfi-kesar-pista.webp", imageAlt: "Kesar pista kulfi and paan ice cream from Bombay Kulfi", href: "/eatry/bombay-kulfi", cta: "Visit Bombay Kulfi" },
 ];
 
 export const finderTabs: FinderTab[] = [

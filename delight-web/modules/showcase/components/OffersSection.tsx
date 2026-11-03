@@ -1,4 +1,4 @@
-import { asHighlights, type Offer } from "@/lib/content/offers";
+import { asHighlights, marketingVisible, type Offer } from "@/lib/content/offers";
 import { Highlights } from "./Highlights";
 
 /**
@@ -7,7 +7,7 @@ import { Highlights } from "./Highlights";
  * the home page uses — placed straight after the hero.
  */
 export function OffersSection({ title, eyebrow, items, id = "offers" }: { title: string; eyebrow?: string; items: Offer[]; id?: string }) {
-  if (!items.length) return null;
+  if (!marketingVisible || !items.length) return null;
   return (
     <div id={id} className="scroll-mt-[120px]">
       <Highlights title={title} eyebrow={eyebrow} items={asHighlights(items)} />

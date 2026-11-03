@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lockScroll, unlockScroll } from "@/components/shell/SmoothScroll";
-import { gsap, initGsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, initGsap, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 type Photo = { src: string; alt: string };
 
@@ -58,13 +58,15 @@ export function Gallery({
   const swipe = useRef<{ x: number; id: number } | null>(null);
 
   const [active, setActive] = useState(0);
+  const [edge, setEdge] = useState({ start: true, end: false });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   /* ---------- scroll: progress, counter, parallax ---------- */
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    const reduced = prefersReducedMotion();
+    // Phones swipe this track natively: the per-tile drift (a layout read per tile per frame) is desktop-only.
+    const reduced = prefersReducedMotion() || isTouchOrSmall();
     let raf = 0;
 
     const update = () => {
@@ -88,6 +90,9 @@ export function Gallery({
         });
       }
       setActive(best);
+      const start = el.scrollLeft <= 4;
+      const end = max <= 4 || el.scrollLeft >= max - 4;
+      setEdge((p) => (p.start === start && p.end === end ? p : { start, end }));
 
       if (reduced) return;
       const vw = window.innerWidth;
@@ -133,15 +138,20 @@ export function Gallery({
   }, [total]);
 
   /* ---------- track navigation ---------- */
-  const goTo = useCallback(
-    (i: number) => {
-      const el = scrollerRef.current;
-      const t = tileRefs.current[Math.max(0, Math.min(total - 1, i))];
-      if (!el || !t) return;
-      el.scrollTo({ left: t.offsetLeft, behavior: prefersReducedMotion() ? "auto" : "smooth" });
-    },
-    [total],
-  );
+  // Step from the real scroll position: the next/previous tile edge that actually moves the track
+  // (the last tiles can't reach the left edge, so index-based stepping got stuck at the end).
+  const slide = useCallback((dir: 1 | -1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const lefts = tileRefs.current.filter(Boolean).map((t) => t!.offsetLeft);
+    const cur = el.scrollLeft;
+    const target =
+      dir === 1
+        ? Math.min(max, lefts.find((l) => l > cur + 4) ?? max)
+        : Math.max(0, [...lefts].reverse().find((l) => l < cur - 4) ?? 0);
+    el.scrollTo({ left: target, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  }, []);
 
   /* ---------- mouse drag-to-scroll ---------- */
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -233,7 +243,7 @@ export function Gallery({
   if (!total) return null;
   const current = openIdx !== null ? photos[openIdx] : null;
   const btnCls =
-    "glass-icon grid h-11 w-11 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+    "glass-icon grid h-11 w-11 place-items-center rounded-full disabled:pointer-events-none disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
   const lbBtn =
     "glass-icon-dark grid h-11 w-11 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light";
 
@@ -249,10 +259,10 @@ export function Gallery({
             {pad(active + 1)} / {pad(total)}
           </p>
           <div className="flex gap-2">
-            <button type="button" aria-label="Previous photos" className={btnCls} onClick={() => goTo(active - 1)}>
+            <button type="button" aria-label="Previous photos" className={btnCls} disabled={edge.start} onClick={() => slide(-1)}>
               <Arrow dir="prev" />
             </button>
-            <button type="button" aria-label="Next photos" className={btnCls} onClick={() => goTo(active + 1)}>
+            <button type="button" aria-label="Next photos" className={btnCls} disabled={edge.end} onClick={() => slide(1)}>
               <Arrow dir="next" />
             </button>
           </div>
@@ -290,7 +300,7 @@ export function Gallery({
                 ref={(n) => {
                   shiftRefs.current[i] = n;
                 }}
-                className="absolute inset-y-0 -inset-x-7 will-change-transform"
+                className="absolute inset-y-0 -inset-x-7 md:will-change-transform"
               >
                 <Image
                   src={p.src}

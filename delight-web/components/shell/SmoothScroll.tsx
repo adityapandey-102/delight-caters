@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
-import { gsap, initGsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
+import { pauseOffscreenLoops } from "@/lib/pause-offscreen";
+import { gsap, initGsap, ScrollTrigger, prefersReducedMotion, isTouchOrSmall } from "@/lib/gsap";
 
 /**
  * Lenis owns the scroll position, so `overflow: hidden` on the document does
@@ -42,7 +43,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     initGsap();
     // Phones and tablets keep their own native scrolling: smoother, and no
     // per-frame JavaScript. Lenis is for mouse wheels and trackpads.
-    if (prefersReducedMotion() || window.matchMedia("(pointer: coarse)").matches) return;
+    if (prefersReducedMotion() || isTouchOrSmall()) return;
 
     const lenis = new Lenis({
       duration: 1.15,
@@ -71,8 +72,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     document.documentElement.style.overflow = "";
     instance?.start();
     window.scrollTo(0, 0);
-    const id = window.setTimeout(() => ScrollTrigger.refresh(), 120);
-    return () => window.clearTimeout(id);
+    let stop: (() => void) | undefined;
+    const id = window.setTimeout(() => {
+      ScrollTrigger.refresh();
+      stop = pauseOffscreenLoops();
+    }, 120);
+    return () => {
+      window.clearTimeout(id);
+      stop?.();
+    };
   }, [pathname]);
 
   return <>{children}</>;

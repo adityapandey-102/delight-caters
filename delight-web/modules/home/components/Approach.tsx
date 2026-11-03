@@ -34,7 +34,7 @@ export default function Approach({ className = "" }: { className?: string }) {
           <Reveal
             as="ol"
             stagger
-            className="grid overflow-hidden rounded-[18px] border border-gold/30 bg-wall-lit/70 shadow-[0_30px_60px_-44px_rgba(18,20,16,0.45)] backdrop-blur-sm md:grid-cols-3"
+            className="grid overflow-hidden rounded-[18px] border border-gold/30 bg-wall-lit/70 max-md:bg-wall-lit/95 no-blur-mobile shadow-[0_30px_60px_-44px_rgba(18,20,16,0.45)] backdrop-blur-sm md:grid-cols-3"
           >
             {approach.items.map((item, i) => (
               <li

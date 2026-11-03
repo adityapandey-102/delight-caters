@@ -1,6 +1,6 @@
 import type { Division } from "@/modules/showcase/components/DivisionCarousel";
 import type { StoryStep } from "@/modules/showcase/components/StickyStory";
-import { kulfiOutletNames } from "./eatry";
+import { bombayKulfi, kulfiOutletNames } from "./eatry";
 
 /**
  * The home page (apple-design branch). Catering comes first everywhere (the
@@ -32,7 +32,7 @@ export const homeHero = {
 export const divisions: Division[] = [
   {
     key: "eatry",
-    name: "Delight Eatry",
+    name: "Zyra Food & Beverages",
     explore: { label: "Explore all eateries", href: "/eatry" },
     brands: [
       {
@@ -49,7 +49,12 @@ export const divisions: Division[] = [
         title: "Kulfi, the way",
         accent: "Bombay makes it.",
         body: "Made with A2 milk, served with mojitos, boba and momos — at five outlets across Bengaluru.",
-        image: { src: D("cone"), alt: "An ice cream cone held against a sunny wall" },
+        image: { src: "/media/real/kulfi-sitaphal.webp", alt: "A cup of sitaphal ice cream and a sitaphal shake on a pile of custard apples" },
+        // The products whole, on the brand's green, rather than a cropped landscape photograph.
+        stage: {
+          backdrop: "radial-gradient(120% 90% at 50% 100%, #5f9a74 0%, #2d5b43 55%, #1f3f2f 100%)",
+          cutouts: bombayKulfi.heroCutouts ?? [],
+        },
         primary: { label: "Find an outlet", href: "/eatry/bombay-kulfi" },
         secondary: { label: "Learn more", href: "/eatry/bombay-kulfi" },
       },
@@ -66,7 +71,7 @@ export const divisions: Division[] = [
   },
   {
     key: "hospitality",
-    name: "Delight Hospitality",
+    name: "Zyra Hospitality",
     explore: { label: "Explore all hotels", href: "/hospitality" },
     brands: [
       {
@@ -74,7 +79,7 @@ export const divisions: Division[] = [
         title: "Land. Check in.",
         accent: "Exhale.",
         body: "Four-star comfort with suites and kitchenettes, minutes from Kempegowda International Airport.",
-        image: { src: D("room-suite"), alt: "A calm hotel suite with warm light" },
+        image: { src: "/media/real/plaza-room-terracotta.webp", alt: "A Sterling Plaza deluxe room with a large window and terracotta tones" },
         primary: { label: "Book a stay", href: "/hospitality/sterling-plaza" },
         secondary: { label: "Learn more", href: "/hospitality/sterling-plaza" },
       },
@@ -83,7 +88,7 @@ export const divisions: Division[] = [
         title: "Easy rooms,",
         accent: "by the runway.",
         body: "Rated 4.8 by 269 guests on Google — a café, a gym and a short drive to the airport.",
-        image: { src: D("room-classic"), alt: "A bright, classic hotel room" },
+        image: { src: "/media/real/inn-room-bed.webp", alt: "A king room at Sterling Inn" },
         primary: { label: "Book a stay", href: "/hospitality/sterling-inn" },
         secondary: { label: "Learn more", href: "/hospitality/sterling-inn" },
       },
@@ -92,7 +97,7 @@ export const divisions: Division[] = [
         title: "Quiet rooms,",
         accent: "a hall for the big day.",
         body: "Twin and double rooms, a restaurant and a banquet hall near the airport.",
-        image: { src: D("room-warm"), alt: "A warmly lit hotel room" },
+        image: { src: "/media/real/olive-room-double.webp", alt: "A double room at Olive with sage green walls" },
         primary: { label: "Enquire", href: "#enquiry" },
         secondary: { label: "Learn more", href: "/hospitality/olive" },
       },
@@ -113,21 +118,21 @@ export const storySteps: StoryStep[] = [
     kicker: "Treats",
     title: "Something sweet, all over the city.",
     body: `Kulfi made with A2 milk, with mojitos, boba and momos — at ${kulfiOutletNames}.`,
-    image: { src: D("cones"), alt: "Colourful ice cream cones" },
+    image: { src: "/media/real/kulfi-kesar-pista.webp", alt: "A tub of Kesar Pista kulfi beside squares of paan ice cream" },
     link: { label: "Visit Bombay Kulfi", href: "/eatry/bombay-kulfi" },
   },
   {
     kicker: "Dine",
     title: "A table, any time of day.",
     body: "Aero Bites serves North Indian and coastal plates from breakfast to late dinner, for travellers, families and teams.",
-    image: { src: D("fine-dining"), alt: "A plated dish at a restaurant table" },
+    image: { src: "/media/real/aero-spread.webp", alt: "Dal, chicken biryani, butter chicken, naan and raita at Aero Bites" },
     link: { label: "See Aero Bites", href: "/eatry/aero-bites" },
   },
   {
     kicker: "Stay",
     title: "Rest, right by the runway.",
     body: "Sterling Plaza, Sterling Inn and Olive sit minutes from Kempegowda International Airport — early flights, late landings, long meetings.",
-    image: { src: D("room-modern"), alt: "A modern hotel room" },
+    image: { src: "/media/real/plaza-room-teal.webp", alt: "A Sterling Plaza room with a teal accent wall" },
     link: { label: "Explore our hotels", href: "/hospitality" },
   },
 ];
